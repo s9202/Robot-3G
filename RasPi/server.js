@@ -59,7 +59,9 @@ var serialPort = new serialport(arduinoSerialPort,
 	}
 );
 
-
+var socket = io.listen(server);
+	
+socket.on('connection', function( client ) {
 serialPort.on('open', function() {								// Wy³¹czone na czas braku portu
 		console.log('open - port USB otwarty');
 	
@@ -68,9 +70,7 @@ serialPort.on('open', function() {								// Wy³¹czone na czas braku portu
 	
 //------------------------------------------------------- Sokety
 
-var socket = io.listen(server);
-	
-socket.on('connection', function( client ) {
+
     'use strict';
 	console.log('port zaraz sie otworzy');
 	
