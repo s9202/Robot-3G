@@ -41,7 +41,7 @@ robotHead.attr({stroke: 'green', 'stroke-width': 7});
 	
 	socket.on('testRobot', function( dane ) {
 		console.log('from skrypt'+ dane );
-		if( dane== 1 ) {
+		if( dane=== 1 ) {
 			$("#d3").css( { "background-color": "green" } );
 		}
 		else {
