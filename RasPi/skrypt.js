@@ -110,11 +110,11 @@ robotHead.attr({stroke: 'green', 'stroke-width': 7});
 		socket.emit('jazda', '10');
 		console.log('niewcisniete Q');
 	});
-	$("#r").on( "mousedown", function() {
+	$("#e").on( "mousedown", function() {
 		$(this).css( { "background-color": "blue" } );
-		socket.emit('jazda', 'r');
+		socket.emit('jazda', 'e');
         	robotHead.rotate(5,robotHeadX+20,robotHeadY);
-		console.log('wcisniete R');
+		console.log('wcisniete E');
      })
 	 .on( "mouseup", function() {
 		$(this).css( { "background-color": "green" } );
@@ -122,6 +122,20 @@ robotHead.attr({stroke: 'green', 'stroke-width': 7});
 		console.log('niewcisniete R');
 	});
 	
+
+
+	$("#tryb1").on( "mousedown", function() {
+		$(this).css( { "background-color": "orange" } );
+		$("#tryb2").css( { "background-color": "yellow" } );
+		socket.emit('jazda', 'o');
+		console.log('tryb servo');
+      })
+	$("#tryb2").on( "mousedown", function() {
+		$(this).css( { "background-color": "orange" } );
+		$("#tryb1").css( { "background-color": "yellow" } );
+		socket.emit('jazda', 'c');
+		console.log('tryb sonic');
+     })
 //-------------------------------------------------------- Klawiatura
 	
 	$(document).on( "keydown", function(event) {
@@ -146,7 +160,22 @@ robotHead.attr({stroke: 'green', 'stroke-width': 7});
 			socket.emit('jazda', '7');
 			console.log('wcisniete klawisz D');
 			break;
+
+		case 81:
+			$("#q").css( { "background-color": "blue" } );
+			socket.emit('jazda', 'l');
+        		robotHead.rotate(-5,robotHeadX+20,robotHeadY);
+			console.log('wcisniete Q');
+			break;
+		
+		case 69:
+			$("#e").css( { "background-color": "blue" } );
+			socket.emit('jazda', 'e');
+        		robotHead.rotate(5,robotHeadX+20,robotHeadY);
+			console.log('wcisniete E');
+			break;
 		}
+		
      })
 	 .on( "keyup", function(event) {
 		switch(event.keyCode) {
@@ -170,7 +199,18 @@ robotHead.attr({stroke: 'green', 'stroke-width': 7});
 			socket.emit('jazda', '6');
 			console.log('niewcisniete klawisz D');
 			break;
+		case 81:
+			$("#q").css( { "background-color": "green" } );
+			socket.emit('jazda', '10');
+			break;
+		
+		case 69:
+			$("#e").css( { "background-color": "green" } );
+			socket.emit('jazda', '14');
+			break;
+
 		}
+
 	});
 	
 //---------------------------------------------------------------------
