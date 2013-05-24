@@ -4,30 +4,26 @@ $(document).ready(function () {
     'use strict';
     var socket = io.connect();
 
-var rozmiar = 700;
-var robotX = 301, robotY = 301;
-var robotHeadX = 301+20, robotHeadY = 301-7;
-var paper = Raphael(mapa, rozmiar, rozmiar);
-var liniePoziom = paper.path("M 0 0 l "+ rozmiar +" 0 ");
-var liniePion = paper.path("M 0 0 l 0 "+ rozmiar);  
-for(var i = 0; i < 1000; i+=20) {
-	liniePoziom = paper.path("M 0 "+i+" l "+rozmiar+" 0 ");
-	liniePion = paper.path("M"+i+" 0 l 0 "+rozmiar);  
-	liniePoziom.attr({stroke: 'white', 'stroke-width': 1});
-	liniePion.attr({stroke: 'white', 'stroke-width': 1});		
-}
+	var rozmiar = 700;
+	var robotX = 301, robotY = 301;
+	var robotHeadX = 301+20, robotHeadY = 301-7;
+	var paper = Raphael(mapa, rozmiar, rozmiar);
 
-//var circle = paper.circle(50, 40, 100);
-//circle.attr("fill", "blue");
-//circle.attr("stroke", "#fff");
+	var liniePoziom = paper.path("M 0 0 l "+ rozmiar +" 0 ");
+	var liniePion = paper.path("M 0 0 l 0 "+ rozmiar);  
+	for(var i = 0; i < 1000; i+=20) {
+		liniePoziom = paper.path("M 0 "+i+" l "+rozmiar+" 0 ");
+		liniePion = paper.path("M"+i+" 0 l 0 "+rozmiar);  
+		liniePoziom.attr({stroke: 'white', 'stroke-width': 1});
+		liniePion.attr({stroke: 'white', 'stroke-width': 1});		
+	}
+	var robot = paper.path("M "+ robotX +" "+ robotY +" l 0 77 l 77 0 l 0 -77 z"); 
+	robot.attr({fill: '#B30000', stroke: 'green', 'stroke-width': 3}); 
+
+	var robotHead = paper.path("M "+ robotHeadX+" "+ robotHeadY +"  l 10 0 l 0 -7 l 0 7 l 20 0 l 0 -7 l 0 7 l 10 0");
+	robotHead.attr({stroke: 'green', 'stroke-width': 7});  
 
 
-var robot = paper.path("M "+ robotX +" "+ robotY +" l 0 77 l 77 0 l 0 -77 z"); 
-robot.attr({fill: '#B30000', stroke: 'green', 'stroke-width': 3}); 
-
-var robotHead = paper.path("M "+ robotHeadX+" "+ robotHeadY +"  l 10 0 l 0 -7 l 0 7 l 20 0 l 0 -7 l 0 7 l 10 0");
-robotHead.attr({stroke: 'green', 'stroke-width': 7});  
- 
 //--------------------------------------------------------------- obs³uga odpowiedzi serwera
     socket.on('testServer', function( dane ){
         console.log( dane );
@@ -40,6 +36,7 @@ robotHead.attr({stroke: 'green', 'stroke-width': 7});
     });
 	
 	socket.on('testRobot', function( dane ) {
+		
 		console.log('from skrypt'+ dane );
 		if( dane== 1 ) {
 			$("#d3").css( { "background-color": "green" } );
@@ -47,6 +44,11 @@ robotHead.attr({stroke: 'green', 'stroke-width': 7});
 		else {
 			$("#d3").css( { "background-color": "red" } );
 		}
+			
+		var = circle = paper.circle(robotHeadX+40, robotHeadY-dane, 8);
+		circle.attr("fill", "blue");
+		circle.attr("stroke", "#fff");
+		
 	});
 
 	
@@ -101,7 +103,7 @@ robotHead.attr({stroke: 'green', 'stroke-width': 7});
 	});
 	$("#q").on( "mousedown", function() {
 		$(this).css( { "background-color": "blue" } );
-		socket.emit('jazda', '9');
+		socket.emit('jazda', 'l');
         	robotHead.rotate(-5,robotHeadX+20,robotHeadY);
 		console.log('wcisniete Q');
      })
@@ -110,11 +112,11 @@ robotHead.attr({stroke: 'green', 'stroke-width': 7});
 		socket.emit('jazda', '10');
 		console.log('niewcisniete Q');
 	});
-	$("#r").on( "mousedown", function() {
+	$("#e").on( "mousedown", function() {
 		$(this).css( { "background-color": "blue" } );
-		socket.emit('jazda', '13');
+		socket.emit('jazda', 'e');
         	robotHead.rotate(5,robotHeadX+20,robotHeadY);
-		console.log('wcisniete R');
+		console.log('wcisniete E');
      })
 	 .on( "mouseup", function() {
 		$(this).css( { "background-color": "green" } );
@@ -122,6 +124,20 @@ robotHead.attr({stroke: 'green', 'stroke-width': 7});
 		console.log('niewcisniete R');
 	});
 	
+
+
+	$("#tryb1").on( "mousedown", function() {
+		$(this).css( { "background-color": "orange" } );
+		$("#tryb2").css( { "background-color": "yellow" } );
+		socket.emit('jazda', 'o');
+		console.log('tryb servo');
+      })
+	$("#tryb2").on( "mousedown", function() {
+		$(this).css( { "background-color": "orange" } );
+		$("#tryb1").css( { "background-color": "yellow" } );
+		socket.emit('jazda', 'c');
+		console.log('tryb sonic');
+     })
 //-------------------------------------------------------- Klawiatura
 	
 	$(document).on( "keydown", function(event) {
@@ -146,7 +162,22 @@ robotHead.attr({stroke: 'green', 'stroke-width': 7});
 			socket.emit('jazda', '7');
 			console.log('wcisniete klawisz D');
 			break;
+
+		case 81:
+			$("#q").css( { "background-color": "blue" } );
+			socket.emit('jazda', 'l');
+        		robotHead.rotate(-5,robotHeadX+20,robotHeadY);
+			console.log('wcisniete Q');
+			break;
+		
+		case 69:
+			$("#e").css( { "background-color": "blue" } );
+			socket.emit('jazda', 'e');
+        		robotHead.rotate(5,robotHeadX+20,robotHeadY);
+			console.log('wcisniete E');
+			break;
 		}
+		
      })
 	 .on( "keyup", function(event) {
 		switch(event.keyCode) {
@@ -170,7 +201,18 @@ robotHead.attr({stroke: 'green', 'stroke-width': 7});
 			socket.emit('jazda', '6');
 			console.log('niewcisniete klawisz D');
 			break;
+		case 81:
+			$("#q").css( { "background-color": "green" } );
+			socket.emit('jazda', '10');
+			break;
+		
+		case 69:
+			$("#e").css( { "background-color": "green" } );
+			socket.emit('jazda', '14');
+			break;
+
 		}
+
 	});
 	
 //---------------------------------------------------------------------

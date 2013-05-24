@@ -4,30 +4,27 @@ $(document).ready(function () {
     'use strict';
     var socket = io.connect();
 
-var rozmiar = 700;
-var robotX = 301, robotY = 301;
-var robotHeadX = 301+20, robotHeadY = 301-7;
-var paper = Raphael(mapa, rozmiar, rozmiar);
-var liniePoziom = paper.path("M 0 0 l "+ rozmiar +" 0 ");
-var liniePion = paper.path("M 0 0 l 0 "+ rozmiar);  
-for(var i = 0; i < 1000; i+=20) {
-	liniePoziom = paper.path("M 0 "+i+" l "+rozmiar+" 0 ");
-	liniePion = paper.path("M"+i+" 0 l 0 "+rozmiar);  
-	liniePoziom.attr({stroke: 'white', 'stroke-width': 1});
-	liniePion.attr({stroke: 'white', 'stroke-width': 1});		
+	var rozmiar = 700;
+	var robotX = 301, robotY = 301;
+	var robotHeadX = 301+20, robotHeadY = 301-7;
+	var paper = Raphael(mapa, rozmiar, rozmiar);
+function draw(){	
+	var liniePoziom = paper.path("M 0 0 l "+ rozmiar +" 0 ");
+	var liniePion = paper.path("M 0 0 l 0 "+ rozmiar);  
+	for(var i = 0; i < 1000; i+=20) {
+		liniePoziom = paper.path("M 0 "+i+" l "+rozmiar+" 0 ");
+		liniePion = paper.path("M"+i+" 0 l 0 "+rozmiar);  
+		liniePoziom.attr({stroke: 'white', 'stroke-width': 1});
+		liniePion.attr({stroke: 'white', 'stroke-width': 1});		
+	}
+	var robot = paper.path("M "+ robotX +" "+ robotY +" l 0 77 l 77 0 l 0 -77 z"); 
+	robot.attr({fill: '#B30000', stroke: 'green', 'stroke-width': 3}); 
+
+	var robotHead = paper.path("M "+ robotHeadX+" "+ robotHeadY +"  l 10 0 l 0 -7 l 0 7 l 20 0 l 0 -7 l 0 7 l 10 0");
+	robotHead.attr({stroke: 'green', 'stroke-width': 7});  
 }
 
-//var circle = paper.circle(50, 40, 100);
-//circle.attr("fill", "blue");
-//circle.attr("stroke", "#fff");
 
-
-var robot = paper.path("M "+ robotX +" "+ robotY +" l 0 77 l 77 0 l 0 -77 z"); 
-robot.attr({fill: '#B30000', stroke: 'green', 'stroke-width': 3}); 
-
-var robotHead = paper.path("M "+ robotHeadX+" "+ robotHeadY +"  l 10 0 l 0 -7 l 0 7 l 20 0 l 0 -7 l 0 7 l 10 0");
-robotHead.attr({stroke: 'green', 'stroke-width': 7});  
- 
 //--------------------------------------------------------------- obs³uga odpowiedzi serwera
     socket.on('testServer', function( dane ){
         console.log( dane );
@@ -40,6 +37,7 @@ robotHead.attr({stroke: 'green', 'stroke-width': 7});
     });
 	
 	socket.on('testRobot', function( dane ) {
+		
 		console.log('from skrypt'+ dane );
 		if( dane== 1 ) {
 			$("#d3").css( { "background-color": "green" } );
@@ -47,6 +45,11 @@ robotHead.attr({stroke: 'green', 'stroke-width': 7});
 		else {
 			$("#d3").css( { "background-color": "red" } );
 		}
+		paper.clear();	
+		var circle = paper.circle(robotHeadX+40, robotHeadY-dane, 8);
+		circle.attr("fill", "blue");
+		circle.attr("stroke", "#fff");
+		draw();
 	});
 
 	

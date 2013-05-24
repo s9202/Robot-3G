@@ -67,7 +67,6 @@ socket.on('connection', function( client ) {
 
 
     'use strict';
-	console.log('port zaraz sie otworzy');
 	
 	
 		client.on('message', function( message ) {					
