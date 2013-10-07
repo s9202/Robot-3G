@@ -1,83 +1,178 @@
 #include <Servo.h>
+
+const char TRYB_MANUAL = '0';
+const char TRYB_AUTO = '1';
+const char JAZDA_PRZOD = '2';
+const char JAZDA_LEWO = '3';
+const char JAZDA_PRAWO = '4';
+const char JAZDA_TYL = '5';
+const char JAZDA_STOP = '6';
+
 Servo servo1;
 Servo servo2;
-const int pingPin = 7; //sonic1
 
+bool autoModeOn = false;	//Tryb pracy robota (automatyczny = true)
+char recievedByte;			//Zmienna przechowująca bajt pobrany z SerialPortu
+
+//------------------------------ Funkcje pomocnicze
+
+//Funkcje ruchu skokowego przydatne dla kontroli automatycznej (Filip)
+void wykonajJedenRuchPrzod();
+void wykonajJedenRuchTyl();
+void wykonajObrot90Lewo();
+void wykonajObrot90Prawo();
+
+//Funkcje ruchu ciągłego przydatne dla kontroli zdalnej
+void jedzProsto();
+void skrecajWLewo();
+void skrecajWPrawo();
+void jedzDoTylu();
+
+//Funkcje odczytu danych z czujników otoczenia (Filip)
+void skanujSensor1();
+void skanujSensor2();
+
+//Funkcje tworzące mapę (Maciej)
+char tworzMape();
+
+//Funckje samodzielnego jeżdżenia (Maciej)
+void badajTeren();
+
+void ustaw();
 
 //--------------------------- wybranie portów które będziemy używać
 void setup() {
-	pinMode(13, OUTPUT);		//Port13 to akurat jest wbudowana dioda
-        pinMode(11, OUTPUT);  //dla piezo
+	pinMode(13, OUPUT);		//Port13 to akurat jest wbudowana dioda
 	digitalWrite(13, LOW);	//port13
-        servo1.attach(14); //analog A0
-        servo2.attach(15); //analog A1
-        
 	Serial.begin(9600);		//Uruchomienie USB serialport z prędkością 9600
 }
 
 //------------------------------ Główna pętla z programem
 
 void loop() {
-       long duration, cm;
-//-----------------------------      
-   pinMode(pingPin, OUTPUT);
-  digitalWrite(pingPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(pingPin, HIGH);
-  delayMicroseconds(5);
-  digitalWrite(pingPin, LOW);
 
-  pinMode(pingPin, INPUT);
-  duration = pulseIn(pingPin, HIGH);
-
-  cm = duration / 29 /2;
-//-----------------------------	
-if(cm<=100){
-  beep(100);
-  Serial.println(cm);
-}
-
-
-	if( Serial.available() > 0 ) {			
-		char letter = Serial.read();		
+	//Początek pętli zawsze badanie bajtu na serialport
+	if (Serial.available() > 0) {
+		recievedByte = Serial.read();
 		
-		if( letter == '1') {//przod - START
-			digitalWrite(13, HIGH);
-                        servo1.attach(14);  servo2.attach(15); 
-                        servo1.write(135);  servo2.write(45);				
+		switch (recievedByte) {
+			case (TRYB_MANUAL):
+				autoModeOn = false;
+				break;
+			case (TRYB_MANUAL):
+				autoModeOn = true;
+				break;
+			case (JAZDA_PRZOD):
+				if (!autoModeOn) {
+					jedzProsto();
+				}
+				break;
+			case (JAZDA_LEWO):
+				if (!autoModeOn) {
+					skrecajWLewo();
+				}
+				break;
+			case (JAZDA_PRAWO):
+				if (!autoModeOn) {
+					skrecajWPrawo();
+				}
+				break;
+			case (JAZDA_TYL):
+				if (!autoModeOn) {
+					jedzDoTylu();
+				}
+				break;
+			case (JAZDA_STOP):
+				if (!autoModeOn) {
+					zatrzymaj();
+				}
+				break;
 		}
-		else if( letter == '3') {//lewo - START
-			digitalWrite(13, HIGH);
-                        servo1.attach(14);  servo2.attach(15); 
-                        servo1.write(80);  servo2.write(80);
+		//Dla trybu auto rozpoczęcie samodzielnego badania terenu
+		if (autoModeOn) {
+			badajTeren();
+			Serial.println(tworzMape());
 		}
-		else if( letter == '5') {//tyl - START
-			digitalWrite(13, HIGH);
-                        servo1.attach(14);  servo2.attach(15); 
-                        servo1.write(45);  servo2.write(135);
 
-		}
-                else if( letter == '7') {//prawo - START
-			digitalWrite(13, HIGH);
-                        servo1.attach(14);  servo2.attach(15); 
-                        servo1.write(100);  servo2.write(100);
-		}
-                else if( letter == '0' || letter== '2' || letter=='4' || letter =='6'){//przod, lewo, prawy, tyl - STOP
-                  	digitalWrite(13, LOW);
-                        servo1.detach();  servo2.detach();
-			
-		}
-  
-	
-
-        }
-
-        
-        
+	}
 }
-void beep(unsigned char delayms){
-  analogWrite(11, 20);     
-  delay(delayms);         
-  analogWrite(11, 0);   
-  delay(delayms);         
-}  
+
+
+
+//------------------------------ Implementacja funkcji pomocniczych
+
+void jedzProsto() {
+	servo1.attach(14);
+	servo2.attach(15);
+	servo1.write(135);
+	servo2.write(45);
+}
+void skrecajWLewo() {
+	servo1.attach(14);
+	servo2.attach(15);
+	servo1.write(80);
+	servo2.write(80);
+}
+void skrecajWPrawo() {
+	servo1.attach(14);
+	servo2.attach(15);
+	servo1.write(100);
+	servo2.write(100);
+}
+void jedzDoTylu() {
+	servo1.attach(14);
+	servo2.attach(15);
+	servo1.write(45);
+	servo2.write(135);
+}
+void zatrzymaj() {
+	servo1.detach();
+	servo2.detach();
+}
+void badajTeren() {
+	wykonajObrot90Lewo();
+	wykonajJedenRuchPrzod();
+	wykonajObrot90Prawo();
+	wykonajJedenRuchPrzod();
+	wykonajJedenRuchPrzod();
+	wykonajObrot90Prawo();
+	wykonajJedenRuchPrzod();
+	wykonajJedenRuchPrzod();
+	wykonajObrot90Prawo();
+	wykonajJedenRuchPrzod();
+	wykonajJedenRuchPrzod();
+	wykonajObrot90Prawo();
+	wykonajJedenRuchPrzod();
+	wykonajObrot90Prawo();
+	wykonajJedenRuchPrzod();
+	wykonajJedenRuchTyl();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
