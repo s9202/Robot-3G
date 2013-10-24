@@ -56,8 +56,8 @@ void ustaw();
 
 //--------------------------- wybranie portów które będziemy używać
 void setup() {
-	pinMode(13, OUTPUT);		//Port13 to akurat jest wbudowana dioda
-	digitalWrite(13, LOW);	//port13
+//	pinMode(13, OUPUT);		//Port13 to akurat jest wbudowana dioda
+//	digitalWrite(13, LOW);	//port13
 	Serial.begin(9600);		//Uruchomienie USB serialport z prędkością 9600
 }
 
@@ -221,22 +221,3 @@ char tworzMape(){
 
 void ustaw(){
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
