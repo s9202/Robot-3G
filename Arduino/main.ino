@@ -1,15 +1,20 @@
 #include <Servo.h>
 
-const char TRYB_MANUAL = '0';
-const char TRYB_AUTO = '1';
-const char JAZDA_PRZOD = '2';
+const char TRYB_MANUAL = 'o';
+const char TRYB_AUTO = 'c';
+const char JAZDA_PRZOD = '1';
 const char JAZDA_LEWO = '3';
-const char JAZDA_PRAWO = '4';
+const char JAZDA_PRAWO = '7';
 const char JAZDA_TYL = '5';
-const char JAZDA_STOP = '6';
+const char JAZDA_STOP1 = '2';
+const char JAZDA_STOP2 = '4';
+const char JAZDA_STOP3 = '6';
+const char JAZDA_STOP4 = '0';
+
 
 Servo servo1;
 Servo servo2;
+Servo servo3;
 
 bool autoModeOn = false;	//Tryb pracy robota (automatyczny = true)
 char recievedByte;			//Zmienna przechowująca bajt pobrany z SerialPortu
@@ -28,6 +33,11 @@ void skrecajWLewo();
 void skrecajWPrawo();
 void jedzDoTylu();
 
+//Funkcje ruchu głowy
+void zatrzymajLeb();
+void glowaLewo();
+void glowaPrawo();
+
 //Funkcje odczytu danych z czujników otoczenia (Filip)
 void skanujSensor1();
 void skanujSensor2();
@@ -37,7 +47,6 @@ char tworzMape();
 
 //Funckje samodzielnego jeżdżenia (Maciej)
 void badajTeren();
-
 void ustaw();
 
 //--------------------------- wybranie portów które będziemy używać
@@ -82,16 +91,43 @@ void loop() {
 					jedzDoTylu();
 				}
 				break;
-			case (JAZDA_STOP):
+			case (JAZDA_STOP1):
 				if (!autoModeOn) {
 					zatrzymaj();
 				}
+				break;
+			case (JAZDA_STOP2):
+				if (!autoModeOn) {
+					zatrzymaj();
+				}
+				break;
+			case (JAZDA_STOP3):
+				if (!autoModeOn) {
+					zatrzymaj();
+				}
+				break;
+			case (JAZDA_STOP4):
+				if (!autoModeOn) {
+					zatrzymaj();
+				}
+				break;
+			case ('l'):
+				glowaLewo();
+				break;
+			case ('e'):
+				glowaPrawo();
+				break;
+			case ('10'):
+				zatrzymajLeb();
+				break;
+			case ('14'):
+				zatrzymajLeb();
 				break;
 		}
 		//Dla trybu auto rozpoczęcie samodzielnego badania terenu
 		if (autoModeOn) {
 			badajTeren();
-			Serial.println(tworzMape());
+//			Serial.println(tworzMape());
 		}
 
 	}
@@ -129,6 +165,17 @@ void zatrzymaj() {
 	servo1.detach();
 	servo2.detach();
 }
+void zatrzymajLeb() {
+	servo3.detach();
+}
+void glowaLewo() {
+	servo3.attach(16);
+	servo3.write(45);
+}
+void glowaPrawo() {
+	servo3.attach(16);
+	servo3.write(135);
+}
 void badajTeren() {
 	wykonajObrot90Lewo();
 	wykonajJedenRuchPrzod();
@@ -148,13 +195,29 @@ void badajTeren() {
 	wykonajJedenRuchTyl();
 }
 
+void wykonajJedenRuchPrzod(){
+}
+void wykonajJedenRuchTyl(){
+}
+void wykonajObrot90Lewo(){
+}
+void wykonajObrot90Prawo(){
+}
 
+void skanujSensor1(){
+}
+void skanujSensor2(){
+}
 
+char tworzMape(){
+	char mapa;
+	return mapa;
+}
 
-
-
-
-
+void badajTeren(){
+}
+void ustaw(){
+}
 
 
 
