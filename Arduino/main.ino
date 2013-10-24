@@ -1,3 +1,5 @@
+//#include <WProgram.h>
+//#include<Arduino.h>
 #include <Servo.h>
 
 const char TRYB_MANUAL = 'o';
@@ -10,7 +12,10 @@ const char JAZDA_STOP1 = '2';
 const char JAZDA_STOP2 = '4';
 const char JAZDA_STOP3 = '6';
 const char JAZDA_STOP4 = '0';
-
+const char GLOWA_LEWO = 'l';
+const char GLOWA_PRAWO = 'e';
+const char GLOWA_STOP1 = 'a';
+const char GLOWA_STOP2 = 'b';
 
 Servo servo1;
 Servo servo2;
@@ -51,8 +56,8 @@ void ustaw();
 
 //--------------------------- wybranie portów które będziemy używać
 void setup() {
-	pinMode(13, OUPUT);		//Port13 to akurat jest wbudowana dioda
-	digitalWrite(13, LOW);	//port13
+//	pinMode(13, OUPUT);		//Port13 to akurat jest wbudowana dioda
+//	digitalWrite(13, LOW);	//port13
 	Serial.begin(9600);		//Uruchomienie USB serialport z prędkością 9600
 }
 
@@ -68,7 +73,7 @@ void loop() {
 			case (TRYB_MANUAL):
 				autoModeOn = false;
 				break;
-			case (TRYB_MANUAL):
+			case (TRYB_AUTO):
 				autoModeOn = true;
 				break;
 			case (JAZDA_PRZOD):
@@ -111,16 +116,16 @@ void loop() {
 					zatrzymaj();
 				}
 				break;
-			case ('l'):
+			case (GLOWA_LEWO):
 				glowaLewo();
 				break;
-			case ('e'):
+			case (GLOWA_PRAWO):
 				glowaPrawo();
 				break;
-			case ('10'):
+			case (GLOWA_STOP1):
 				zatrzymajLeb();
 				break;
-			case ('14'):
+			case (GLOWA_STOP2):
 				zatrzymajLeb();
 				break;
 		}
@@ -214,12 +219,8 @@ char tworzMape(){
 	return mapa;
 }
 
-void badajTeren(){
-}
 void ustaw(){
 }
-
-
 
 
 
