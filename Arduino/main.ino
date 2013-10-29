@@ -2,20 +2,55 @@
 //#include<Arduino.h>
 #include <Servo.h>
 
-const char TRYB_MANUAL = 'o';
-const char TRYB_AUTO = 'c';
-const char JAZDA_PRZOD = '1';
-const char JAZDA_LEWO = '3';
-const char JAZDA_PRAWO = '7';
-const char JAZDA_TYL = '5';
-const char JAZDA_STOP1 = '2';
-const char JAZDA_STOP2 = '4';
-const char JAZDA_STOP3 = '6';
-const char JAZDA_STOP4 = '0';
-const char GLOWA_LEWO = 'l';
+const char TRYB_MANUAL = '0';
+const char TRYB_AUTO = '1';
+const char JAZDA_PRZOD = 'w';
+const char JAZDA_LEWO = 'a';
+const char JAZDA_PRAWO = 'd';
+const char JAZDA_TYL = 's';
+const char GLOWA_LEWO = 'q';
 const char GLOWA_PRAWO = 'e';
-const char GLOWA_STOP1 = 'a';
-const char GLOWA_STOP2 = 'b';
+const char JAZDA_STOP = '3';
+const char GLOWA_STOP = '4';
+//const char JAZDA_STOP1 = '2';
+//const char JAZDA_STOP2 = '4';
+//const char JAZDA_STOP3 = '6';
+//const char JAZDA_STOP4 = '0';
+//const char GLOWA_STOP1 = 'a';
+//const char GLOWA_STOP2 = 'b';
+
+const int ROZMIAR_BOKU_MAPY = 10;
+const int ROZMIAR_MAPY = ROZMIAR_BOKU_MAPY * ROZMIAR_BOKU_MAPY;
+const int PG_ROG = ROZMIAR_BOKU_MAPY - 1;
+const int LD_ROG = ROZMIAR_MAPY - ROZMIAR_BOKU_MAPY;
+const int PD_ROG = ROZMIAR_MAPY - 1;
+
+const double IR_MIN = 4.0;
+const double IR_MAX = 40.0;
+
+//Biegunowa pozycja robota
+const char PRZODEM_GORA = '8';
+const char PRZODEM_PRAWO = '6';
+const char PRZODEM_LEWO = '4';
+const char PRZODEM_DOL = '2';
+
+char pozycjaRobota = PRZODEM_GORA;
+
+char mapa[ROZMIAR_MAPY] = {
+	'x','x','x','x','x','x','x','x','x','x',
+	'x','o','o','o','o','o','o','o','o','x',
+	'x','o','o','o','o','o','o','o','o','x',
+	'x','o','o','o','o','o','o','o','o','x',
+	'x','o','o','o','o','o','o','o','o','x',
+	'x','o','o','o','o',pozycjaRobota,'o','o','o','x',
+	'x','o','o','o','o','o','o','o','o','x',
+	'x','o','o','o','o','o','o','o','o','x',
+	'x','o','o','o','o','o','o','o','o','x',
+	'x','x','x','x','x','x','x','x','x','x'
+};
+
+char* miesceRobota = &mapa[56];
+
 
 Servo servo1;
 Servo servo2;
@@ -37,22 +72,35 @@ void jedzProsto();
 void skrecajWLewo();
 void skrecajWPrawo();
 void jedzDoTylu();
+void zatrzymajRuch();
 
 //Funkcje ruchu głowy
-void zatrzymajLeb();
+void zatrzymajGlowe();
 void glowaLewo();
 void glowaPrawo();
 
 //Funkcje odczytu danych z czujników otoczenia (Filip)
-void skanujSensor1();
-void skanujSensor2();
+double skanujSensorPrzedni();
+double skanujSensorLewy();
+double skanujSensorPrawy();
 
 //Funkcje tworzące mapę (Maciej)
-char tworzMape();
+void tworzMape(char mapa[]);
+char* zaznacz1Gora(char* miejsceRobota);
+char* zaznacz2Gora(char* miejsceRobota);
+char* zaznacz3Gora(char* miejsceRobota);
+char* zaznacz1Prawo(char* miejsceRobota);
+char* zaznacz2Prawo(char* miejsceRobota);
+char* zaznacz3Prawo(char* miejsceRobota);
+char* zaznacz1Lewo(char* miejsceRobota);
+char* zaznacz2Lewo(char* miejsceRobota);
+char* zaznacz3Lewo(char* miejsceRobota);
 
 //Funckje samodzielnego jeżdżenia (Maciej)
-void badajTeren();
+void badajTeren(char mapa[]);
 void ustaw();
+char* sprawdzOdlegloscIZaznacz(double odleglosc, char* miejsceRobota);
+void wykonajAutoRuch();
 
 //--------------------------- wybranie portów które będziemy używać
 void setup() {
@@ -96,24 +144,9 @@ void loop() {
 					jedzDoTylu();
 				}
 				break;
-			case (JAZDA_STOP1):
+			case (JAZDA_STOP):
 				if (!autoModeOn) {
-					zatrzymaj();
-				}
-				break;
-			case (JAZDA_STOP2):
-				if (!autoModeOn) {
-					zatrzymaj();
-				}
-				break;
-			case (JAZDA_STOP3):
-				if (!autoModeOn) {
-					zatrzymaj();
-				}
-				break;
-			case (JAZDA_STOP4):
-				if (!autoModeOn) {
-					zatrzymaj();
+					zatrzymajRuch();
 				}
 				break;
 			case (GLOWA_LEWO):
@@ -122,17 +155,34 @@ void loop() {
 			case (GLOWA_PRAWO):
 				glowaPrawo();
 				break;
-			case (GLOWA_STOP1):
-				zatrzymajLeb();
-				break;
-			case (GLOWA_STOP2):
-				zatrzymajLeb();
+			case (GLOWA_STOP):
+				zatrzymajGlowe();
 				break;
 		}
 		//Dla trybu auto rozpoczęcie samodzielnego badania terenu
 		if (autoModeOn) {
-			badajTeren();
-//			Serial.println(tworzMape());
+			wykonajAutoRuch();
+			double s1 = skanujSensorPrzedni();
+			double s2 = skanujSensorLewy();
+			double s3 = skanujSensorPrawy();
+			
+
+			char* wskazGdzieZaznaczycPrzod = sprawdzOdlegloscIZaznacz(s1, miesceRobota);
+			char* wskazGdzieZaznaczycPrawo = sprawdzOdlegloscIZaznacz(s2, miesceRobota);
+			char* wskazGdzieZaznaczycLewo = sprawdzOdlegloscIZaznacz(s3, miesceRobota);
+			
+			if (wskazGdzieZaznaczycPrzod != miesceRobota) {
+				*wskazGdzieZaznaczycPrzod = pozycjaRobota;
+			}
+			if (wskazGdzieZaznaczycPrawo != miesceRobota) {
+				*wskazGdzieZaznaczycPrawo = pozycjaRobota;
+			}
+			if (wskazGdzieZaznaczycLewo != miesceRobota) {
+				*wskazGdzieZaznaczycLewo = pozycjaRobota;
+			}
+			
+			
+  			Serial.println(mapa);
 		}
 
 	}
@@ -166,11 +216,11 @@ void jedzDoTylu() {
 	servo1.write(45);
 	servo2.write(135);
 }
-void zatrzymaj() {
+void zatrzymajRuch() {
 	servo1.detach();
 	servo2.detach();
 }
-void zatrzymajLeb() {
+void zatrzymajGlowe() {
 	servo3.detach();
 }
 void glowaLewo() {
@@ -181,7 +231,7 @@ void glowaPrawo() {
 	servo3.attach(16);
 	servo3.write(135);
 }
-void badajTeren() {
+void badajTeren(char mapa[]) {
 	wykonajObrot90Lewo();
 	wykonajJedenRuchPrzod();
 	wykonajObrot90Prawo();
@@ -198,45 +248,121 @@ void badajTeren() {
 	wykonajObrot90Prawo();
 	wykonajJedenRuchPrzod();
 	wykonajJedenRuchTyl();
+
+	tworzMape(mapa);
 }
 
-void wykonajJedenRuchPrzod(){
+void wykonajJedenRuchPrzod() {
 }
-void wykonajJedenRuchTyl(){
+void wykonajJedenRuchTyl() {
 }
-void wykonajObrot90Lewo(){
+void wykonajObrot90Lewo() {
 }
-void wykonajObrot90Prawo(){
-}
-
-void skanujSensor1(){
-}
-void skanujSensor2(){
+void wykonajObrot90Prawo() {
 }
 
-char tworzMape(){
-	char mapa;
-	return mapa;
+double skanujSensorPrzedni() {
+	double odlegloscZmierzona;
+	return odlegloscZmierzona;
+}
+double skanujSensorLewy() {
+	double odlegloscZmierzona;
+	return odlegloscZmierzona;
+}
+double skanujSensorPrawy() {
+	double odlegloscZmierzona;
+	return odlegloscZmierzona;
+}
+
+void tworzMape(char mapa[]){
+
 }
 
 void ustaw(){
 }
 
+char* sprawdzOdlegloscIZaznacz(double odleglosc, char* miejsceRobota) {
 
+	if (odleglosc > IR_MIN && odleglosc <= 10.0) {
+		switch (pozycjaRobota) {
+			case (PRZODEM_GORA): return zaznacz1Gora(miejsceRobota);
+			case (PRZODEM_PRAWO): return zaznacz1Prawo(miejsceRobota);
+			case (PRZODEM_LEWO): return zaznacz1Lewo(miejsceRobota);
+			case (PRZODEM_DOL): return zaznacz1Dol(miejsceRobota);
+		}
+	} else if (odleglosc > 10.0 && odleglosc <= 20.0) {
+		switch (pozycjaRobota) {
+			case (PRZODEM_GORA): return zaznacz2Gora(miejsceRobota);
+			case (PRZODEM_PRAWO): return zaznacz2Prawo(miejsceRobota);
+			case (PRZODEM_LEWO): return zaznacz2Lewo(miejsceRobota);
+			case (PRZODEM_DOL): return zaznacz2Dol(miejsceRobota);
+		}
+		
+	} else if (odleglosc > 20.0 && odleglosc <= 30.0) {
+		switch (pozycjaRobota) {
+			case (PRZODEM_GORA): return zaznacz3Gora(miejsceRobota);
+			case (PRZODEM_PRAWO): return zaznacz3Prawo(miejsceRobota);
+			case (PRZODEM_LEWO): return zaznacz3Lewo(miejsceRobota);
+			case (PRZODEM_DOL): return zaznacz3Dol(miejsceRobota);
+		}
+		
+	} else {
+		return miejsceRobota;
+	}
+	
+	
+	
+}
 
+void wykonajAutoRuch() {
+	wykonajObrot90Lewo();
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+char* zaznacz1Gora(char* miejsceRobota) {
+	char* miejsceZaznaczenia = miejsceRobota - ROZMIAR_BOKU_MAPY;
+	return miejsceZaznaczenia;
+}
+char* zaznacz2Gora(char* miejsceRobota) {
+	char* miejsceZaznaczenia = miejsceRobota - (2 * ROZMIAR_BOKU_MAPY);
+	return miejsceZaznaczenia;
+}
+char* zaznacz3Gora(char* miejsceRobota) {
+	char* miejsceZaznaczenia = miejsceRobota - (3 * ROZMIAR_BOKU_MAPY);
+	return miejsceZaznaczenia;
+}
+char* zaznacz1Lewo(char* miejsceRobota) {
+	char* miejsceZaznaczenia = miejsceRobota - 1;
+	return miejsceZaznaczenia;
+}
+char* zaznacz2Lewo(char* miejsceRobota) {
+	char* miejsceZaznaczenia = miejsceRobota - 2;
+	return miejsceZaznaczenia;
+}
+char* zaznacz3Lewo(char* miejsceRobota) {
+	char* miejsceZaznaczenia = miejsceRobota - 3;
+	return miejsceZaznaczenia;
+}
+char* zaznacz1Prawo(char* miejsceRobota) {
+	char* miejsceZaznaczenia = miejsceRobota + 1;
+	return miejsceZaznaczenia;
+}
+char* zaznacz2Prawo(char* miejsceRobota) {
+	char* miejsceZaznaczenia = miejsceRobota + 2;
+	return miejsceZaznaczenia;
+}
+char* zaznacz3Prawo(char* miejsceRobota) {
+	char* miejsceZaznaczenia = miejsceRobota + 3;
+	return miejsceZaznaczenia;
+}
+char* zaznacz1Dol(char* miejsceRobota) {
+	char* miejsceZaznaczenia = miejsceRobota + ROZMIAR_BOKU_MAPY;
+	return miejsceZaznaczenia;
+}
+char* zaznacz2Dol(char* miejsceRobota) {
+	char* miejsceZaznaczenia = miejsceRobota + (2 * ROZMIAR_BOKU_MAPY);
+	return miejsceZaznaczenia;
+}
+char* zaznacz3Dol(char* miejsceRobota) {
+	char* miejsceZaznaczenia = miejsceRobota + (3 * ROZMIAR_BOKU_MAPY);
+	return miejsceZaznaczenia;
+}

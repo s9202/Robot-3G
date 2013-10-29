@@ -37,4 +37,28 @@ przygotowanie Arduino i Rapsberry Pi:
 http://alexandre.alapetite.fr/doc-alex/raspberrypi-nodejs-arduino/index.en.html
 https://github.com/voodootikigod/node-serialport
 
-GITHUB TEST
+GITHUB Repozytoria:
+
+github.com/s9202/Robot-3G/
+github.com/s8145/Robot-3G/
+
+Komunikacja Arduino - Raspberry Pi
+znaki sygna³ów:
+'0' - tryb manualny (robot czeka na polecenia)
+'1' - tryb automatyczny (robot samodzielnie dzia³a, przerwaæ mo¿na tylko zmian¹ trybu)
+'w' - ruch do przodu
+'a' - ruch w lewo
+'s' - ruch do ty³u
+'d' - ruch w prawo
+'q' - obrót g³owy w lewo
+'e' - obrót g³owy w prawo
+'3' - zatrzymanie ka¿dego ruchu kó³
+'4' - zatrzymanie ka¿dego ruchu g³owy
+
+znaki tablicy mapy:
+'o' - puste pole
+'x' - zajête pole (œciana)
+'8' - miejsce robota przodem do góry
+'6' - miejsce robota przodem w prawo
+'4' - miejsce robota przodem w lewo
+'2' - miejsce robota przodem w dó³
