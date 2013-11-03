@@ -27,7 +27,7 @@ const int LD_ROG = ROZMIAR_MAPY - ROZMIAR_BOKU_MAPY;
 const int PD_ROG = ROZMIAR_MAPY - 1;
 
 const double IR_MIN = 4.0;
-const double IR_MAX = 40.0;
+const double IR_MAX = 30.0;
 
 //Biegunowa pozycja robota
 const char PRZODEM_GORA = '8';
