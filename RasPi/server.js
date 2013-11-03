@@ -6,7 +6,7 @@ var http = require('http'),
         serialport = require("serialport");
 
 //------------------------------------------------------- Tworzenie serwera
-var server = http.createServer(function (req, res) {
+var server = http.createServer(function (req, res) { 
         'use strict';
     var filePath = '.' + req.url,
         contentType = 'text/html',
@@ -46,7 +46,7 @@ var server = http.createServer(function (req, res) {
     });
 });
 
-//------------------------------------------------------- Obs3uga USB
+//------------------------------------------------------- Obs³uga USB
 
 var SerialPort = serialport.SerialPort;
 var arduinoSerialPort = '/dev/ttyACM0';
@@ -57,7 +57,7 @@ parser: serialport.parsers.readline("\n")
 var socket = io.listen(server);
 serialPort.on('open', function() {                
 socket.on('connection', function( client ) {
-                                                        // Wy31czone na czas braku portu
+                                                        // Wy³¹czone na czas braku portu
                 console.log('open - port USB otwarty');
         
                 
@@ -79,32 +79,32 @@ socket.on('connection', function( client ) {
                         //console.log( stanRobota );
                         client.emit( 'testServer', "Test serwer odpowiada");
                         client.emit( 'testJSON', JSON.stringify( daneMapy.test ) );
-                        serialPort.write( dane );                         
+                        serialPort.write( dane  );                         
 
                 });
                 
 //------------------------------------------------------------------         
-                serialPort.on('data', function( dane ) {
+               serialPort.on('data', function( dane ) {
  //                       stanRobota = JSON.parse( dane );
  //                       console.log('from arduino ' + stanRobota );                        
  //                       client.emit( 'testRobot', dane );
                         
-			//Nowy odbi�r danych Arduino
-			var daneArduino = JSON.parse( dane );
-//			console.log('Mapa odebrana od arduino: ' + daneArduino.mapa);
-			console.log('A teraz ladniej');
-			var linia = '';
-			for (var i=0; i<daneArduino.mapa.length; i++) {
-			
-				if (i%10 === 0) {
-					console.log(linia);
-					linia = daneArduino.mapa.charAt(i);
-				} else {
-					linia = linia + daneArduino.mapa.charAt(i);
-				}
-				
-			}
-						
+                        //Nowy odbi?r danych Arduino
+                        var daneArduino = JSON.parse( dane );
+//                        console.log('Mapa odebrana od arduino: ' + daneArduino.mapa);
+                        console.log('A teraz ladniej');
+                        var linia = '';
+                        for (var i=0; i<daneArduino.mapa.length; i++) {
+                        
+                                if (i%10 === 0) {
+                                        console.log(linia);
+                                        linia = daneArduino.mapa.charAt(i);
+                                } else {
+                                        linia = linia + daneArduino.mapa.charAt(i);
+                                }
+                                
+                        }
+                                                
                 });
                 
                 serialPort.on('error', function (msg) {
