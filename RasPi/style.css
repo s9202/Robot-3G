@@ -117,5 +117,10 @@ body {
 }
 #tryb2{
 	top:	-100px;
-	left:	50px;
+	left:	55px;
+}
+#skan{
+	top:	-100px;
+	left:	110px;
+	background-color: teal;
 }

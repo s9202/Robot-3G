@@ -1,0 +1,318 @@
+//#include <WProgram.h>
+//#include<Arduino.h>
+#include <Servo.h>
+
+const char TRYB_MANUAL = '0';
+const char TRYB_AUTO = '1';
+const char JAZDA_PRZOD = 'w';
+const char JAZDA_LEWO = 'a';
+const char JAZDA_PRAWO = 'd';
+const char JAZDA_TYL = 's';
+const char GLOWA_LEWO = 'q';
+const char GLOWA_PRAWO = 'e';
+const char JAZDA_STOP = '3';
+const char GLOWA_STOP = '4';
+//const char JAZDA_STOP1 = '2';
+//const char JAZDA_STOP2 = '4';
+//const char JAZDA_STOP3 = '6';
+//const char JAZDA_STOP4 = '0';
+//const char GLOWA_STOP1 = 'a';
+//const char GLOWA_STOP2 = 'b';
+
+const int ROZMIAR_BOKU_MAPY = 10;
+const int ROZMIAR_MAPY = ROZMIAR_BOKU_MAPY * ROZMIAR_BOKU_MAPY;
+const int PG_ROG = ROZMIAR_BOKU_MAPY - 1;
+const int LD_ROG = ROZMIAR_MAPY - ROZMIAR_BOKU_MAPY;
+const int PD_ROG = ROZMIAR_MAPY - 1;
+
+const double IR_MIN = 4.0;
+const double IR_MAX = 40.0;
+
+const char ZAZNACZ_NIC = '0';
+const char ZAZNACZ_PIERWSZY = '1';
+const char ZAZNACZ_DRUGI = '2';
+const char ZAZNACZ_TRZECI = '3';
+
+char mapa[ROZMIAR_MAPY] = {
+	'o','o','o','o','o','o','o','o','o','o',
+	'o','o','o','o','o','o','o','o','o','o',
+	'o','o','o','o','o','o','o','o','o','o',
+	'o','o','o','o','o','o','o','o','o','o',
+	'o','o','o','o','i','i','o','o','o','o',
+	'o','o','o','o','i','i','o','o','o','o',
+	'o','o','o','o','o','o','o','o','o','o',
+	'o','o','o','o','o','o','o','o','o','o',
+	'o','o','o','o','o','o','o','o','o','o',
+	'o','o','o','o','o','o','o','o','o','o'
+};
+
+Servo servo1;
+Servo servo2;
+Servo servo3;
+
+bool autoModeOn = false;	//Tryb pracy robota (automatyczny = true)
+char recievedByte;			//Zmienna przechowuj¹ca bajt pobrany z SerialPortu
+
+//------------------------------ Funkcje pomocnicze
+
+//Funkcje ruchu skokowego przydatne dla kontroli automatycznej (Filip)
+void wykonajJedenRuchPrzod();
+void wykonajJedenRuchTyl();
+void wykonajObrot90Lewo();
+void wykonajObrot90Prawo();
+
+//Funkcje ruchu ci¹g³ego przydatne dla kontroli zdalnej
+void jedzProsto();
+void skrecajWLewo();
+void skrecajWPrawo();
+void jedzDoTylu();
+void zatrzymajRuch();
+
+//Funkcje ruchu g³owy
+void zatrzymajGlowe();
+void glowaLewo();
+void glowaPrawo();
+
+//Funkcje odczytu danych z czujników otoczenia (Filip)
+double skanujSensorPrzedni();
+double skanujSensorLewy();
+double skanujSensorPrawy();
+
+//Funkcje tworz¹ce mapê (Maciej)
+void tworzMape(char mapa[]);
+
+//Funckje samodzielnego je¿d¿enia (Maciej)
+void badajTeren(char mapa[]);
+void ustaw();
+char sprawdzOdczytOdleglosci(double odleglosc);
+void wykonajAutoRuch();
+
+//--------------------------- wybranie portów które bêdziemy u¿ywaæ
+void setup() {
+	pinMode(13, OUTPUT);		//Port13 to akurat jest wbudowana dioda
+	digitalWrite(13, LOW);	//port13
+	Serial.begin(9600);		//Uruchomienie USB serialport z prêdkoœci¹ 9600
+}
+
+//------------------------------ G³ówna pêtla z programem
+
+void loop() {
+
+	//Pocz¹tek pêtli zawsze badanie bajtu na serialport
+	if (Serial.available() > 0) {
+		recievedByte = Serial.read();
+		
+		switch (recievedByte) {
+			case (TRYB_MANUAL):
+				autoModeOn = false;
+				break;
+			case (TRYB_AUTO):
+				autoModeOn = true;
+				break;
+			case (JAZDA_PRZOD):
+				if (!autoModeOn) {
+					jedzProsto();
+				}
+				break;
+			case (JAZDA_LEWO):
+				if (!autoModeOn) {
+					skrecajWLewo();
+				}
+				break;
+			case (JAZDA_PRAWO):
+				if (!autoModeOn) {
+					skrecajWPrawo();
+				}
+				break;
+			case (JAZDA_TYL):
+				if (!autoModeOn) {
+					jedzDoTylu();
+				}
+				break;
+			case (JAZDA_STOP):
+				if (!autoModeOn) {
+					zatrzymajRuch();
+				}
+				break;
+			case (GLOWA_LEWO):
+				glowaLewo();
+				break;
+			case (GLOWA_PRAWO):
+				glowaPrawo();
+				break;
+			case (GLOWA_STOP):
+				zatrzymajGlowe();
+				break;
+		}
+		//Dla trybu auto rozpoczêcie samodzielnego badania terenu
+		if (autoModeOn) {
+			wykonajAutoRuch();
+			double s1 = skanujSensorPrzedni();
+			double s2 = skanujSensorPrzedni();
+			double s3 = skanujSensorPrzedni();
+			char ktoryZaznaczycPrzod = sprawdzOdczytOdleglosci(s1);
+			char ktoryZaznaczycLewo = sprawdzOdczytOdleglosci(s2);
+			char ktoryZaznaczycPrawo = sprawdzOdczytOdleglosci(s3);
+			switch (ktoryZaznaczycPrzod) {
+				case
+			
+			
+			
+			
+			
+			
+			
+  			Serial.println(mapa);
+		}
+
+	}
+}
+
+
+
+//------------------------------ Implementacja funkcji pomocniczych
+
+void jedzProsto() {
+	servo1.attach(14);
+	servo2.attach(15);
+	servo1.write(135);
+	servo2.write(45);
+}
+void skrecajWLewo() {
+	servo1.attach(14);
+	servo2.attach(15);
+	servo1.write(80);
+	servo2.write(80);
+}
+void skrecajWPrawo() {
+	servo1.attach(14);
+	servo2.attach(15);
+	servo1.write(100);
+	servo2.write(100);
+}
+void jedzDoTylu() {
+	servo1.attach(14);
+	servo2.attach(15);
+	servo1.write(45);
+	servo2.write(135);
+}
+void zatrzymajRuch() {
+	servo1.detach();
+	servo2.detach();
+}
+void zatrzymajGlowe() {
+	servo3.detach();
+}
+void glowaLewo() {
+	servo3.attach(16);
+	servo3.write(45);
+}
+void glowaPrawo() {
+	servo3.attach(16);
+	servo3.write(135);
+}
+void badajTeren(char mapa[]) {
+	wykonajObrot90Lewo();
+	wykonajJedenRuchPrzod();
+	wykonajObrot90Prawo();
+	wykonajJedenRuchPrzod();
+	wykonajJedenRuchPrzod();
+	wykonajObrot90Prawo();
+	wykonajJedenRuchPrzod();
+	wykonajJedenRuchPrzod();
+	wykonajObrot90Prawo();
+	wykonajJedenRuchPrzod();
+	wykonajJedenRuchPrzod();
+	wykonajObrot90Prawo();
+	wykonajJedenRuchPrzod();
+	wykonajObrot90Prawo();
+	wykonajJedenRuchPrzod();
+	wykonajJedenRuchTyl();
+
+	tworzMape(mapa);
+}
+
+void wykonajJedenRuchPrzod() {
+}
+void wykonajJedenRuchTyl() {
+}
+void wykonajObrot90Lewo() {
+}
+void wykonajObrot90Prawo() {
+}
+
+double skanujSensorPrzedni() {
+	double odlegloscZmierzona;
+	return odlegloscZmierzona;
+}
+double skanujSensorLewy() {
+	double odlegloscZmierzona;
+	return odlegloscZmierzona;
+}
+double skanujSensorPrawy() {
+	double odlegloscZmierzona;
+	return odlegloscZmierzona;
+}
+
+void tworzMape(char mapa[]){
+
+}
+
+void ustaw(){
+}
+
+char sprawdzOdczytOdleglosci(double odleglosc) {
+	if (odleglosc > IR_MIN && odleglosc <= 10.0) {
+		return ZAZNACZ_PIERWSZY;
+	} else if (odleglosc > 10.0 && odleglosc <= 20.0) {
+		return ZAZNACZ_DRUGI;
+	} else if (odleglosc > 20.0 && odleglosc <= 30.0) {
+		return ZAZNACZ_TRZECI;
+	} else {
+		return ZAZNACZ_NIC;
+	}
+	
+	
+	
+}
+
+void wykonajAutoRuch() {
+	wykonajObrot90Lewo();
+}
+
+char* zaznacz1Gora(char mapa[]) {
+	
+}
+char* zaznacz2Gora(char mapa[]) {
+	
+}
+char* zaznacz3Gora(char mapa[]) {
+	
+}
+char* zaznacz1Lewo(char mapa[]) {
+	
+}
+char* zaznacz2Lewo(char mapa[]) {
+	
+}
+char* zaznacz3Lewo(char mapa[]) {
+	
+}
+char* zaznacz1Prawo(char mapa[]) {
+	
+}
+char* zaznacz2Prawo(char mapa[]) {
+	
+}
+char* zaznacz3Prawo(char mapa[]) {
+	
+}
+char* zaznacz1Dol(char mapa[]) {
+	
+}
+char* zaznacz2Dol(char mapa[]) {
+	
+}
+char* zaznacz3Dol(char mapa[]) {
+	
+}

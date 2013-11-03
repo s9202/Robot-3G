@@ -139,6 +139,14 @@ function draw(){
 		socket.emit('jazda', '1');
 		console.log('tryb sonic');
      })
+	 $("#skan").on( "mousedown", function() {
+		$(this).css( { "background-color": "yellow" } );
+		socket.emit('jazda', '5');
+		console.log('Skan manualny');
+     })
+	 .on( "mouseup", function() {
+		$(this).css( { "background-color": "teal" } );
+	});
 //-------------------------------------------------------- Klawiatura
 	
 	$(document).on( "keydown", function(event) {

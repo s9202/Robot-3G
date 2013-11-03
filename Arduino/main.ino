@@ -12,6 +12,7 @@ const char GLOWA_LEWO = 'q';
 const char GLOWA_PRAWO = 'e';
 const char JAZDA_STOP = '3';
 const char GLOWA_STOP = '4';
+const char SKAN_MAN = '5';
 //const char JAZDA_STOP1 = '2';
 //const char JAZDA_STOP2 = '4';
 //const char JAZDA_STOP3 = '6';
@@ -104,6 +105,9 @@ char* zaznacz3Dol(char* miejsceRobota);
 void badajTeren(char pozycjaRobota, char mapa[]);
 void wykonajAutoRuch();
 
+void wyslijTablice(char tablica[], int rozmiarTablicy);
+void wyslijStringJson(char tablica[], int rozmiarTablicy);
+
 //--------------------------- wybranie portów które będziemy używać
 void setup() {
 	pinMode(13, OUTPUT);		//Port13 to akurat jest wbudowana dioda
@@ -163,6 +167,11 @@ void loop() {
 				break;
 			case (GLOWA_STOP):
 				zatrzymajGlowe();
+				break;
+			case (SKAN_MAN):
+				skanujZaznaczMape(miejsceRobota, pozycjaCzujnikaPrzod, mapa, wskKoniecMapy);
+				wyslijTablice(mapa, ROZMIAR_MAPY);
+				wyslijStringJson(mapa, ROZMIAR_MAPY);
 				break;
 		}
 		//Dla trybu auto rozpoczęcie samodzielnego badania terenu
@@ -412,4 +421,14 @@ char* zaznacz2Dol(char* miejsceRobota) {
 char* zaznacz3Dol(char* miejsceRobota) {
 	char* miejsceZaznaczenia = miejsceRobota + (3 * ROZMIAR_BOKU_MAPY);
 	return miejsceZaznaczenia;
+}
+
+void wyslijTablice(char tablica[], int rozmiarTablicy) {
+	for (int i=0; i<rozmiarTablicy; i++) {
+		Serial.print(tablica[i]);
+	}
+	Serial.println();
+}
+void wyslijStringJson(char tablica[], int rozmiarTablicy) {
+	Serial.println("{ \"mapa\":\"" +String(tablica)+ "\" }");
 }
