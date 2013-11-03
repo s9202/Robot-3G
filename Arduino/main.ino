@@ -116,7 +116,7 @@ void setup() {
 	
 	//Tworzenie mapy początkowej
 	inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, pozycjaRobota, mapa);
-	Serial.println(mapa);
+//	Serial.println(mapa);
 }
 
 //------------------------------ Główna pętla z programem
@@ -170,7 +170,7 @@ void loop() {
 				break;
 			case (SKAN_MAN):
 				skanujZaznaczMape(miejsceRobota, pozycjaCzujnikaPrzod, mapa, wskKoniecMapy);
-				wyslijTablice(mapa, ROZMIAR_MAPY);
+//				wyslijTablice(mapa, ROZMIAR_MAPY);
 				wyslijStringJson(mapa, ROZMIAR_MAPY);
 				break;
 		}
@@ -183,7 +183,7 @@ void loop() {
 			
 			
 			
-  			Serial.println(mapa);
+//			Serial.println(mapa);
 		}
 	}
 }
