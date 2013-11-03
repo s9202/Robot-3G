@@ -49,7 +49,7 @@ char mapa[ROZMIAR_MAPY];
 char* wskKoniecMapy = &mapa[PD_ROG];
 
 char* miejsceRobota = mapa;
-char pozycjaCzujnikaPrzod = pozycjaRobota;
+
 char pozycjaCzujnikaLewy;
 char pozycjaCzujnikaPrawy;
 
@@ -199,7 +199,7 @@ void loop() {
 				zatrzymajGlowe();
 				break;
 			case (SKAN_MAN):
-				skanujZaznaczMape(miejsceRobota, pozycjaCzujnikaPrzod, mapa, wskKoniecMapy);
+				skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, wskKoniecMapy);
 				//wyslijTablice(mapa, ROZMIAR_MAPY);
 				wyslijStringJson(mapa, ROZMIAR_MAPY);
 				break;
@@ -209,7 +209,7 @@ void loop() {
 
 			wykonajAutoRuch();
 
-			skanujZaznaczMape(miejsceRobota, pozycjaCzujnikaPrzod, mapa, wskKoniecMapy);
+			skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, wskKoniecMapy);
 
 
 
@@ -288,7 +288,7 @@ char* wykonajJedenRuchPrzod(char* miejsceRobota, char pozycjaRobota, int rozmiar
 		case (PRZODEM_PRAWO):	wskazGdzieZaznaczyc = wskazGdzieZaznaczyc + 1; break;
 		case (PRZODEM_DOL):		wskazGdzieZaznaczyc = wskazGdzieZaznaczyc + rozmiarBoku; break;
 	}
-	if (wskazGdzieZaznaczyc != miejsceRobota && *wskazGdzieZaznaczyc != ZNAK_SCIANA && wskazGdzieZaznaczyc >= mapa && wskazGdzieZaznaczyc <= wskKoniecMapy) {
+	if (wskazGdzieZaznaczyc != miejsceRobota && *wskazGdzieZaznaczyc != ZNAK_SCIANA && wskazGdzieZaznaczyc >= mapa && wskazGdzieZaznaczyc <= wskKoniecMapy && *wskazGdzieZaznaczyc != 'X' && *wskazGdzieZaznaczyc != 'P' && *wskazGdzieZaznaczyc != 'L') {
 		*miejsceRobota = ZNAK_WOLNE;
 		miejsceRobota = wskazGdzieZaznaczyc;
 		*miejsceRobota = pozycjaRobota;
@@ -303,7 +303,7 @@ char* wykonajJedenRuchTyl(char* miejsceRobota, char pozycjaRobota, int rozmiarBo
 		case (PRZODEM_PRAWO):	wskazGdzieZaznaczyc = wskazGdzieZaznaczyc - 1; break;
 		case (PRZODEM_DOL):		wskazGdzieZaznaczyc = wskazGdzieZaznaczyc - rozmiarBoku; break;
 	}
-	if (wskazGdzieZaznaczyc != miejsceRobota && *wskazGdzieZaznaczyc != ZNAK_SCIANA && wskazGdzieZaznaczyc >= mapa && wskazGdzieZaznaczyc <= wskKoniecMapy) {
+	if (wskazGdzieZaznaczyc != miejsceRobota && *wskazGdzieZaznaczyc != ZNAK_SCIANA && wskazGdzieZaznaczyc >= mapa && wskazGdzieZaznaczyc <= wskKoniecMapy && *wskazGdzieZaznaczyc != 'X' && *wskazGdzieZaznaczyc != 'P' && *wskazGdzieZaznaczyc != 'L') {
 		*miejsceRobota = ZNAK_WOLNE;
 		miejsceRobota = wskazGdzieZaznaczyc;
 		*miejsceRobota = pozycjaRobota;
