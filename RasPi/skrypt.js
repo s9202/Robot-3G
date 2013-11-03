@@ -57,23 +57,23 @@ function draw(){
                 $("#d2").css( { "background-color": "green" } );
     });
         
-        socket.on('testRobot', function( dane ) {
-                
-                console.log('from skrypt'+ dane );
-                if( dane== 1 ) {
-                        $("#d3").css( { "background-color": "green" } );
-                }
-                else {
-                        $("#d3").css( { "background-color": "red" } );
-                }
-                $("#dane").html('<p>servo_1 detect: '+ dane + 'cm</p>');
-                paper.clear();        
-                var circle = paper.circle(robotHeadX+40, robotHeadY-dane*3, 8);
-                circle.attr("fill", "blue");
-                circle.attr("stroke", "#fff");
-                draw();
-                
-        });
+	socket.on('testRobot', function( dane ) {
+			
+			console.log('from skrypt'+ dane );
+			if( dane== 1 ) {
+					$("#d3").css( { "background-color": "green" } );
+			}
+			else {
+					$("#d3").css( { "background-color": "red" } );
+			}
+			$("#dane").html('<p>servo_1 detect: '+ dane + 'cm</p>');
+			paper.clear();        
+			var circle = paper.circle(robotHeadX+40, robotHeadY-dane*3, 8);
+			circle.attr("fill", "blue");
+			circle.attr("stroke", "#fff");
+			draw();
+			
+	});
 
         
 //------------------------------------------------------------------
@@ -82,94 +82,106 @@ function draw(){
 
 //------------------------------------------------------------------- Mysz
         
-                $("#w").on( "mousedown", function() {
-                $(this).css( { "background-color": "blue" } );
-                socket.emit('jazda', 'w');
-                console.log('wcisniete W');
-     })
-         .on( "mouseup", function() {
-                $(this).css( { "background-color": "red" } );
-                socket.emit('jazda', '3');
-                console.log('niewcisniete W');
-        });
-        
-        $("#a").on( "mousedown", function() {
-                $(this).css( { "background-color": "blue" } );
-                socket.emit('jazda', 'a');
-                console.log('wcisniete A');
-     })
-         .on( "mouseup", function() {
-                $(this).css( { "background-color": "red" } );
-                socket.emit('jazda', '3');
-                console.log('niewcisniete A');
-        });//robotHead.rotate(50,robotHeadX+20,robotHeadY);
-        
-        $("#s").on( "mousedown", function() {
-                $(this).css( { "background-color": "blue" } );
-                socket.emit('jazda', 's');
-                console.log('wcisniete S');
-     })
-         .on( "mouseup", function() {
-                $(this).css( { "background-color": "red" } );
-                socket.emit('jazda', '3');
-                console.log('niewcisniete S');
-        });
-        
-        $("#d").on( "mousedown", function() {
-                $(this).css( { "background-color": "blue" } );
-                socket.emit('jazda', 'd');
-                console.log('wcisniete D');
-     })
-         .on( "mouseup", function() {
-                $(this).css( { "background-color": "red" } );
-                socket.emit('jazda', '3');
-                console.log('niewcisniete D');
-        });
-        $("#q").on( "mousedown", function() {
-                $(this).css( { "background-color": "blue" } );
-                socket.emit('jazda', 'q');
-                robotHead.rotate(-5,robotHeadX+20,robotHeadY);
-                console.log('wcisniete Q');
-     })
-         .on( "mouseup", function() {
-                $(this).css( { "background-color": "green" } );
-                socket.emit('jazda', '4');
-                console.log('niewcisniete Q');
-        });
-        $("#e").on( "mousedown", function() {
-                $(this).css( { "background-color": "blue" } );
-                socket.emit('jazda', 'e');
-                robotHead.rotate(5,robotHeadX+20,robotHeadY);
-                console.log('wcisniete E');
-     })
-         .on( "mouseup", function() {
-                $(this).css( { "background-color": "green" } );
-                socket.emit('jazda', '4');
-                console.log('niewcisniete R');
-        });
-        
+	$("#w")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "blue" } );
+			socket.emit('jazda', 'W');
+			console.log('wcisniete W');
+		 })
+		.on( "mouseup", function() {
+			$(this).css( { "background-color": "red" } );
+			//socket.emit('jazda', '3');
+			console.log('niewcisniete W');
+		});
+	
+	$("#a")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "blue" } );
+			socket.emit('jazda', 'A');
+			console.log('wcisniete A');
+		 })
+		.on( "mouseup", function() {
+			$(this).css( { "background-color": "red" } );
+			//socket.emit('jazda', '3');
+			console.log('niewcisniete A');
+		});//robotHead.rotate(50,robotHeadX+20,robotHeadY);
+	
+	$("#s")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "blue" } );
+			socket.emit('jazda', 'S');
+			console.log('wcisniete S');
+		 })
+		.on( "mouseup", function() {
+			$(this).css( { "background-color": "red" } );
+			//socket.emit('jazda', '3');
+			console.log('niewcisniete S');
+		});
+	
+	$("#d")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "blue" } );
+			socket.emit('jazda', 'D');
+			console.log('wcisniete D');
+		 })
+		 .on( "mouseup", function() {
+			$(this).css( { "background-color": "red" } );
+			//socket.emit('jazda', '3');
+			console.log('niewcisniete D');
+		});
+		
+	$("#q")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "blue" } );
+			socket.emit('jazda', 'q');
+			robotHead.rotate(-5,robotHeadX+20,robotHeadY);
+			console.log('wcisniete Q');
+		 })
+		 .on( "mouseup", function() {
+			$(this).css( { "background-color": "green" } );
+			socket.emit('jazda', '4');
+			console.log('niewcisniete Q');
+		});
+	$("#e")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "blue" } );
+			socket.emit('jazda', 'e');
+			robotHead.rotate(5,robotHeadX+20,robotHeadY);
+			console.log('wcisniete E');
+		 })
+		.on( "mouseup", function() {
+			$(this).css( { "background-color": "green" } );
+			socket.emit('jazda', '4');
+			console.log('niewcisniete R');
+	});
+	
 
 
-       $("#tryb1").on( "mousedown", function() {
-                $(this).css( { "background-color": "orange" } );
-                $("#tryb2").css( { "background-color": "yellow" } );
-                socket.emit('jazda', '0');
-                console.log('tryb servo');
-      })
-        $("#tryb2").on( "mousedown", function() {
-                $(this).css( { "background-color": "orange" } );
-                $("#tryb1").css( { "background-color": "yellow" } );
-                socket.emit('jazda', '1');
-                console.log('tryb sonic');
-     })
-         $("#skan").on( "mousedown", function() {
-                $(this).css( { "background-color": "yellow" } );
-                socket.emit('jazda', '5');
-                console.log('Skan manualny');
-     })
-         .on( "mouseup", function() {
-                $(this).css( { "background-color": "teal" } );
-        });
+	$("#tryb1")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "orange" } );
+			$("#tryb2").css( { "background-color": "yellow" } );
+			socket.emit('jazda', '0');
+			console.log('tryb servo');
+		})
+	
+	$("#tryb2")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "orange" } );
+			$("#tryb1").css( { "background-color": "yellow" } );
+			socket.emit('jazda', '1');
+			console.log('tryb sonic');
+		})
+	
+	$("#skan")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "yellow" } );
+			socket.emit('jazda', '5');
+			console.log('Skan manualny');
+		})
+		.on( "mouseup", function() {
+			$(this).css( { "background-color": "teal" } );
+		});
 //-------------------------------------------------------- Klawiatura
         
    $(document).on( "keydown", function(event) {
