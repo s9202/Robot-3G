@@ -89,16 +89,16 @@ socket.on('connection', function( client ) {
  //                       console.log('from arduino ' + stanRobota );                        
  //                       client.emit( 'testRobot', dane );
                         
-						//Nowy odbiór danych Arduino
-						daneArduino = JSON.parse( dane );
-						console.log('Mapa odebrana od arduino: ' + daneArduino.mapa);
-						console.log('A teraz ³adniej');
-						for (var i=0; i<daneArduino.mapa.length; i++) {
-							if (i%10 === 0) {
-								console.log('\n');
-							}
-							console.log(daneArduino.mapa.charAt(i));
-						}
+			//Nowy odbiï¿½r danych Arduino
+			var daneArduino = JSON.parse( dane );
+			console.log('Mapa odebrana od arduino: ' + daneArduino.mapa);
+			console.log('A teraz ï¿½adniej');
+			for (var i=0; i<daneArduino.mapa.length; i++) {
+				if (i%10 === 0) {
+					console.log('\n');
+				}
+				console.log(daneArduino.mapa.charAt(i));
+			}
 						
                 });
                 
