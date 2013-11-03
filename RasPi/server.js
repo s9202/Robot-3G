@@ -92,7 +92,7 @@ socket.on('connection', function( client ) {
 			//Nowy odbi�r danych Arduino
 			var daneArduino = JSON.parse( dane );
 			console.log('Mapa odebrana od arduino: ' + daneArduino.mapa);
-			console.log('A teraz �adniej');
+			console.log('A teraz ladniej');
 			for (var i=0; i<daneArduino.mapa.length; i++) {
 				if (i%10 === 0) {
 					console.log('\n');
