@@ -57,23 +57,34 @@ function draw(){
                 $("#d2").css( { "background-color": "green" } );
     });
         
-	socket.on('testRobot', function( dane ) {
-			
-			console.log('from skrypt'+ dane );
-			if( dane== 1 ) {
-					$("#d3").css( { "background-color": "green" } );
-			}
-			else {
-					$("#d3").css( { "background-color": "red" } );
-			}
-			$("#dane").html('<p>servo_1 detect: '+ dane + 'cm</p>');
-			paper.clear();        
-			var circle = paper.circle(robotHeadX+40, robotHeadY-dane*3, 8);
-			circle.attr("fill", "blue");
-			circle.attr("stroke", "#fff");
-			draw();
-			
-	});
+        socket.on('testRobot', function( dane ) {
+                
+                console.log('from skrypt'+ dane );
+                if(dane) {
+                        $("#d3").css( { "background-color": "green" } );
+                }
+                else {
+                        $("#d3").css( { "background-color": "red" } );
+                }
+                
+                
+                
+                $("#dane").empty();//czyszczenie okienka komunikatow
+                for (var i=0; i<dane.length; i++) {//tablica w okienku komunikatow                    
+					if (i%10 === 0) {
+						if(i>1) $("#dane").append("<br>");
+                                $("#dane").append(dane.charAt(i));
+                        } else {
+                $("#dane").append(dane.charAt(i));
+            }
+        }
+                
+                
+                
+                drawBlock();
+                draw();
+                
+        });
 
         
 //------------------------------------------------------------------
@@ -260,4 +271,11 @@ function draw(){
         
 //---------------------------------------------------------------------
         
+function drawBlock(){        
+        paper.clear();        
+        var block = paper.rect(0, 0, 40, 40, 2);
+        block.attr("fill", "blue");
+        block.attr("stroke", "#fff");
+        
+}        
 });
