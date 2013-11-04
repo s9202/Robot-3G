@@ -281,6 +281,11 @@ void badajTeren(char pozycjaRobota, char mapa[]) {
 }
 
 char* wykonajJedenRuchPrzod(char* miejsceRobota, char pozycjaRobota, int rozmiarBoku) {
+
+	//Tutaj kod serwomechanizmów
+	
+	//
+
 	char* wskazGdzieZaznaczyc = miejsceRobota;
 	switch (pozycjaRobota) {
 		case (PRZODEM_GORA):	wskazGdzieZaznaczyc = wskazGdzieZaznaczyc - rozmiarBoku; break;
@@ -296,6 +301,11 @@ char* wykonajJedenRuchPrzod(char* miejsceRobota, char pozycjaRobota, int rozmiar
 	return miejsceRobota;
 }
 char* wykonajJedenRuchTyl(char* miejsceRobota, char pozycjaRobota, int rozmiarBoku) {
+
+	//Tutaj kod serwomechanizmów
+	
+	//
+
 	char* wskazGdzieZaznaczyc = miejsceRobota;
 	switch (pozycjaRobota) {
 		case (PRZODEM_GORA):	wskazGdzieZaznaczyc = wskazGdzieZaznaczyc + rozmiarBoku; break;
@@ -312,6 +322,10 @@ char* wykonajJedenRuchTyl(char* miejsceRobota, char pozycjaRobota, int rozmiarBo
 }
 char wykonajObrot90Lewo(char* miejsceRobota, char pozycjaRobota) {
 
+	//Tutaj kod serwomechanizmów
+	
+	//
+
 	//Zmiana pozycji robota
 	switch (pozycjaRobota) {
 		case (PRZODEM_GORA):	pozycjaRobota = PRZODEM_LEWO; break;
@@ -323,6 +337,10 @@ char wykonajObrot90Lewo(char* miejsceRobota, char pozycjaRobota) {
 	return pozycjaRobota;
 }
 char wykonajObrot90Prawo(char* miejsceRobota, char pozycjaRobota) {
+
+	//Tutaj kod serwomechanizmów
+	
+	//
 
 	//Zmiana pozycji robota
 	switch (pozycjaRobota) {
