@@ -85,14 +85,10 @@ socket.on('connection', function( client ) {
                 
 //------------------------------------------------------------------         
                serialPort.on('data', function( dane ) {
- //                       stanRobota = JSON.parse( dane );
- //                       console.log('from arduino ' + stanRobota );                        
- //                       client.emit( 'testRobot', dane );
-                        
-                        //Nowy odbi?r danych Arduino
+                           
                         var daneArduino = JSON.parse( dane );
 //                        console.log('Mapa odebrana od arduino: ' + daneArduino.mapa);
-                        console.log('A teraz ladniej');
+                        client.emit( 'testRobot', daneArduino.mapa);
                         var linia = '';
                         for (var i=0; i<daneArduino.mapa.length; i++) {
                         
