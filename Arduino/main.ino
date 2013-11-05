@@ -283,7 +283,9 @@ void badajTeren(char pozycjaRobota, char mapa[]) {
 char* wykonajJedenRuchPrzod(char* miejsceRobota, char pozycjaRobota, int rozmiarBoku) {
 
 	//Tutaj kod serwomechanizmów
-	
+	jedzProsto();
+        delay(1170);
+        zatrzymajRuch();
 	//
 
 	char* wskazGdzieZaznaczyc = miejsceRobota;
@@ -303,7 +305,9 @@ char* wykonajJedenRuchPrzod(char* miejsceRobota, char pozycjaRobota, int rozmiar
 char* wykonajJedenRuchTyl(char* miejsceRobota, char pozycjaRobota, int rozmiarBoku) {
 
 	//Tutaj kod serwomechanizmów
-	
+	jedzDoTylu();
+        delay(1170);
+        zatrzymajRuch();
 	//
 
 	char* wskazGdzieZaznaczyc = miejsceRobota;
@@ -323,7 +327,9 @@ char* wykonajJedenRuchTyl(char* miejsceRobota, char pozycjaRobota, int rozmiarBo
 char wykonajObrot90Lewo(char* miejsceRobota, char pozycjaRobota) {
 
 	//Tutaj kod serwomechanizmów
-	
+	skrecajWLewo();
+        delay(500);
+        zatrzymajRuch();
 	//
 
 	//Zmiana pozycji robota
@@ -339,7 +345,9 @@ char wykonajObrot90Lewo(char* miejsceRobota, char pozycjaRobota) {
 char wykonajObrot90Prawo(char* miejsceRobota, char pozycjaRobota) {
 
 	//Tutaj kod serwomechanizmów
-	
+	skrecajWPrawo();
+        delay(500);
+        zatrzymajRuch();
 	//
 
 	//Zmiana pozycji robota
