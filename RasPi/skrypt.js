@@ -167,7 +167,7 @@ function moveRobot(){
 		.on( "mousedown", function() {
 			$(this).css( { "background-color": "blue" } );
 			socket.emit('jazda', 'W');
-			socket.emit('jazda', '5');
+			//socket.emit('jazda', '5');
 			console.log('wcisniete W');
 		 })
 		.on( "mouseup", function() {
@@ -180,7 +180,7 @@ function moveRobot(){
 		.on( "mousedown", function() {
 			$(this).css( { "background-color": "blue" } );
 			socket.emit('jazda', 'A');
-			socket.emit('jazda', '5');
+			//socket.emit('jazda', '5');
 			console.log('wcisniete A');
 		 })
 		.on( "mouseup", function() {
@@ -192,7 +192,7 @@ function moveRobot(){
 		.on( "mousedown", function() {
 			$(this).css( { "background-color": "blue" } );
 			socket.emit('jazda', 'S');
-			socket.emit('jazda', '5');
+			//socket.emit('jazda', '5');
 			console.log('wcisniete S');
 		 })
 		.on( "mouseup", function() {
@@ -204,7 +204,7 @@ function moveRobot(){
 		.on( "mousedown", function() {
 			$(this).css( { "background-color": "blue" } );
 			socket.emit('jazda', 'D');
-			socket.emit('jazda', '5');
+			//socket.emit('jazda', '5');
 			console.log('wcisniete D');
 		 })
 		 .on( "mouseup", function() {
@@ -244,7 +244,7 @@ function moveRobot(){
 			$(this).css( { "background-color": "orange" } );
 			$("#tryb2").css( { "background-color": "yellow" } );
 			socket.emit('jazda', '0');
-			console.log('tryb servo');
+			console.log('tryb manual');
 		})
 	
 	$("#tryb2")
@@ -252,7 +252,7 @@ function moveRobot(){
 			$(this).css( { "background-color": "orange" } );
 			$("#tryb1").css( { "background-color": "yellow" } );
 			socket.emit('jazda', '1');
-			console.log('tryb sonic');
+			console.log('tryb auto');
 		})
 	
 	$("#skan")
