@@ -127,21 +127,12 @@ char wykonajObrot90Prawo(Wezel tablica[], int miejsceRobota, char pozycjaRobota,
 	return pozycjaRobota;
 }
 
-double skanujSensorPrzedni(int IRFront) {
-	double volts = analogRead(IRFront)*0.004692082;   
+double skanujSensor(int Ir) {
+	double volts = analogRead(Ir)*0.004692082;   
 	double odlegloscZmierzona =(14.925-(1.5*volts))/(volts+0.05);  
 	return odlegloscZmierzona;
 }
-double skanujSensorLewy(int IRLeft) {
-	double volts = analogRead(IRLeft)*0.004692082;   
-	double odlegloscZmierzona =(14.925-(1.5*volts))/(volts+0.05);  
-	return odlegloscZmierzona;
-}
-double skanujSensorPrawy(int IRRight) {
-	double volts = analogRead(IRRight)*0.004692082;   
-	double odlegloscZmierzona =(14.925-(1.5*volts))/(volts+0.05);  
-	return odlegloscZmierzona;
-}
+
 
 int sprawdzOdlegloscIZaznacz(double odleglosc, int miejsceRobota, char pozycjaCzujnika, Wezel tablica[], int rozmiarTablicy, int rozmiarBoku) {
 
@@ -203,9 +194,9 @@ bool skanujZaznaczMape(int miejsceRobota, char pozycjaCzujnikaPrzod, Wezel tabli
 	char pozycjaCzujnikaPrawy;
 	bool wykrytoElement = false;
 	
-	double s1 = 35.0;
-	double s2 = 1.0;
-	double s3 = 25.0;
+	double s1 = skanujSensor(IRFront);
+	double s2 = skanujSensor(IRLeft);
+	double s3 = skanujSensor(IRRight);
 	
 	//Ustalenie pozycji w jakiej s czujniki
 	switch (pozycjaCzujnikaPrzod) {
