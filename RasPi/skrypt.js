@@ -105,9 +105,10 @@ function moveRobot(){
     });
         
         socket.on('testRobot', function( dane ) {
-                
-                console.log('from skrypt'+ dane );
-                if(dane) {
+                daneArduinoSerwera = dane;
+                daneMapy = daneArduinoSerwera.mapa;
+                console.log('from skrypt'+ daneMapy );
+                if (daneMapy) {
                         $("#d3").css( { "background-color": "green" } );
                 }
                 else {
@@ -115,19 +116,18 @@ function moveRobot(){
                 }
                 
 		//tymczasowe czyszczenie koncowych znakow
-		dane = setCharAt(dane, 100, 't');
-		dane = setCharAt(dane, 101, 't');
-		dane = setCharAt(dane, 102, 't');
+		daneMapy = setCharAt(dane, 100, 't');
+		daneMapy = setCharAt(dane, 101, 't');
+		daneMapy = setCharAt(dane, 102, 't');
 		 
 	
                 $("#dane").empty();//czyszczenie okienka komunikatow
-                for (var i=0; i<dane.length; i++) {//tablica w okienku komunikatow                    
+                for (var i=0; i<daneMapy.length; i++) {//tablica w okienku komunikatow                    
 			if (i%10 === 0) {
-				if(i>1) $("#dane").append("<br>");
-                                $("#dane").append(dane.charAt(i));
-                        } else {
-                		$("#dane").append(dane.charAt(i));
-            		}
+				
+				$("#dane").append("<br>");
+			}
+                	$("#dane").append(daneMapy.charAt(i));
         	}
  
 
@@ -135,18 +135,18 @@ function moveRobot(){
 		//drawing
 		drawLines();               
                 var drawX=0, drawY=-1;
-		for(var i=0; i<dane.length; i++){			
+		for(var i=0; i<daneMapy.length; i++){			
 			if (i%10 === 0) {
 				drawX=0;
 				drawY++;
                         } else {
  				drawX++;
             		}
-			if( (dane.charAt(i)=== "x" ) || (dane.charAt(i)==="P") || (dane.charAt(i)===  "L") ) drawBlock(drawX, drawY);
-			if( (dane.charAt(i)==="8") || (dane.charAt(i)==="4") || (dane.charAt(i)==="2") || (dane.charAt(i)==="6") ){
+			if( (daneMapy.charAt(i)=== "x" ) || (daneMapy.charAt(i)==="P") || (daneMapy.charAt(i)===  "L") ) drawBlock(drawX, drawY);
+			if( (daneMapy.charAt(i)==="8") || (daneMapy.charAt(i)==="4") || (daneMapy.charAt(i)==="2") || (daneMapy.charAt(i)==="6") ){
 				if(counter>0) removeRobot();		
 				
-				drawRobot(drawX, drawY, dane.charAt(i));
+				drawRobot(drawX, drawY, daneMapy.charAt(i));
 				//moveRobot();
 			}
 		}              
