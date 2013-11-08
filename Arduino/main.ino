@@ -3,26 +3,39 @@
 #include <Servo.h>
 #include "funkcje.h"
 
+//Mapa obszaru dzialania robota
+Wezel mapa[ROZMIAR_MAPY];
 
-
+//Zmienna zawierajaca aktualna pozycje robota wzgledem mapy
 char pozycjaRobota = PRZODEM_GORA;
 
-Wezel mapa[ROZMIAR_MAPY];
+//Zmienna zawierajaca aktualne miejsce robota na mapie
 int miejsceRobota = 0;
 
+//Zmienna zawierajaca aktualne miejsce celu na mapie
+int cel;
+
+/*
+*servo1 Kolo lewe?
+*servo2 Kolo prawe?
+*servo3 Glowa z kamera
+*/
 Servo servo1;
 Servo servo2;
 Servo servo3;
 
-//Zmienne globalne dla Arduino
-char odebranyBajt;			//Zmienna przechowująca bajt pobrany z SerialPortu
-bool jestTrybAuto = false;	//Tryb pracy robota (automatyczny = true)
-//Zmienne dla trybu auto
-//Wyznaczenie celu. Teraz stałe, później z algorytmu.
-int cel;
+//Zmienna przechowująca bajt pobrany z SerialPortu
+char odebranyBajt;
+
+//Tryb pracy robota (automatyczny = true)
+bool jestTrybAuto = false;	
+
+//Warunki dla trybu automatycznego
 bool osiagnietoCel = true;
 bool wykrytoElement = false;
 bool jestDroga = false;
+
+//Licznik określający liczbę nieudanych znalezien trasy do celu
 int licznik = 0;
 
 
@@ -137,7 +150,7 @@ void loop() {
 				wykrytoElement = true;
 				jestDroga = false;
 			}
-			if (licznik == 4) { //po ilu ruchach bez przemieszczenia porzuca cel
+			if (licznik == LICZBA_REZYGNACJI_CELU) { //po ilu ruchach bez przemieszczenia porzuca cel
 				osiagnietoCel = true;
 			}
 			if (!osiagnietoCel && wykrytoElement && !jestDroga) {
