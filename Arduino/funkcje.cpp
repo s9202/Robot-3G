@@ -49,17 +49,17 @@ void glowaPrawo(Servo servo3) {
 int wykonajJedenRuchPrzod(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2) {
 
 	//Tutaj kod serwomechanizmów	
-		jedzProsto(servo1, servo2);
+	jedzProsto(servo1, servo2);
         delay(1170);
         zatrzymajRuch(servo1, servo2);
-	//
-
+	
+	//Odwzorowanie na mapie
 	int wskazGdzieZaznaczyc = miejsceRobota;
 	switch (pozycjaRobota) {
-		case (PRZODEM_GORA):	wskazGdzieZaznaczyc = wskazGdzieZaznaczyc - rozmiarBoku; break;
-		case (PRZODEM_LEWO):	wskazGdzieZaznaczyc = wskazGdzieZaznaczyc - 1; break;
-		case (PRZODEM_PRAWO):	wskazGdzieZaznaczyc = wskazGdzieZaznaczyc + 1; break;
-		case (PRZODEM_DOL):		wskazGdzieZaznaczyc = wskazGdzieZaznaczyc + rozmiarBoku; break;
+		case (PRZODEM_GORA): wskazGdzieZaznaczyc = wskazGdzieZaznaczyc - rozmiarBoku; break;
+		case (PRZODEM_LEWO): wskazGdzieZaznaczyc = wskazGdzieZaznaczyc - 1; break;
+		case (PRZODEM_PRAWO): wskazGdzieZaznaczyc = wskazGdzieZaznaczyc + 1; break;
+		case (PRZODEM_DOL): wskazGdzieZaznaczyc = wskazGdzieZaznaczyc + rozmiarBoku; break;
 	}
 	char znakBadany = tablica[wskazGdzieZaznaczyc].rodzajWezla;
 	if (wskazGdzieZaznaczyc != miejsceRobota && znakBadany != ZNAK_SCIANA && wskazGdzieZaznaczyc >= 0 && wskazGdzieZaznaczyc < rozmiarTablicy) {
@@ -71,17 +71,17 @@ int wykonajJedenRuchPrzod(Wezel tablica[], int miejsceRobota, char pozycjaRobota
 }
 int wykonajJedenRuchTyl(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2) {
 
-		jedzDoTylu(servo1, servo2);
+	jedzDoTylu(servo1, servo2);
         delay(1170);
         zatrzymajRuch(servo1, servo2);
-	//
-
+	
+	//Odwzorowanie na mapie
 	int wskazGdzieZaznaczyc = miejsceRobota;
 	switch (pozycjaRobota) {
-		case (PRZODEM_GORA):	wskazGdzieZaznaczyc = wskazGdzieZaznaczyc + rozmiarBoku; break;
-		case (PRZODEM_LEWO):	wskazGdzieZaznaczyc = wskazGdzieZaznaczyc + 1; break;
-		case (PRZODEM_PRAWO):	wskazGdzieZaznaczyc = wskazGdzieZaznaczyc - 1; break;
-		case (PRZODEM_DOL):		wskazGdzieZaznaczyc = wskazGdzieZaznaczyc - rozmiarBoku; break;
+		case (PRZODEM_GORA): wskazGdzieZaznaczyc = wskazGdzieZaznaczyc + rozmiarBoku; break;
+		case (PRZODEM_LEWO): wskazGdzieZaznaczyc = wskazGdzieZaznaczyc + 1; break;
+		case (PRZODEM_PRAWO): wskazGdzieZaznaczyc = wskazGdzieZaznaczyc - 1; break;
+		case (PRZODEM_DOL): wskazGdzieZaznaczyc = wskazGdzieZaznaczyc - rozmiarBoku; break;
 	}
 	char znakBadany = tablica[wskazGdzieZaznaczyc].rodzajWezla;
 	if (wskazGdzieZaznaczyc != miejsceRobota && znakBadany != ZNAK_SCIANA && wskazGdzieZaznaczyc >= 0 && wskazGdzieZaznaczyc < rozmiarTablicy) {
@@ -94,17 +94,16 @@ int wykonajJedenRuchTyl(Wezel tablica[], int miejsceRobota, char pozycjaRobota, 
 char wykonajObrot90Lewo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, Servo servo1, Servo servo2) {
 
 
-		skrecajWLewo(servo1, servo2);
+	skrecajWLewo(servo1, servo2);
         delay(500);
         zatrzymajRuch(servo1, servo2);
-	//
 
-	//Zmiana pozycji robota
+	//Odwzorowanie na mapie
 	switch (pozycjaRobota) {
-		case (PRZODEM_GORA):	pozycjaRobota = PRZODEM_LEWO; break;
-		case (PRZODEM_LEWO):	pozycjaRobota = PRZODEM_DOL; break;
-		case (PRZODEM_PRAWO):	pozycjaRobota = PRZODEM_GORA; break;
-		case (PRZODEM_DOL):		pozycjaRobota = PRZODEM_PRAWO; break;
+		case (PRZODEM_GORA): pozycjaRobota = PRZODEM_LEWO; break;
+		case (PRZODEM_LEWO): pozycjaRobota = PRZODEM_DOL; break;
+		case (PRZODEM_PRAWO): pozycjaRobota = PRZODEM_GORA; break;
+		case (PRZODEM_DOL): pozycjaRobota = PRZODEM_PRAWO; break;
 	}
 	tablica[miejsceRobota].rodzajWezla = pozycjaRobota;
 	return pozycjaRobota;
@@ -117,12 +116,12 @@ char wykonajObrot90Prawo(Wezel tablica[], int miejsceRobota, char pozycjaRobota,
         zatrzymajRuch(servo1, servo2);
 	//
 
-	//Zmiana pozycji robota
+	//Odwzorowanie na mapie
 	switch (pozycjaRobota) {
-		case (PRZODEM_GORA):	pozycjaRobota = PRZODEM_PRAWO; break;
-		case (PRZODEM_LEWO):	pozycjaRobota = PRZODEM_GORA; break;
-		case (PRZODEM_PRAWO):	pozycjaRobota = PRZODEM_DOL; break;
-		case (PRZODEM_DOL):		pozycjaRobota = PRZODEM_LEWO; break;
+		case (PRZODEM_GORA): pozycjaRobota = PRZODEM_PRAWO; break;
+		case (PRZODEM_LEWO): pozycjaRobota = PRZODEM_GORA; break;
+		case (PRZODEM_PRAWO): pozycjaRobota = PRZODEM_DOL; break;
+		case (PRZODEM_DOL): pozycjaRobota = PRZODEM_LEWO; break;
 	}
 	tablica[miejsceRobota].rodzajWezla = pozycjaRobota;
 	return pozycjaRobota;
@@ -210,18 +209,22 @@ bool skanujZaznaczMape(int miejsceRobota, char pozycjaCzujnikaPrzod, Wezel tabli
 	
 	//Ustalenie pozycji w jakiej s czujniki
 	switch (pozycjaCzujnikaPrzod) {
-		case (PRZODEM_GORA):	pozycjaCzujnikaLewy = PRZODEM_LEWO;
-								pozycjaCzujnikaPrawy = PRZODEM_PRAWO;
-								break;
-		case (PRZODEM_LEWO):	pozycjaCzujnikaLewy = PRZODEM_DOL;
-								pozycjaCzujnikaPrawy = PRZODEM_GORA;
-								break;
-		case (PRZODEM_PRAWO):	pozycjaCzujnikaLewy = PRZODEM_GORA;
-								pozycjaCzujnikaPrawy = PRZODEM_DOL;
-								break;
-		case (PRZODEM_DOL):		pozycjaCzujnikaLewy = PRZODEM_PRAWO;
-								pozycjaCzujnikaPrawy = PRZODEM_LEWO;
-								break;
+		case (PRZODEM_GORA):
+			pozycjaCzujnikaLewy = PRZODEM_LEWO;
+			pozycjaCzujnikaPrawy = PRZODEM_PRAWO;
+			break;
+		case (PRZODEM_LEWO):
+			pozycjaCzujnikaLewy = PRZODEM_DOL;
+			pozycjaCzujnikaPrawy = PRZODEM_GORA;
+			break;
+		case (PRZODEM_PRAWO):
+			pozycjaCzujnikaLewy = PRZODEM_GORA;
+			pozycjaCzujnikaPrawy = PRZODEM_DOL;
+			break;
+		case (PRZODEM_DOL):
+			pozycjaCzujnikaLewy = PRZODEM_PRAWO;
+			pozycjaCzujnikaPrawy = PRZODEM_LEWO;
+			break;
 	}
 	
 	int wskazGdzieZaznaczycPrzod = sprawdzOdlegloscIZaznacz(s1, miejsceRobota, pozycjaCzujnikaPrzod, tablica, rozmiarTablicy, rozmiarBoku);
@@ -292,7 +295,7 @@ int zaznacz3Dol(int miejsceRobota, int rozmiarBoku) {
 	int miejsceZaznaczenia = miejsceRobota + (3 * rozmiarBoku);
 	return miejsceZaznaczenia;
 }
-//Czysci dwa pola w lini prostej od robota (jeli czujnik obejmie wicej ni 2 kratki trzeba duych zmian
+//Czysci dwa pola w lini prostej od robota (jesli czujnik obejmie wicej niz 2 kratki trzeba duzych zmian)
 void czyscGora(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku) {
 	int badanyWezel = miejsceRobota - rozmiarBoku;
 	if (czyWezelJestSciana(tablica, badanyWezel, rozmiarTablicy, rozmiarBoku)) {
@@ -334,21 +337,21 @@ void czyscDol(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmia
 	}
 }
 
-//Ustalanie ssiadw, czyli opisanie kadego wza jego otoczeniem, po wygenerowaniu labiryntu
+//Ustalanie sasiadow, czyli opisanie kazdego wezla jego otoczeniem, po wygenerowaniu labiryntu
 void ustalSasiadow(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku) {
-	//inicjalne ustawienie braku ssiadw i poprzednika dla wszystkich wzw
+	//inicjalne ustawienie braku sasiadow i poprzednika dla wszystkich wezlow
 	for (int i=0; i<rozmiarTablicy; i++) {
-		tablica[i].numerPoprzednika	= BRAK_WEZLA;
-		tablica[i].sasiadZLewej		= BRAK_WEZLA;
-		tablica[i].sasiadZPrawej	= BRAK_WEZLA;
-		tablica[i].sasiadZGory		= BRAK_WEZLA;
-		tablica[i].sasiadZDolu		= BRAK_WEZLA;
+		tablica[i].numerPoprzednika = BRAK_WEZLA;
+		tablica[i].sasiadZLewej = BRAK_WEZLA;
+		tablica[i].sasiadZPrawej = BRAK_WEZLA;
+		tablica[i].sasiadZGory = BRAK_WEZLA;
+		tablica[i].sasiadZDolu = BRAK_WEZLA;
 
 		if (tablica[i].rodzajWezla == ZNAK_TRASA) {
 			tablica[i].rodzajWezla = ZNAK_WOLNE;
 		}
 	}
-	//ustalenie ssiadw dla wszystkich wa podstawie rozmieszczenia w typu SCIANA
+	//ustalenie sasiadow dla wszystkich wezlow na podstawie rozmieszczenia wezlow typu SCIANA
 	for (int i=0; i<rozmiarTablicy; i++) { 
 		if (i == 0) {//wariant 1: punkt (0,0)
 			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA)
@@ -423,11 +426,11 @@ void ustalSasiadow(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku) {
 void wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]) {
 	int tablDoSprawdzenia[ROZMIAR_MAPY];
 
-	int	punktSprawdzania	= 0;
-	int punktDodanyDoSpr	= 1;
-	int	sasiad				= BRAK_WEZLA;
+	int punktSprawdzania = 0;
+	int punktDodanyDoSpr = 1;
+	int sasiad = BRAK_WEZLA;
 
-	tablDoSprawdzenia[0]	= pPunktWejscia;
+	tablDoSprawdzenia[0] = pPunktWejscia;
 	
 	while (punktSprawdzania != punktDodanyDoSpr && tablDoSprawdzenia[punktSprawdzania] != pPunktWyjscia) {
 		for (int i = 1; i <= 4; i++) { // dla kadego ewentualnego sasiada
@@ -439,7 +442,7 @@ void wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]) {
 			}
 			
 			if (sasiad != BRAK_WEZLA) { // sasiad istnieje
-				//dodanie ssiada do tblicy do sprawdzenia, o ile dotychczas w niej nie wystpowa
+				//dodanie sasiada do tablicy do sprawdzenia, o ile dotychczas w niej nie wystpowal
 				if (!wystapilWTablicy(tablDoSprawdzenia, sasiad, punktDodanyDoSpr)) {
 					tablDoSprawdzenia[punktDodanyDoSpr] = sasiad;
 					punktDodanyDoSpr = punktDodanyDoSpr + 1;
@@ -460,7 +463,7 @@ void wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]) {
 	}
 }
 
-//Sprawdzenie czy podany element wystpi tablicy
+//Sprawdzenie czy podany element wystpil w tablicy
 bool wystapilWTablicy(int tablica[], int element, int rozmiarTablicy) {
 	bool jestWTablicy = false;
 	int i = 0;
@@ -473,7 +476,7 @@ bool wystapilWTablicy(int tablica[], int element, int rozmiarTablicy) {
 	return jestWTablicy;
 }
 
-//Wykonanie jednego ruchu do celu zgodnie z wyznaczon tras
+//Wykonanie jednego ruchu do celu zgodnie z wyznaczona trasa
 Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2) {
 	Robot robot;
 	if (tablica[tablica[miejsceRobota].sasiadZDolu].rodzajWezla == ZNAK_TRASA || tablica[tablica[miejsceRobota].sasiadZDolu].rodzajWezla == ZNAK_CEL) {
@@ -592,7 +595,7 @@ Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, 
 	return robot;
 }
 
-//Wyznaczenie nowego celunamapie dla robota
+//Wyznaczenie nowego celu na mapie dla robota
 int wyznaczCel(Wezel tablica[]) {
 	int cel = 11;
 	tablica[cel].rodzajWezla = ZNAK_CEL;
@@ -619,7 +622,6 @@ void wyslijTablice(char tablica[], int rozmiarTablicy) {
 void wyslijStringJson(Wezel tablica[], int rozmiarTablicy) {
 	char tablicaChar[ROZMIAR_MAPY];
 	for (int i = 0; i < rozmiarTablicy; i++) {
-		
 		tablicaChar[i] = tablica[i].rodzajWezla;
 	}
 
