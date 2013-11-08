@@ -39,7 +39,7 @@ https://github.com/voodootikigod/node-serialport
 
 GITHUB Repozytoria:
 
-github.com/s9202/Robot-3G/
+github.com/s9202/Robot-Wifi/
 github.com/s8145/Robot-3G/
 
 Komunikacja Arduino - Raspberry Pi
@@ -50,6 +50,10 @@ znaki sygna³ów:
 'a' - ruch w lewo
 's' - ruch do ty³u
 'd' - ruch w prawo
+'W' - ruch skok do przodu - guziki interfejsu
+'A' - ruch skok w lewo - guziki interfejsu
+'S' - ruch skok do ty³u - guziki interfejsu
+'D' - ruch skok w prawo - guziki interfejsu
 'q' - obrót g³owy w lewo
 'e' - obrót g³owy w prawo
 '3' - zatrzymanie ka¿dego ruchu kó³
