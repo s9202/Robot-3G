@@ -71,13 +71,6 @@ typedef struct Robot {
 	char pozycjaRobota;
 } Robot;
 
-
-//Funkcje ruchu skokowego przydatne dla kontroli automatycznej
-int wykonajJedenRuchPrzod(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2);
-int wykonajJedenRuchTyl(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2);
-char wykonajObrot90Lewo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, Servo servo1, Servo servo2);
-char wykonajObrot90Prawo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, Servo servo1, Servo servo2);
-
 //Funkcje ruchu ciglego przydatne dla kontroli zdalnej
 void jedzProsto(Servo servo1, Servo servo2);
 void skrecajWLewo(Servo servo1, Servo servo2);
@@ -93,9 +86,18 @@ void glowaPrawo(Servo servo3);
 //Funkcja odczytu danych z czujnikow otoczenia
 double skanujSensor(int iR);
 
-//Funkcje tworzce map (Maciej)
-int sprawdzOdlegloscIZaznacz(double odleglosc, int miejsceRobota, char pozycjaCzujnika, Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
+//Funkcja emitowania sygnalu dzwiekowego
+void beep(unsigned char delayms);
+
+//Funkcje ruchu skokowego przydatne dla kontroli automatycznej
+int wykonajJedenRuchPrzod(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2);
+int wykonajJedenRuchTyl(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2);
+char wykonajObrot90Lewo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, Servo servo1, Servo servo2);
+char wykonajObrot90Prawo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, Servo servo1, Servo servo2);
+
+//Funkcje tworzace mape
 void inicjujMape(int rozmiarMapy, int rozmiarBoku, int miejsceRobota, char pozycjaRobota, Wezel mapa[]);
+int sprawdzOdlegloscIZaznacz(double odleglosc, int miejsceRobota, char pozycjaCzujnika, Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
 bool skanujZaznaczMape(int miejsceRobota, char pozycjaCzujnikaPrzod, Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
 int zaznacz1Gora(int miejsceRobota, int rozmiarBoku);
 int zaznacz2Gora(int miejsceRobota, int rozmiarBoku);
@@ -117,13 +119,14 @@ void czyscDol(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmia
 //Funkcje samodzielnej jazdy robota
 void ustalSasiadow(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
 void wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]);
-bool wystapilWTablicy(int tablica[], int element, int rozmiarTablicy);
 Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2);
 int wyznaczCel(Wezel tablica[]);
 
 //Funkcje pomocnicze
+bool wystapilWTablicy(int tablica[], int element, int rozmiarTablicy);
 bool czyWezelJestSciana(Wezel tablica[], int badanyWezel, int rozmiarTablicy, int rozmiarBoku);
 
+//Pisanie na port szeregowy
 //void wyslijTablice(Wezel tablica[], int rozmiarTablicy);
 void wyslijStringJson(Wezel tablica[], int rozmiarTablicy);
 
