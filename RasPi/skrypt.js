@@ -2,25 +2,20 @@
 /*global io: false */
 $(document).ready(function () {
     'use strict';
-    var socket = io.connect();
+var socket = io.connect();
 
-        var rozmiar = 700;
-        var robotX = 301, robotY = 301;
-        var robotHeadX = robotX+10, robotHeadY = robotY-3;
+var counter = 0;
 
-        var robotLIRX = robotX-3, robotLIRY = robotY+27;
-        var robotRIRX = robotX+41, robotRIRY = robotY+12;
-        var robotHIRX = robotX+13, robotHIRY = robotY-3;
-        
-
-
-
+//--------------------------------------
+var rozmiar = 700;
 var paper = Raphael(mapa, rozmiar, rozmiar);
+var robot;
+var robotHIR, robotLIR, robotRIR; 
+var timeForward = 1170;
+var timeRotate = 500;
 
 
-
-
-function draw(){        
+function drawLines(){        
         var liniePoziom = paper.path("M 0 0 l "+ rozmiar +" 0 ");
         var liniePion = paper.path("M 0 0 l 0 "+ rozmiar);  
         for(var i = 0; i < 1000; i+=20) {
@@ -28,23 +23,75 @@ function draw(){
                 liniePion = paper.path("M"+i+" 0 l 0 "+rozmiar);  
                 liniePoziom.attr({stroke: 'white', 'stroke-width': 1});
                 liniePion.attr({stroke: 'white', 'stroke-width': 1});                
-        }
-        var robot = paper.path("M "+ robotX +" "+ robotY +" l 0 38 l 38 0 l 0 -38 z"); 
-        robot.attr({fill: '#B30000', stroke: 'green', 'stroke-width': 2}); 
-
-        //var robotHead = paper.path("M "+ robotHeadX+" "+ robotHeadY +"  l 5 0 l 0 -3.5 l 0 3.5 l 10 0 l 0 -3.5 l 0 3.5 l 5 0");
-        //robotHead.attr({stroke: 'green', 'stroke-width': 3});
-        
-        var robotHIR = paper.path("M "+ robotHIRX+" "+ robotHIRY +   "  l 4 0 l 0 -3.5 l 0 3.5 l 6 0 l 0 -3.5 l 0 3.5 l 4 0");
-        robotHIR.attr({stroke: 'green', 'stroke-width': 3});
-
-        var robotLIR = paper.path("M "+ robotLIRX+" "+ robotLIRY+"l 0 -4 l -3.5 0 l  3.5 0 l 0 -6 l -3.5 0 l 3.5 0 l 0 -4");
-        robotLIR.attr({stroke: 'green', 'stroke-width': 3});
-        
-        var robotRIR = paper.path("M "+ robotRIRX+" "+ robotRIRY+"l 0 4 l 3.5 0 l  -3.5 0 l 0 6 l 3.5 0 l -3.5 0 l 0 4");
-        robotRIR.attr({stroke: 'green', 'stroke-width': 3});        
+        }      
 }
 
+function drawBlock(nrX, nrY){           	       	
+	var block = paper.rect(nrX*40, nrY*40, 40, 40, 4);
+        block.attr("fill", "blue");
+        block.attr("stroke", "#fff");
+        
+}
+
+function drawRobot(nrX, nrY, obrot){  
+	
+	var robotX = nrX*40;
+	var robotY = nrY*40;
+        var robotLIRX = robotX-3+5, robotLIRY = robotY+33;
+        var robotRIRX = robotX+41-5, robotRIRY = robotY+19;
+        var robotHIRX = robotX+12, robotHIRY = robotY-3+5;
+        
+	
+
+	robot = paper.rect(robotX+4, robotY+4, 30, 34, 5);       
+	robot.attr({fill: '#B30000', stroke: 'green', 'stroke-width': 2}); 
+        
+        robotHIR = paper.path("M "+ robotHIRX+" "+ robotHIRY +   "  l 4 0 l 0 -3.5 l 0 3.5 l 6 0 l 0 -3.5 l 0 3.5 l 4 0");
+        robotHIR.attr({stroke: 'green', 'stroke-width': 3});
+
+        robotLIR = paper.path("M "+ robotLIRX+" "+ robotLIRY+"l 0 -4 l -3.5 0 l  3.5 0 l 0 -6 l -3.5 0 l 3.5 0 l 0 -4");
+        robotLIR.attr({stroke: 'green', 'stroke-width': 3});
+        
+        robotRIR = paper.path("M "+ robotRIRX+" "+ robotRIRY+"l 0 4 l 3.5 0 l  -3.5 0 l 0 6 l 3.5 0 l -3.5 0 l 0 4");
+        robotRIR.attr({stroke: 'green', 'stroke-width': 3});  
+        
+	if(obrot == 4){ //obrot w lewo
+		robot.transform("t2,-1r-90");
+		robotHIR.transform("t-18,20r-90");
+		robotLIR.transform("t26,12r-90");
+		robotRIR.transform("t-12,-25r-90");
+	}
+        
+	else if(obrot == 2){ //obrot 180
+		robot.transform("t1,-2rr-180");
+		robotHIR.transform("t1,39r-180");
+		robotLIR.transform("t38,-11r-180");
+		robotRIR.transform("t-36,-11r-180");
+	}
+	else if(obrot == 6){ //obrot w prawo
+		robot.transform("t0,-1r90");
+		robotHIR.transform("t20,20r90");
+		robotLIR.transform("t13,-24r90");
+		robotRIR.transform("t-25,12r90");
+	}
+}
+function removeRobot(){  
+	robot.remove();
+	robotHIR.remove();
+	robotLIR.remove();
+	robotRIR.remove();      
+}
+
+function moveRobot(){
+
+	
+	robot.animate({transform: "t0,-40"}, timeForward);
+	robotHIR.animate({transform: "t0,-40"}, timeForward);
+	robotLIR.animate({transform: "t0,-40"}, timeForward);
+	robotRIR.animate({transform: "t0,-40"}, timeForward);
+	
+
+} 
 
 //--------------------------------------------------------------- obs³uga odpowiedzi serwera
     socket.on('testServer', function( dane ){
@@ -67,24 +114,47 @@ function draw(){
                         $("#d3").css( { "background-color": "red" } );
                 }
                 
-                
-                
+		//tymczasowe czyszczenie koncowych znakow
+		dane = setCharAt(dane, 100, 't');
+		dane = setCharAt(dane, 101, 't');
+		dane = setCharAt(dane, 102, 't');
+		 
+	
                 $("#dane").empty();//czyszczenie okienka komunikatow
                 for (var i=0; i<dane.length; i++) {//tablica w okienku komunikatow                    
-					if (i%10 === 0) {
-						if(i>1) $("#dane").append("<br>");
+			if (i%10 === 0) {
+				if(i>1) $("#dane").append("<br>");
                                 $("#dane").append(dane.charAt(i));
                         } else {
-                $("#dane").append(dane.charAt(i));
-            }
-        }
-                
-                
-                
-                drawBlock();
-                draw();
-                
-        });
+                		$("#dane").append(dane.charAt(i));
+            		}
+        	}
+ 
+
+
+		//drawing
+		drawLines();               
+                var drawX=0, drawY=-1;
+		for(var i=0; i<dane.length; i++){			
+			if (i%10 === 0) {
+				drawX=0;
+				drawY++;
+                        } else {
+ 				drawX++;
+            		}
+			if( (dane.charAt(i)=== "x" ) || (dane.charAt(i)==="P") || (dane.charAt(i)===  "L") ) drawBlock(drawX, drawY);
+			if( (dane.charAt(i)==="8") || (dane.charAt(i)==="4") || (dane.charAt(i)==="2") || (dane.charAt(i)==="6") ){
+				if(counter>0) removeRobot();		
+				
+				drawRobot(drawX, drawY, dane.charAt(i));
+				//moveRobot();
+			}
+		}              
+               
+		
+		
+        counter++;        
+        });//socket.on 'testRobot'
 
         
 //------------------------------------------------------------------
@@ -97,35 +167,36 @@ function draw(){
 		.on( "mousedown", function() {
 			$(this).css( { "background-color": "blue" } );
 			socket.emit('jazda', 'W');
+			socket.emit('jazda', '5');
 			console.log('wcisniete W');
 		 })
 		.on( "mouseup", function() {
 			$(this).css( { "background-color": "red" } );
-			//socket.emit('jazda', '3');
 			console.log('niewcisniete W');
+			
 		});
 	
 	$("#a")
 		.on( "mousedown", function() {
 			$(this).css( { "background-color": "blue" } );
 			socket.emit('jazda', 'A');
+			socket.emit('jazda', '5');
 			console.log('wcisniete A');
 		 })
 		.on( "mouseup", function() {
 			$(this).css( { "background-color": "red" } );
-			//socket.emit('jazda', '3');
 			console.log('niewcisniete A');
-		});//robotHead.rotate(50,robotHeadX+20,robotHeadY);
+		});
 	
 	$("#s")
 		.on( "mousedown", function() {
 			$(this).css( { "background-color": "blue" } );
 			socket.emit('jazda', 'S');
+			socket.emit('jazda', '5');
 			console.log('wcisniete S');
 		 })
 		.on( "mouseup", function() {
 			$(this).css( { "background-color": "red" } );
-			//socket.emit('jazda', '3');
 			console.log('niewcisniete S');
 		});
 	
@@ -133,11 +204,11 @@ function draw(){
 		.on( "mousedown", function() {
 			$(this).css( { "background-color": "blue" } );
 			socket.emit('jazda', 'D');
+			socket.emit('jazda', '5');
 			console.log('wcisniete D');
 		 })
 		 .on( "mouseup", function() {
 			$(this).css( { "background-color": "red" } );
-			//socket.emit('jazda', '3');
 			console.log('niewcisniete D');
 		});
 		
@@ -269,13 +340,14 @@ function draw(){
 
         });
         
-//---------------------------------------------------------------------
-        
-function drawBlock(){        
-        paper.clear();        
-        var block = paper.rect(0, 0, 40, 40, 2);
-        block.attr("fill", "blue");
-        block.attr("stroke", "#fff");
-        
+//---------------------------------------------------------------------funkcje pomocnicze
+function setCharAt(str, index, chr){// funkcja do zamiany znaku stringu
+	if(index > str.length-1) return str;
+	return str.substr(0,index) + chr + str.substr(index+1);
 }        
+
+
+
+
+        
 });
