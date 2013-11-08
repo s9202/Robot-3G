@@ -1,13 +1,12 @@
-
 Dioda 1: 	zielona po otrzymaniu odpowiedzi z serwera
-			bia³a gdy nie otrzyma odpowiedzi serwera
+			biaï¿½a gdy nie otrzyma odpowiedzi serwera
 			
-Dioda 2:	zielona gdy otrzyma JSON z serwera (ma³o istotne)
+Dioda 2:	zielona gdy otrzyma JSON z serwera (maï¿½o istotne)
 
-Dioda 3:	czerwona gdy robot zgas³
-			zielona gdy robot œwieci
+Dioda 3:	czerwona gdy robot zgasï¿½
+			zielona gdy robot ï¿½wieci
 
-Arduino otrzymuje Stringi inforumuj¹ce co ma zrobiæ:
+Arduino otrzymuje Stringi inforumujï¿½ce co ma zrobiï¿½:
 
 przodON
 przodOFF
@@ -18,19 +17,19 @@ tylOFF
 prawoON
 prawoOFF
 
-Serwer wysy³a znak do Arduino okreœlaj¹cy co mazrobiæ z diod¹:  (tymczasowe)
+Serwer wysyï¿½a znak do Arduino okreï¿½lajï¿½cy co mazrobiï¿½ z diodï¿½:  (tymczasowe)
 
-0 - wy³¹cz diodê
-1 - zaœwieæ diodê
+0 - wyï¿½ï¿½cz diodï¿½
+1 - zaï¿½wieï¿½ diodï¿½
 
-Arduino wysy³a Stringi przez JSON do serwera a ten do klienta
+Arduino wysyï¿½a Stringi przez JSON do serwera a ten do klienta
 
-DIODA SWIECI 						- zapala diodê 3 na zielono
+DIODA SWIECI 						- zapala diodï¿½ 3 na zielono
 dioda JSON	 						- gasi diode na bialo (tylko przy uruchomieniu strony
-DIODA GASNIE lub ka¿dy innyString 	- zapala diode 3 na czerwono
+DIODA GASNIE lub kaï¿½dy innyString 	- zapala diode 3 na czerwono
 
 
-aJSON boblioteka dla Arduino: (raczej zbêdne)
+aJSON boblioteka dla Arduino: (raczej zbï¿½dne)
 http://interactive-matter.eu/blog/2010/08/14/ajson-handle-json-with-arduino/
 
 przygotowanie Arduino i Rapsberry Pi:
@@ -43,26 +42,39 @@ github.com/s9202/Robot-Wifi/
 github.com/s8145/Robot-3G/
 
 Komunikacja Arduino - Raspberry Pi
-znaki sygna³ów:
+znaki sygnaï¿½ï¿½w:
 '0' - tryb manualny (robot czeka na polecenia)
-'1' - tryb automatyczny (robot samodzielnie dzia³a, przerwaæ mo¿na tylko zmian¹ trybu)
+'1' - tryb automatyczny (robot samodzielnie dziaï¿½a, przerwaï¿½ moï¿½na tylko zmianï¿½ trybu)
 'w' - ruch do przodu
 'a' - ruch w lewo
-'s' - ruch do ty³u
+'s' - ruch do tyï¿½u
 'd' - ruch w prawo
 'W' - ruch skok do przodu - guziki interfejsu
 'A' - ruch skok w lewo - guziki interfejsu
-'S' - ruch skok do ty³u - guziki interfejsu
+'S' - ruch skok do tyï¿½u - guziki interfejsu
 'D' - ruch skok w prawo - guziki interfejsu
-'q' - obrót g³owy w lewo
-'e' - obrót g³owy w prawo
-'3' - zatrzymanie ka¿dego ruchu kó³
-'4' - zatrzymanie ka¿dego ruchu g³owy
+'q' - obrï¿½t gï¿½owy w lewo
+'e' - obrï¿½t gï¿½owy w prawo
+'3' - zatrzymanie kaï¿½dego ruchu kï¿½
+'4' - zatrzymanie kaï¿½dego ruchu gï¿½owy
 
 znaki tablicy mapy:
 'o' - puste pole
-'x' - zajête pole (œciana)
-'8' - miejsce robota przodem do góry
+'x' - zajï¿½te pole (ï¿½ciana)
+'8' - miejsce robota przodem do gï¿½ry
 '6' - miejsce robota przodem w prawo
 '4' - miejsce robota przodem w lewo
-'2' - miejsce robota przodem w dó³
+'2' - miejsce robota przodem w dï¿½
+
+
+ZASADY PISANIA KODU:
+- trzymamy siÄ™ zasad niezaleÅ¼nie od Å›rodowiska w ktÃ³rym piszemy
+- kodujemy utf-8
+- wciÄ™cia robimy tabulacjami, a nie spacjami
+- kaÅ¼da funkcja, klasa, struktura, staÅ‚a musi posiadaÄ‡ powyÅ¼ej komentarz opisujÄ…cy dziaÅ‚anie, parametry i zwracanÄ… wartoÅ›Ä‡
+- kaÅ¼de wyraÅ¼enie obejmujemy klamrami { }, nawet if ktÃ³ry ma jednÄ… instrukcjÄ™ if(){}
+- nazwy klas, struktur rozpoczynamy wielkÄ… literÄ…
+- nazwy staÅ‚ych piszemy WIELKIMI_LITERAMI
+- nazwy zmiennych i funkcji piszemy wStyluCamelCase, pamiÄ™tajÄ…c Å¼e rozpoczyna siÄ™ maÅ‚Ä… literÄ…
+- unikamy zmiennych globalnych
+- kaÅ¼dÄ… zmiennÄ… przekazujemy do funkcji w parametrze
