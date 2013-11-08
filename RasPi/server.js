@@ -88,7 +88,7 @@ socket.on('connection', function( client ) {
                            
                         var daneArduino = JSON.parse( dane );
 //                        console.log('Mapa odebrana od arduino: ' + daneArduino.mapa);
-                        client.emit( 'testRobot', daneArduino.mapa);
+                        client.emit( 'testRobot', daneArduino);
                         var linia = '';
                         for (var i=0; i<daneArduino.mapa.length; i++) {
                         
