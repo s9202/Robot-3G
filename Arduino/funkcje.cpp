@@ -46,6 +46,19 @@ void glowaPrawo(Servo servo3) {
 	servo3.write(135);
 }
 
+double skanujSensor(int iR) {
+	double volts = analogRead(iR)*0.004692082;   
+	double odlegloscZmierzona =(14.925-(1.5*volts))/(volts+0.05);  
+	return odlegloscZmierzona;
+}
+
+void beep(unsigned char delayms) {
+	analogWrite(11, 20);     
+	delay(delayms);         
+	analogWrite(11, 0);   
+	delay(delayms);         
+} 
+
 int wykonajJedenRuchPrzod(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2) {
 
 	//Tutaj kod serwomechanizmów	
@@ -127,10 +140,22 @@ char wykonajObrot90Prawo(Wezel tablica[], int miejsceRobota, char pozycjaRobota,
 	return pozycjaRobota;
 }
 
-double skanujSensor(int iR) {
-	double volts = analogRead(iR)*0.004692082;   
-	double odlegloscZmierzona =(14.925-(1.5*volts))/(volts+0.05);  
-	return odlegloscZmierzona;
+void inicjujMape(int rozmiarMapy, int rozmiarBoku, int miejsceRobota, char pozycjaRobota, Wezel tablica[]) {
+	for (int i=0; i<rozmiarBoku; i++) {
+		tablica[i].rodzajWezla = ZNAK_SCIANA;
+	}
+	for (int i=rozmiarBoku; i<rozmiarMapy-rozmiarBoku; i++) {
+		if (i%rozmiarBoku == 0 || i%rozmiarBoku == rozmiarBoku - 1) {
+			tablica[i].rodzajWezla = ZNAK_SCIANA;
+		} else {
+			tablica[i].rodzajWezla = ZNAK_WOLNE;
+		}
+	}
+	for (int i=rozmiarMapy-rozmiarBoku; i<rozmiarMapy; i++) {
+		tablica[i].rodzajWezla = ZNAK_SCIANA;
+	}
+	miejsceRobota = (rozmiarMapy + rozmiarBoku) /2;
+	tablica[miejsceRobota].rodzajWezla = pozycjaRobota;
 }
 
 
@@ -168,24 +193,6 @@ int sprawdzOdlegloscIZaznacz(double odleglosc, int miejsceRobota, char pozycjaCz
 		}
 		return miejsceRobota;
 	}
-}
-
-void inicjujMape(int rozmiarMapy, int rozmiarBoku, int miejsceRobota, char pozycjaRobota, Wezel tablica[]) {
-	for (int i=0; i<rozmiarBoku; i++) {
-		tablica[i].rodzajWezla = ZNAK_SCIANA;
-	}
-	for (int i=rozmiarBoku; i<rozmiarMapy-rozmiarBoku; i++) {
-		if (i%rozmiarBoku == 0 || i%rozmiarBoku == rozmiarBoku - 1) {
-			tablica[i].rodzajWezla = ZNAK_SCIANA;
-		} else {
-			tablica[i].rodzajWezla = ZNAK_WOLNE;
-		}
-	}
-	for (int i=rozmiarMapy-rozmiarBoku; i<rozmiarMapy; i++) {
-		tablica[i].rodzajWezla = ZNAK_SCIANA;
-	}
-	miejsceRobota = (rozmiarMapy + rozmiarBoku) /2;
-	tablica[miejsceRobota].rodzajWezla = pozycjaRobota;
 }
 
 bool skanujZaznaczMape(int miejsceRobota, char pozycjaCzujnikaPrzod, Wezel tablica[], int rozmiarTablicy, int rozmiarBoku) {
@@ -454,19 +461,6 @@ void wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]) {
 	}
 }
 
-//Sprawdzenie czy podany element wystpil w tablicy
-bool wystapilWTablicy(int tablica[], int element, int rozmiarTablicy) {
-	bool jestWTablicy = false;
-	int i = 0;
-	do {
-		if (tablica[i] == element)
-			jestWTablicy = true;
-		i++;
-	} while (jestWTablicy == false && i < rozmiarTablicy);
-	
-	return jestWTablicy;
-}
-
 //Wykonanie jednego ruchu do celu zgodnie z wyznaczona trasa
 Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2) {
 	Robot robot;
@@ -593,6 +587,19 @@ int wyznaczCel(Wezel tablica[]) {
 	return cel;
 }
 
+//Sprawdzenie czy podany element wystpil w tablicy
+bool wystapilWTablicy(int tablica[], int element, int rozmiarTablicy) {
+	bool jestWTablicy = false;
+	int i = 0;
+	do {
+		if (tablica[i] == element)
+			jestWTablicy = true;
+		i++;
+	} while (jestWTablicy == false && i < rozmiarTablicy);
+	
+	return jestWTablicy;
+}
+
 bool czyWezelJestSciana(Wezel tablica[], int badanyWezel, int rozmiarTablicy, int rozmiarBoku) {
 	if (tablica[badanyWezel].rodzajWezla == ZNAK_SCIANA && badanyWezel > rozmiarBoku && badanyWezel < rozmiarTablicy - rozmiarBoku && badanyWezel%rozmiarBoku != 0 && badanyWezel%rozmiarBoku != rozmiarBoku - 1) {
 		return true;
@@ -619,9 +626,3 @@ void wyslijStringJson(Wezel tablica[], int rozmiarTablicy) {
 	Serial.println("{ \"mapa\":\"" +String(tablicaChar)+ "\" }");
 }
 
-void beep(unsigned char delayms){
-	analogWrite(11, 20);     
-	delay(delayms);         
-	analogWrite(11, 0);   
-	delay(delayms);         
-} 
