@@ -127,9 +127,11 @@ void loop() {
 				zatrzymajGlowe(servo3);
 				break;
 			case (SKAN_MAN):
-				skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-				//wyslijTablice(mapa, ROZMIAR_MAPY);
-				wyslijStringJson(mapa, ROZMIAR_MAPY);
+				if (!jestTrybAuto) {
+					skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+					//wyslijTablice(mapa, ROZMIAR_MAPY);
+					wyslijStringJson(mapa, ROZMIAR_MAPY);
+				}
 				break;
 		}
 		//Dla trybu auto rozpoczęcie samodzielnego badania terenu
