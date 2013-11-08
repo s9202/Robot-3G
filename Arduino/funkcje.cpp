@@ -184,7 +184,7 @@ void inicjujMape(int rozmiarMapy, int rozmiarBoku, int miejsceRobota, char pozyc
 		tablica[i].rodzajWezla = ZNAK_SCIANA;
 	}
 	for (int i=rozmiarBoku; i<rozmiarMapy-rozmiarBoku; i++) {
-		if (i%10 == 0 || i%10 == 9) {
+		if (i%rozmiarBoku == 0 || i%rozmiarBoku == rozmiarBoku - 1) {
 			tablica[i].rodzajWezla = ZNAK_SCIANA;
 		} else {
 			tablica[i].rodzajWezla = ZNAK_WOLNE;
