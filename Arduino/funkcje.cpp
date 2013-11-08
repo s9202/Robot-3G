@@ -127,8 +127,8 @@ char wykonajObrot90Prawo(Wezel tablica[], int miejsceRobota, char pozycjaRobota,
 	return pozycjaRobota;
 }
 
-double skanujSensor(int Ir) {
-	double volts = analogRead(Ir)*0.004692082;   
+double skanujSensor(int iR) {
+	double volts = analogRead(iR)*0.004692082;   
 	double odlegloscZmierzona =(14.925-(1.5*volts))/(volts+0.05);  
 	return odlegloscZmierzona;
 }
