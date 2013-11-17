@@ -105,8 +105,8 @@ function moveRobot(){
     });
         
         socket.on('testRobot', function( dane ) {
-                var =  daneArduinoSerwera = dane;
-                var = daneMapy = daneArduinoSerwera.mapa;
+                var daneArduinoSerwera = dane;
+                var daneMapy = daneArduinoSerwera.mapa;
                 console.log('from skrypt'+ daneMapy );
                 if (daneMapy) {
                         $("#d3").css( { "background-color": "green" } );
