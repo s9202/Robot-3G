@@ -622,7 +622,8 @@ void wyslijStringJson(Wezel tablica[], int rozmiarTablicy) {
 	for (int i = 0; i < rozmiarTablicy; i++) {
 		tablicaChar[i] = tablica[i].rodzajWezla;
 	}
+	String tablicaString = String(tablicaChar);
 
-	Serial.println("{ \"mapa\":\"" +String(tablicaChar)+ "\" }");
+	Serial.println("{ \"mapa\":\"" +tablicaString+ "\" }");
 }
 
