@@ -116,9 +116,9 @@ function moveRobot(){
                 }
                 
 		//tymczasowe czyszczenie koncowych znakow
-		daneMapy = setCharAt(dane, 100, 't');
-		daneMapy = setCharAt(dane, 101, 't');
-		daneMapy = setCharAt(dane, 102, 't');
+		//daneMapy = setCharAt(dane, 100, 't');
+		//daneMapy = setCharAt(dane, 101, 't');
+		//daneMapy = setCharAt(dane, 102, 't');
 		 
 	
                 $("#dane").empty();//czyszczenie okienka komunikatow
