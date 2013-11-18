@@ -140,7 +140,7 @@ char wykonajObrot90Prawo(Wezel tablica[], int miejsceRobota, char pozycjaRobota,
 	return pozycjaRobota;
 }
 
-void inicjujMape(int rozmiarMapy, int rozmiarBoku, int miejsceRobota, char pozycjaRobota, Wezel tablica[]) {
+int inicjujMape(int rozmiarMapy, int rozmiarBoku, int miejsceRobota, char pozycjaRobota, Wezel tablica[]) {
 	for (int i=0; i<rozmiarBoku; i++) {
 		tablica[i].rodzajWezla = ZNAK_SCIANA;
 	}
@@ -156,6 +156,7 @@ void inicjujMape(int rozmiarMapy, int rozmiarBoku, int miejsceRobota, char pozyc
 	}
 	miejsceRobota = (rozmiarMapy + rozmiarBoku) /2;
 	tablica[miejsceRobota].rodzajWezla = pozycjaRobota;
+	return miejsceRobota;
 }
 
 

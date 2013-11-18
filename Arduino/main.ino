@@ -49,7 +49,7 @@ void setup() {
 	Serial.begin(9600);                //Uruchomienie USB serialport z prędkością 9600
 
 	//Tworzenie mapy początkowej
-	inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
+	miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
 	wyslijStringJson(mapa, ROZMIAR_MAPY);
 }
 
