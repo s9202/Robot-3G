@@ -36,7 +36,7 @@ const char PRZODEM_DOL = '2';
 
 //Znaki wykorzystywane do wyswietlania mapy
 const char ZNAK_SCIANA = 'x';
-const char ZNAK_WOLNE = ' ';
+const char ZNAK_WOLNE = '0';
 const char ZNAK_TRASA = '.';
 const char ZNAK_CEL = 'C';
 
