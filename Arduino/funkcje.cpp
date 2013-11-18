@@ -618,12 +618,18 @@ void wyslijTablice(char tablica[], int rozmiarTablicy) {
 }
 */
 void wyslijStringJson(Wezel tablica[], int rozmiarTablicy) {
-	char tablicaChar[ROZMIAR_MAPY];
-	for (int i = 0; i < rozmiarTablicy; i++) {
-		tablicaChar[i] = tablica[i].rodzajWezla;
-	}
-	String tablicaString = String(tablicaChar);
+//	char tablicaChar[ROZMIAR_MAPY];
+//	for (int i = 0; i < rozmiarTablicy; i++) {
+//		tablicaChar[i] = tablica[i].rodzajWezla;
+//	}
+//	String tablicaString = String(tablicaChar);
 
-	Serial.println("{ \"mapa\":\"" +tablicaString+ "\" }");
+	Serial.print("{\"mapa\":\"");
+	for (int i = 0; i < rozmiarTablicy; i++) {
+		Serial.print(tablica[i].rodzajWezla);
+	}
+	Serial.print("\"}");
+	Serial.println();
+	//Serial.println("{\"mapa\":\"" +tablicaString+ "\"}");
 }
 
