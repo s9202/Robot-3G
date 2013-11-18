@@ -134,66 +134,66 @@ void loop() {
 				}
 				break;
 		}
-		//Dla trybu auto rozpoczęcie samodzielnego badania terenu
-		if (jestTrybAuto) {
-			if (osiagnietoCel) { //przed ustawieniem celu skanowanie otoczenia
-				wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-				wyslijStringJson(mapa, ROZMIAR_MAPY);
-				pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
-				
-				wyslijStringJson(mapa, ROZMIAR_MAPY);
-				wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-				
-				wyslijStringJson(mapa, ROZMIAR_MAPY);
-				cel = wyznaczCel(mapa);
-				
-				wyslijStringJson(mapa, ROZMIAR_MAPY);
-				osiagnietoCel = false;
-				wykrytoElement = true;
-				jestDroga = false;
-			}
-			if (licznik == LICZBA_REZYGNACJI_CELU) { //po ilu ruchach bez przemieszczenia porzuca cel
+	}
+	//Dla trybu auto rozpoczęcie samodzielnego badania terenu
+	if (jestTrybAuto) {
+		if (osiagnietoCel) { //przed ustawieniem celu skanowanie otoczenia
+			wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+			wyslijStringJson(mapa, ROZMIAR_MAPY);
+			pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
+			
+			wyslijStringJson(mapa, ROZMIAR_MAPY);
+			wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+			
+			wyslijStringJson(mapa, ROZMIAR_MAPY);
+			cel = wyznaczCel(mapa);
+			
+			wyslijStringJson(mapa, ROZMIAR_MAPY);
+			osiagnietoCel = false;
+			wykrytoElement = true;
+			jestDroga = false;
+		}
+		if (licznik == LICZBA_REZYGNACJI_CELU) { //po ilu ruchach bez przemieszczenia porzuca cel
+			osiagnietoCel = true;
+		}
+		if (!osiagnietoCel && wykrytoElement && !jestDroga) {
+			pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
+			
+			wyslijStringJson(mapa, ROZMIAR_MAPY);
+			ustalSasiadow(mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+			wyznaczTrase(miejsceRobota, cel, mapa);
+			
+			wyslijStringJson(mapa, ROZMIAR_MAPY);
+			wykrytoElement = false;
+			jestDroga = true;
+		}
+		if (!osiagnietoCel && !wykrytoElement && jestDroga) {
+			Robot robot;
+			robot = wykonajRuchDoCelu(mapa, miejsceRobota, pozycjaRobota, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, servo1, servo2);
+			if (robot.miejsceRobota == cel) {
 				osiagnietoCel = true;
+				licznik = 0;
 			}
-			if (!osiagnietoCel && wykrytoElement && !jestDroga) {
+			if (miejsceRobota == robot.miejsceRobota) {
+				jestDroga = false;
 				pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
 				
 				wyslijStringJson(mapa, ROZMIAR_MAPY);
-				ustalSasiadow(mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-				wyznaczTrase(miejsceRobota, cel, mapa);
-				
-				wyslijStringJson(mapa, ROZMIAR_MAPY);
-				wykrytoElement = false;
-				jestDroga = true;
+				licznik++;
+			} else {
+				licznik = 0;
 			}
-			if (!osiagnietoCel && !wykrytoElement && jestDroga) {
-				Robot robot;
-				robot = wykonajRuchDoCelu(mapa, miejsceRobota, pozycjaRobota, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, servo1, servo2);
-				if (robot.miejsceRobota == cel) {
-					osiagnietoCel = true;
-					licznik = 0;
-				}
-				if (miejsceRobota == robot.miejsceRobota) {
+			miejsceRobota = robot.miejsceRobota;
+			pozycjaRobota = robot.pozycjaRobota;
+			
+			wyslijStringJson(mapa, ROZMIAR_MAPY);
+			if (!osiagnietoCel) {
+				wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+				if (wykrytoElement) {
 					jestDroga = false;
-					pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
-					
-					wyslijStringJson(mapa, ROZMIAR_MAPY);
-					licznik++;
-				} else {
-					licznik = 0;
 				}
-				miejsceRobota = robot.miejsceRobota;
-				pozycjaRobota = robot.pozycjaRobota;
 				
 				wyslijStringJson(mapa, ROZMIAR_MAPY);
-				if (!osiagnietoCel) {
-					wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-					if (wykrytoElement) {
-						jestDroga = false;
-					}
-					
-					wyslijStringJson(mapa, ROZMIAR_MAPY);
-				}
 			}
 		}
 	}
