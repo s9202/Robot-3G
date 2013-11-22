@@ -70,21 +70,25 @@ void loop() {
 				break;
 			case (JAZDA_PRZOD):
 				if (!jestTrybAuto) {
+					miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
 					jedzProsto(servo1, servo2);
 				}
 				break;
 			case (JAZDA_LEWO):
 				if (!jestTrybAuto) {
+					miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
 					skrecajWLewo(servo1, servo2);
 				}
 				break;
 			case (JAZDA_PRAWO):
 				if (!jestTrybAuto) {
+					miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
 					skrecajWPrawo(servo1, servo2);
 				}
 				break;
 			case (JAZDA_TYL):
 				if (!jestTrybAuto) {
+					miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
 					jedzDoTylu(servo1, servo2);
 				}
 				break;
