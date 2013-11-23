@@ -141,63 +141,86 @@ void loop() {
 	}
 	//Dla trybu auto rozpoczęcie samodzielnego badania terenu
 	if (jestTrybAuto) {
-		if (osiagnietoCel) { //przed ustawieniem celu skanowanie otoczenia
-			wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-			wyslijStringJson(mapa, ROZMIAR_MAPY);
-			pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
+		//Ustawienie celu. Przed ustawieniem celu skanowanie otoczenia
+		if (osiagnietoCel) {
+			//W sumie niepotrzebne jest skanowanie przy wyznaczaniu celu
+			//wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+			//wyslijStringJson(mapa, ROZMIAR_MAPY);
+			//
+			//pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
+			//wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+			//wyslijStringJson(mapa, ROZMIAR_MAPY);
 			
-			wyslijStringJson(mapa, ROZMIAR_MAPY);
-			wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-			
-			wyslijStringJson(mapa, ROZMIAR_MAPY);
 			cel = wyznaczCel(mapa);
-			
+			printf("Tablica po wyznaczeniu celu");
 			wyslijStringJson(mapa, ROZMIAR_MAPY);
+			
 			osiagnietoCel = false;
 			wykrytoElement = true;
 			jestDroga = false;
 		}
-		if (licznik == LICZBA_REZYGNACJI_CELU) { //po ilu ruchach bez przemieszczenia porzuca cel
+		//Po ilu ruchach bez przemieszczenia porzuca cel
+		if (licznik == LICZBA_REZYGNACJI_CELU) {
 			osiagnietoCel = true;
 		}
+		//Wyznaczenie trasy
 		if (!osiagnietoCel && wykrytoElement && !jestDroga) {
-			pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
-			
+			wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+			printf("Wyznaczenie trasy skan poczatek");
 			wyslijStringJson(mapa, ROZMIAR_MAPY);
+
+			pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
+			wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+			printf("Wyznaczenie trasy obrot i skan");
+			wyslijStringJson(mapa, ROZMIAR_MAPY);
+			
 			ustalSasiadow(mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
 			wyznaczTrase(miejsceRobota, cel, mapa);
-			
+			printf("Wyznaczenie trasy");
 			wyslijStringJson(mapa, ROZMIAR_MAPY);
+			
 			wykrytoElement = false;
 			jestDroga = true;
 		}
+		//Wykonanie jednego ruchu do celu
 		if (!osiagnietoCel && !wykrytoElement && jestDroga) {
-			Robot robot;
-			robot = wykonajRuchDoCelu(mapa, miejsceRobota, pozycjaRobota, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, servo1, servo2);
-			if (robot.miejsceRobota == cel) {
-				osiagnietoCel = true;
-				licznik = 0;
-			}
-			if (miejsceRobota == robot.miejsceRobota) {
-				jestDroga = false;
-				pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
-				
-				wyslijStringJson(mapa, ROZMIAR_MAPY);
-				licznik++;
-			} else {
-				licznik = 0;
-			}
-			miejsceRobota = robot.miejsceRobota;
-			pozycjaRobota = robot.pozycjaRobota;
-			
+			wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+			printf("Wykonanie ruchu skan początek");
 			wyslijStringJson(mapa, ROZMIAR_MAPY);
-			if (!osiagnietoCel) {
-				wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-				if (wykrytoElement) {
-					jestDroga = false;
+			if (!wykrytoElement) {
+				Robot robot = wykonajRuchDoCelu(mapa, miejsceRobota, pozycjaRobota, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, servo1, servo2);
+				if (robot.miejsceRobota == cel) {
+					osiagnietoCel = true;
+					licznik = 0;
 				}
+				if (miejsceRobota == robot.miejsceRobota) {
+					jestDroga = false;
 				
+					pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
+					wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+					printf("Wykonanie ruchu obrót i skan gdy robot nie zmienił miejsca");
+					wyslijStringJson(mapa, ROZMIAR_MAPY);
+
+					licznik++;
+				} else {
+					licznik = 0;
+				}
+				miejsceRobota = robot.miejsceRobota;
+				pozycjaRobota = robot.pozycjaRobota;
+				printf("Wykonanie ruchu efekt");
 				wyslijStringJson(mapa, ROZMIAR_MAPY);
+
+				if (!osiagnietoCel) {
+					wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+					printf("Wykonanie ruchu skan jesli nie osiagnieto celu");
+					wyslijStringJson(mapa, ROZMIAR_MAPY);
+
+					if (wykrytoElement) {
+						jestDroga = false;
+					}
+				}
+			} else {
+				jestDroga = false;
 			}
 		}
 	}

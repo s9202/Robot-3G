@@ -1,4 +1,4 @@
-Dioda 1: 	zielona po otrzymaniu odpowiedzi z serwera
+﻿Dioda 1: 	zielona po otrzymaniu odpowiedzi z serwera
 			bia�a gdy nie otrzyma odpowiedzi serwera
 			
 Dioda 2:	zielona gdy otrzyma JSON z serwera (ma�o istotne)
@@ -76,5 +76,6 @@ ZASADY PISANIA KODU:
 - nazwy klas, struktur rozpoczynamy wielką literą
 - nazwy stałych piszemy WIELKIMI_LITERAMI
 - nazwy zmiennych i funkcji piszemy wStyluCamelCase, pamiętając że rozpoczyna się małą literą
+- wszystkie nazwy piszemy w języku polskim, nie używamy języka angielskiego
 - unikamy zmiennych globalnych
 - każdą zmienną przekazujemy do funkcji w parametrze
