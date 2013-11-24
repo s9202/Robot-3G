@@ -71,6 +71,7 @@ void loop() {
 				break;
 			case (TRYB_AUTO):
 				jestTrybAuto = true;
+				wyslijStringJson(mapa, ROZMIAR_MAPY);
 				break;
 			case (JAZDA_PRZOD):
 				if (!jestTrybAuto) {
@@ -148,7 +149,6 @@ void loop() {
 		if (osiagnietoCel) {
 			cel = wyznaczCel(mapa, ROZMIAR_BOKU_MAPY, tablicaCelow, ROZMIAR_MAPY);
 			if (cel != BRAK_WEZLA) {
-				printf("Tablica po wyznaczeniu celu");
 				wyslijStringJson(mapa, ROZMIAR_MAPY);
 			
 				osiagnietoCel = false;
@@ -171,10 +171,16 @@ void loop() {
 			wyslijStringJson(mapa, ROZMIAR_MAPY);
 			
 			ustalSasiadow(mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-			wyznaczTrase(miejsceRobota, cel, mapa);
-			wyslijStringJson(mapa, ROZMIAR_MAPY);
-			
-			moznaWykonacRuch = true;
+			bool wyznaczonoTrase = wyznaczTrase(miejsceRobota, cel, mapa);
+			if (wyznaczonoTrase) {
+					wyslijStringJson(mapa, ROZMIAR_MAPY);
+
+					moznaWykonacRuch = true;
+				} else {
+					moznaWykonacRuch = false;
+					osiagnietoCel = true;
+					mapa[cel].rodzajWezla = ZNAK_WOLNE;
+				}
 		}
 		//Wykonanie jednego ruchu do celu
 		if (!osiagnietoCel && moznaWykonacRuch) {

@@ -118,7 +118,7 @@ void czyscDol(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmia
 
 //Funkcje samodzielnej jazdy robota
 void ustalSasiadow(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
-void wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]);
+bool wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]);
 Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2);
 void wybierzCele(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku);
 int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelowNowych[], int rozmiarTablicy);

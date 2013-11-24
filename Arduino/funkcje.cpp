@@ -422,7 +422,8 @@ void ustalSasiadow(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku) {
 }
 
 //wyznaczanie trasy
-void wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]) {
+bool wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]) {
+	bool trasaWyznaczona = false;
 	int tablDoSprawdzenia[ROZMIAR_MAPY];
 
 	int punktSprawdzania = 0;
@@ -449,17 +450,21 @@ void wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]) {
 				}
 			}
 		}
-
 		punktSprawdzania = punktSprawdzania + 1;
-	}
-
-	punktSprawdzania = pPunktWyjscia;
-	while (punktSprawdzania != pPunktWejscia && tablica[punktSprawdzania].numerPoprzednika != BRAK_WEZLA) {
-		punktSprawdzania = tablica[punktSprawdzania].numerPoprzednika;
-		if (punktSprawdzania != pPunktWejscia) {
-			tablica[punktSprawdzania].rodzajWezla = ZNAK_TRASA;
+		if (tablDoSprawdzenia[punktSprawdzania] == pPunktWyjscia) {
+			trasaWyznaczona = true;
 		}
 	}
+	if (trasaWyznaczona) {
+		punktSprawdzania = pPunktWyjscia;
+		while (punktSprawdzania != pPunktWejscia && tablica[punktSprawdzania].numerPoprzednika != BRAK_WEZLA) {
+			punktSprawdzania = tablica[punktSprawdzania].numerPoprzednika;
+			if (punktSprawdzania != pPunktWejscia) {
+				tablica[punktSprawdzania].rodzajWezla = ZNAK_TRASA;
+			}
+		}
+	}
+	return trasaWyznaczona;
 }
 
 //Wykonanie jednego ruchu do celu zgodnie z wyznaczona trasa
