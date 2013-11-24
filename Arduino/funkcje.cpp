@@ -581,10 +581,34 @@ Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, 
 	return robot;
 }
 
+//Wybranie zbioru celów do odkrycia
+void wybierzCele(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku) {
+	tablicaCelowNowych[0] = rozmiarBoku + 1;
+	tablicaCelowNowych[1] = 2*(rozmiarBoku - 1);
+	tablicaCelowNowych[2] = rozmiarTablicy - 2*(rozmiarBoku) + 1;
+	tablicaCelowNowych[3] = rozmiarTablicy - rozmiarBoku - 2;
+	for (int i=4; i<rozmiarTablicy; i++) {
+		tablicaCelowNowych[i] = BRAK_WEZLA;
+	}
+}
+
 //Wyznaczenie nowego celu na mapie dla robota
-int wyznaczCel(Wezel tablica[]) {
-	int cel = 11;
-	tablica[cel].rodzajWezla = ZNAK_CEL;
+int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelowNowych[], int rozmiarTablicy) {
+	int cel = BRAK_WEZLA;
+	int i = 0;
+	bool znalezionoCel = false;
+	do {
+		if (tablicaCelowNowych[i] != 0) {
+			if (tablica[tablicaCelowNowych[i]].rodzajWezla != ZNAK_SCIANA) {
+				cel = tablicaCelowNowych[i];
+				tablica[cel].rodzajWezla = ZNAK_CEL;
+				znalezionoCel = true;
+			}
+			tablicaCelowNowych[i] = 0;
+		}
+		i++;
+	} while (!znalezionoCel || i>rozmiarTablicy);
+
 	return cel;
 }
 

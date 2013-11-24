@@ -15,6 +15,9 @@ int miejsceRobota = 0;
 //Zmienna zawierajaca aktualne miejsce celu na mapie
 int cel;
 
+//Tablica przechowujaca indeksy celow
+int tablicaCelow[ROZMIAR_MAPY];
+
 /*
 *servo1 Kolo lewe?
 *servo2 Kolo prawe?
@@ -50,6 +53,7 @@ void setup() {
 
 	//Tworzenie mapy początkowej
 	miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
+	wybierzCele(tablicaCelow, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
 	wyslijStringJson(mapa, ROZMIAR_MAPY);
 }
 
@@ -142,12 +146,16 @@ void loop() {
 	if (jestTrybAuto) {
 		//Ustawienie celu. Przed ustawieniem celu skanowanie otoczenia
 		if (osiagnietoCel) {
+			cel = wyznaczCel(mapa, ROZMIAR_BOKU_MAPY, tablicaCelow, ROZMIAR_MAPY);
+			if (cel != BRAK_WEZLA) {
+				printf("Tablica po wyznaczeniu celu");
+				wyslijStringJson(mapa, ROZMIAR_MAPY);
 			
-			cel = wyznaczCel(mapa);
-			wyslijStringJson(mapa, ROZMIAR_MAPY);
-			
-			osiagnietoCel = false;
-			moznaWykonacRuch = false;
+				osiagnietoCel = false;
+				moznaWykonacRuch = false;
+			} else {
+				osiagnietoCel = true;
+			}
 		}
 		//Po ilu ruchach bez przemieszczenia porzuca cel
 		if (licznik == LICZBA_REZYGNACJI_CELU) {
