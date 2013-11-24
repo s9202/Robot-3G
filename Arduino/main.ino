@@ -141,6 +141,11 @@ void loop() {
 					wyslijStringJson(mapa, ROZMIAR_MAPY);
 				}
 				break;
+			case (POWROT):
+				if (jestTrybAuto) {
+					cel = wrocNaPoczatek(mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, cel);
+				}
+				break;
 		}
 	}
 	//Dla trybu auto rozpoczęcie samodzielnego badania terenu
@@ -153,6 +158,7 @@ void loop() {
 			
 				osiagnietoCel = false;
 				moznaWykonacRuch = false;
+				licznik = 0;
 			} else {
 				osiagnietoCel = true;
 			}
@@ -173,6 +179,7 @@ void loop() {
 			ustalSasiadow(mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
 			bool wyznaczonoTrase = wyznaczTrase(miejsceRobota, cel, mapa);
 			if (wyznaczonoTrase) {
+					mapa[cel].rodzajWezla = ZNAK_CEL;
 					wyslijStringJson(mapa, ROZMIAR_MAPY);
 
 					moznaWykonacRuch = true;

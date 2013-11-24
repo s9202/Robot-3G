@@ -20,6 +20,7 @@ const char GLOWA_PRAWO = 'e';
 const char JAZDA_STOP = '3';
 const char GLOWA_STOP = '4';
 const char SKAN_MAN = '5';
+const char POWROT = '6';
 
 //Okreslenie rozmiaru boku mapy i wyliczenia mapy
 const int ROZMIAR_BOKU_MAPY = 10;
@@ -96,7 +97,7 @@ char wykonajObrot90Lewo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, 
 char wykonajObrot90Prawo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, Servo servo1, Servo servo2);
 
 //Funkcje tworzace mape
-int inicjujMape(int rozmiarMapy, int rozmiarBoku, int miejsceRobota, char pozycjaRobota, Wezel mapa[]);
+int inicjujMape(int rozmiarTablicy, int rozmiarBoku, int miejsceRobota, char pozycjaRobota, Wezel mapa[]);
 int sprawdzOdlegloscIZaznacz(double odleglosc, int miejsceRobota, char pozycjaCzujnika, Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
 bool skanujZaznaczMape(int miejsceRobota, char pozycjaCzujnikaPrzod, Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
 int zaznacz1Gora(int miejsceRobota, int rozmiarBoku);
@@ -122,6 +123,7 @@ bool wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]);
 Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2);
 void wybierzCele(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku);
 int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelowNowych[], int rozmiarTablicy);
+int wrocNaPoczatek(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku, int poprzedniCel);
 
 //Funkcje pomocnicze
 bool wystapilWTablicy(int tablica[], int element, int rozmiarTablicy);

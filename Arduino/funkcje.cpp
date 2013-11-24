@@ -140,21 +140,21 @@ char wykonajObrot90Prawo(Wezel tablica[], int miejsceRobota, char pozycjaRobota,
 	return pozycjaRobota;
 }
 
-int inicjujMape(int rozmiarMapy, int rozmiarBoku, int miejsceRobota, char pozycjaRobota, Wezel tablica[]) {
+int inicjujMape(int rozmiarTablicy, int rozmiarBoku, int miejsceRobota, char pozycjaRobota, Wezel tablica[]) {
 	for (int i=0; i<rozmiarBoku; i++) {
 		tablica[i].rodzajWezla = ZNAK_SCIANA;
 	}
-	for (int i=rozmiarBoku; i<rozmiarMapy-rozmiarBoku; i++) {
+	for (int i=rozmiarBoku; i<rozmiarTablicy-rozmiarBoku; i++) {
 		if (i%rozmiarBoku == 0 || i%rozmiarBoku == rozmiarBoku - 1) {
 			tablica[i].rodzajWezla = ZNAK_SCIANA;
 		} else {
 			tablica[i].rodzajWezla = ZNAK_WOLNE;
 		}
 	}
-	for (int i=rozmiarMapy-rozmiarBoku; i<rozmiarMapy; i++) {
+	for (int i=rozmiarTablicy-rozmiarBoku; i<rozmiarTablicy; i++) {
 		tablica[i].rodzajWezla = ZNAK_SCIANA;
 	}
-	miejsceRobota = (rozmiarMapy + rozmiarBoku) /2;
+	miejsceRobota = (rozmiarTablicy + rozmiarBoku) /2;
 	tablica[miejsceRobota].rodzajWezla = pozycjaRobota;
 	return miejsceRobota;
 }
@@ -615,6 +615,20 @@ int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelowNowych[], int r
 	} while (!znalezionoCel || i>rozmiarTablicy);
 
 	return cel;
+}
+
+//Wyznaczenie nowego celu w miejscu rozpoczęcia z usunieciem poprzedniego celu
+int wrocNaPoczatek(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku, int poprzedniCel) {
+	int nowyCel = (rozmiarTablicy + rozmiarBoku)/2;
+	if (tablica[nowyCel].rodzajWezla == ZNAK_SCIANA) {
+		nowyCel = poprzedniCel;
+	} else {
+		if (poprzedniCel != BRAK_WEZLA) {
+			tablica[poprzedniCel].rodzajWezla = ZNAK_WOLNE;
+		}
+		tablica[nowyCel].rodzajWezla = ZNAK_CEL;
+	}
+	return nowyCel;
 }
 
 //Sprawdzenie czy podany element wystpil w tablicy
