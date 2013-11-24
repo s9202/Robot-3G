@@ -358,25 +358,25 @@ void ustalSasiadow(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku) {
 			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA)
 				tablica[i].sasiadZDolu = i + rozmiarBoku;
 		}
-		else if (i == PG_ROG) {//wariant 2: prawy gy rg
+		else if (i == PG_ROG) {//wariant 2: prawy gorny rog
 			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA)
 				tablica[i].sasiadZLewej = i - 1;
 			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA)
 				tablica[i].sasiadZDolu = i + rozmiarBoku;
 		}
-		else if (i == LD_ROG) {//wariant 3: lewy dolny rg
+		else if (i == LD_ROG) {//wariant 3: lewy dolny rog
 			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA)
 				tablica[i].sasiadZPrawej = i + 1;
 			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA)
 				tablica[i].sasiadZGory = i - rozmiarBoku;
 		}
-		else if (i == PD_ROG) {//wariant 4: prawy dolny rg
+		else if (i == PD_ROG) {//wariant 4: prawy dolny rog
 			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA)
 				tablica[i].sasiadZLewej = i - 1;
 			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA)
 				tablica[i].sasiadZGory = i - rozmiarBoku;
 		}
-		else if (i > 0 && i < PG_ROG) {//wariant 5: grny bok
+		else if (i > 0 && i < PG_ROG) {//wariant 5: gorny bok
 			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA)
 				tablica[i].sasiadZLewej = i - 1;
 			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA)
@@ -610,14 +610,6 @@ bool czyWezelJestSciana(Wezel tablica[], int badanyWezel, int rozmiarTablicy, in
 }
 
 
-/*
-void wyslijTablice(char tablica[], int rozmiarTablicy) {
-	for (int i=0; i<rozmiarTablicy; i++) {
-		Serial.print(tablica[i]);
-	}
-	Serial.println();
-}
-*/
 void wyslijStringJson(Wezel tablica[], int rozmiarTablicy) {
 //	char tablicaChar[ROZMIAR_MAPY];
 //	for (int i = 0; i < rozmiarTablicy; i++) {

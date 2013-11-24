@@ -127,7 +127,6 @@ bool wystapilWTablicy(int tablica[], int element, int rozmiarTablicy);
 bool czyWezelJestSciana(Wezel tablica[], int badanyWezel, int rozmiarTablicy, int rozmiarBoku);
 
 //Pisanie na port szeregowy
-//void wyslijTablice(Wezel tablica[], int rozmiarTablicy);
 void wyslijStringJson(Wezel tablica[], int rozmiarTablicy);
 
 #endif
