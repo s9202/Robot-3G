@@ -54,7 +54,7 @@ void setup() {
 	//Tworzenie mapy początkowej
 	miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
 	wybierzCele(tablicaCelow, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-	wyslijStringJson(mapa, ROZMIAR_MAPY);
+	wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 }
 
 //------------------------------ Główna pętla z programem
@@ -68,83 +68,98 @@ void loop() {
 		switch (odebranyBajt) {
 			case (TRYB_MANUAL):
 				jestTrybAuto = false;
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_ZADANIE);
 				break;
 			case (TRYB_AUTO):
 				jestTrybAuto = true;
-				wyslijStringJson(mapa, ROZMIAR_MAPY);
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (JAZDA_PRZOD):
 				if (!jestTrybAuto) {
 					miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
 					jedzProsto(servo1, servo2);
 				}
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (JAZDA_LEWO):
 				if (!jestTrybAuto) {
 					miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
 					skrecajWLewo(servo1, servo2);
 				}
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (JAZDA_PRAWO):
 				if (!jestTrybAuto) {
 					miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
 					skrecajWPrawo(servo1, servo2);
 				}
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (JAZDA_TYL):
 				if (!jestTrybAuto) {
 					miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
 					jedzDoTylu(servo1, servo2);
 				}
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (JAZDA_PRZOD_SKOK):
 				if (!jestTrybAuto) {
 					miejsceRobota = wykonajJedenRuchPrzod(mapa, miejsceRobota, pozycjaRobota, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, servo1, servo2);
-					wyslijStringJson(mapa, ROZMIAR_MAPY);
+					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 				}
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (JAZDA_LEWO_SKOK):
 				if (!jestTrybAuto) {
 					pozycjaRobota = wykonajObrot90Lewo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
-					wyslijStringJson(mapa, ROZMIAR_MAPY);
+					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 				}
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (JAZDA_PRAWO_SKOK):
 				if (!jestTrybAuto) {
 					pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
-					wyslijStringJson(mapa, ROZMIAR_MAPY);
+					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 				}
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (JAZDA_TYL_SKOK):
 				if (!jestTrybAuto) {
 					miejsceRobota = wykonajJedenRuchTyl(mapa, miejsceRobota, pozycjaRobota, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, servo1, servo2);
-					wyslijStringJson(mapa, ROZMIAR_MAPY);
+					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 				}
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (JAZDA_STOP):
 				if (!jestTrybAuto) {
 					zatrzymajRuch(servo1, servo2);
 				}
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (GLOWA_LEWO):
 				glowaLewo(servo3);
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (GLOWA_PRAWO):
 				glowaPrawo(servo3);
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (GLOWA_STOP):
 				zatrzymajGlowe(servo3);
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (SKAN_MAN):
 				if (!jestTrybAuto) {
 					skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-					wyslijStringJson(mapa, ROZMIAR_MAPY);
+					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 				}
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (POWROT):
 				if (jestTrybAuto) {
 					cel = wrocNaPoczatek(mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, cel);
 				}
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 		}
 	}
@@ -154,7 +169,7 @@ void loop() {
 		if (osiagnietoCel) {
 			cel = wyznaczCel(mapa, ROZMIAR_BOKU_MAPY, tablicaCelow, ROZMIAR_MAPY);
 			if (cel != BRAK_WEZLA) {
-				wyslijStringJson(mapa, ROZMIAR_MAPY);
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 			
 				osiagnietoCel = false;
 				moznaWykonacRuch = false;
@@ -170,17 +185,17 @@ void loop() {
 		//Wyznaczenie trasy
 		if (!osiagnietoCel && !moznaWykonacRuch) {
 			skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-			wyslijStringJson(mapa, ROZMIAR_MAPY);
+			wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 
 			pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
 			skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-			wyslijStringJson(mapa, ROZMIAR_MAPY);
+			wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 			
 			ustalSasiadow(mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
 			bool wyznaczonoTrase = wyznaczTrase(miejsceRobota, cel, mapa);
 			if (wyznaczonoTrase) {
 					mapa[cel].rodzajWezla = ZNAK_CEL;
-					wyslijStringJson(mapa, ROZMIAR_MAPY);
+					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 
 					moznaWykonacRuch = true;
 				} else {
@@ -193,7 +208,7 @@ void loop() {
 		if (!osiagnietoCel && moznaWykonacRuch) {
 			bool wykrytoElement = false;
 			wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-			wyslijStringJson(mapa, ROZMIAR_MAPY);
+			wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 			if (!wykrytoElement) {
 				Robot robot = wykonajRuchDoCelu(mapa, miejsceRobota, pozycjaRobota, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, servo1, servo2);
 				
@@ -208,7 +223,7 @@ void loop() {
 				
 					pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
 					skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-					wyslijStringJson(mapa, ROZMIAR_MAPY);
+					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 
 					licznik++;
 					
@@ -218,7 +233,7 @@ void loop() {
 				}
 				miejsceRobota = robot.miejsceRobota;
 				pozycjaRobota = robot.pozycjaRobota;
-				wyslijStringJson(mapa, ROZMIAR_MAPY);
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 
 			//gdy przed wykonaniem ruchu wykryto nowy element
 			} else {

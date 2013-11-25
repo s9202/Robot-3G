@@ -93,68 +93,67 @@ function moveRobot(){
 
 } 
 
-//--------------------------------------------------------------- obs³uga odpowiedzi serwera
-    socket.on('testServer', function( dane ){
-        console.log( dane );
-                $("#d1").css( { "background-color": "green" } );
-    });
-        
-        socket.on('testJSON', function( dane ){
-        console.log( JSON.parse( dane ) );
-                $("#d2").css( { "background-color": "green" } );
-    });
-        
-        socket.on('testRobot', function( dane ) {
-                var daneArduinoSerwera = dane;
-                var daneMapy = daneArduinoSerwera.mapa;
-                console.log('from skrypt'+ daneMapy );
-                if (daneMapy) {
-                        $("#d3").css( { "background-color": "green" } );
-                }
-                else {
-                        $("#d3").css( { "background-color": "red" } );
-                }
-                
-		//tymczasowe czyszczenie koncowych znakow
-		//daneMapy = setCharAt(dane, 100, 't');
-		//daneMapy = setCharAt(dane, 101, 't');
-		//daneMapy = setCharAt(dane, 102, 't');
-		 
-	
-                $("#dane").empty();//czyszczenie okienka komunikatow
-                for (var i=0; i<daneMapy.length; i++) {//tablica w okienku komunikatow                    
-			if (i%10 === 0) {
-				
-				$("#dane").append("<br>");
-			}
-                	$("#dane").append(daneMapy.charAt(i));
-        	}
- 
+//--------------------------------------------------------------- obsluga odpowiedzi serwera
+	socket.on('testServer', function(dane){
+		console.log( dane );
+		$("#d1").css( { "background-color": "green" } );
+	});
 
+	socket.on('testJSON', function(dane){
+		console.log( JSON.parse( dane ) );
+		$("#d2").css( { "background-color": "green" } );
+	});
 
-		//drawing
-		drawLines();               
-                var drawX=0, drawY=-1;
-		for(var i=0; i<daneMapy.length; i++){			
-			if (i%10 === 0) {
-				drawX=0;
-				drawY++;
-                        } else {
- 				drawX++;
-            		}
-			if( (daneMapy.charAt(i)=== "x" ) || (daneMapy.charAt(i)==="P") || (daneMapy.charAt(i)===  "L") ) drawBlock(drawX, drawY);
-			if( (daneMapy.charAt(i)==="8") || (daneMapy.charAt(i)==="4") || (daneMapy.charAt(i)==="2") || (daneMapy.charAt(i)==="6") ){
-				if(counter>0) removeRobot();		
-				
-				drawRobot(drawX, drawY, daneMapy.charAt(i));
-				//moveRobot();
+	socket.on('testRobot', function(dane) {
+		//JSON pobrany z Arduino
+		var daneArduinoSerwera = dane;
+		
+		var daneMapy = daneArduinoSerwera.mapa;
+		var daneZadania = daneArduinoSerwera.zadanie;
+
+		if (daneZadania == "1") {
+			//tu powinna byc funkcja obslugi kolejki zadan, a dokladnie usuniece najstarszego zadania z kolejki
+		}
+		if (daneMapy != "") {
+			console.log('from skrypt'+ daneMapy );
+			if (daneMapy) {
+				$("#d3").css( { "background-color": "green" } );
 			}
-		}              
-               
-		
-		
-        counter++;        
-        });//socket.on 'testRobot'
+			else {
+				$("#d3").css( { "background-color": "red" } );
+			}
+			$("#dane").empty();//czyszczenie okienka komunikatow
+			for (var i=0; i<daneMapy.length; i++) {//tablica w okienku komunikatow                    
+				if (i%10 === 0) {
+					$("#dane").append("<br>");
+				}
+				$("#dane").append(daneMapy.charAt(i));
+			}
+
+			//drawing
+			drawLines();               
+			var drawX=0, drawY=-1;
+			for (var i=0; i<daneMapy.length; i++) {
+				if (i%10 === 0) {
+					drawX=0;
+					drawY++;
+				} else {
+					drawX++;
+				}
+				if ((daneMapy.charAt(i) === "x" ) || (daneMapy.charAt(i)==="P") || (daneMapy.charAt(i) ===  "L")) {
+					drawBlock(drawX, drawY);
+				}
+				if ((daneMapy.charAt(i) === "8") || (daneMapy.charAt(i) === "4") || (daneMapy.charAt(i) === "2") || (daneMapy.charAt(i) === "6")) {
+					if (counter>0) {
+						removeRobot();
+					}
+					drawRobot(drawX, drawY, daneMapy.charAt(i));
+					//moveRobot();
+				}
+			}
+			counter++;
+		}
+	});//socket.on 'testRobot'
 
         
 //------------------------------------------------------------------

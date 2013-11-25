@@ -56,6 +56,17 @@ const int IRFront = 2;
 //Licznik okreslajacy dopuszczalna liczbe nieudanego znalezienia drogi do celu
 const int LICZBA_REZYGNACJI_CELU = 4;
 
+/* Rodzaje wysylanego JSONA
+ *
+ * JSON_MAPA zostaje wyslana tylko mapa
+ * JSON_ZADANIE zostaje wyslana tylko odpowiedz o wykonaniu zadania ("1")
+ * JSON_MAPA_ZADANIE zostaje wyslana mapa i wykonanie zadania ("1")
+ */
+const int JSON_MAPA = 0;
+const int JSON_ZADANIE = 1;
+const int JSON_MAPA_ZADANIE = 2;
+
+
 //Struktura wezla z jakich sklada sie mapa
 typedef struct {
 	int numerPoprzednika;
@@ -130,6 +141,6 @@ bool wystapilWTablicy(int tablica[], int element, int rozmiarTablicy);
 bool czyWezelJestSciana(Wezel tablica[], int badanyWezel, int rozmiarTablicy, int rozmiarBoku);
 
 //Pisanie na port szeregowy
-void wyslijStringJson(Wezel tablica[], int rozmiarTablicy);
+void wyslijStringJson(Wezel tablica[], int rozmiarTablicy, int zestawDanych);
 
 #endif

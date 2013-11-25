@@ -653,19 +653,39 @@ bool czyWezelJestSciana(Wezel tablica[], int badanyWezel, int rozmiarTablicy, in
 }
 
 
-void wyslijStringJson(Wezel tablica[], int rozmiarTablicy) {
-//	char tablicaChar[ROZMIAR_MAPY];
-//	for (int i = 0; i < rozmiarTablicy; i++) {
-//		tablicaChar[i] = tablica[i].rodzajWezla;
-//	}
-//	String tablicaString = String(tablicaChar);
+void wyslijStringJson(Wezel tablica[], int rozmiarTablicy, int zestawDanych) {
 
-	Serial.print("{\"mapa\":\"");
-	for (int i = 0; i < rozmiarTablicy; i++) {
-		Serial.print(tablica[i].rodzajWezla);
+	Serial.print("{");
+	
+	//Drukowanie mapy
+	Serial.print("\"mapa\":\"");
+	if (zestawDanych == JSON_MAPA || zestawDanych == JSON_MAPA_ZADANIE) {
+		for (int i = 0; i < rozmiarTablicy; i++) {
+			Serial.print(tablica[i].rodzajWezla);
+		}
 	}
-	Serial.print("\"}");
+	Serial.print("\",");
+
+	//Drukowanie żądania
+	Serial.print("\"zadanie\":\"");
+	if (zestawDanych == JSON_ZADANIE || zestawDanych == JSON_MAPA_ZADANIE) {
+		Serial.print("1");
+	}
+	Serial.print("\"");
+
+	
+	Serial.print("}");
 	Serial.println();
-	//Serial.println("{\"mapa\":\"" +tablicaString+ "\"}");
 }
+
+
+
+
+
+
+
+
+
+
+
 
