@@ -63,7 +63,7 @@ int wykonajJedenRuchPrzod(Wezel tablica[], int miejsceRobota, char pozycjaRobota
 
 	//Tutaj kod serwomechanizmów	
 	jedzProsto(servo1, servo2);
-        delay(1170);
+        delay(1860);
         zatrzymajRuch(servo1, servo2);
 	
 	//Odwzorowanie na mapie
@@ -85,7 +85,7 @@ int wykonajJedenRuchPrzod(Wezel tablica[], int miejsceRobota, char pozycjaRobota
 int wykonajJedenRuchTyl(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2) {
 
 	jedzDoTylu(servo1, servo2);
-        delay(1170);
+        delay(1860);
         zatrzymajRuch(servo1, servo2);
 	
 	//Odwzorowanie na mapie
@@ -108,7 +108,7 @@ char wykonajObrot90Lewo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, 
 
 
 	skrecajWLewo(servo1, servo2);
-        delay(500);
+        delay(830);
         zatrzymajRuch(servo1, servo2);
 
 	//Odwzorowanie na mapie
@@ -125,7 +125,7 @@ char wykonajObrot90Prawo(Wezel tablica[], int miejsceRobota, char pozycjaRobota,
 
 
 	skrecajWPrawo(servo1, servo2);
-        delay(500);
+        delay(830);
         zatrzymajRuch(servo1, servo2);
 	//
 
