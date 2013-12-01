@@ -9,26 +9,26 @@
 void jedzProsto(Servo servo1, Servo servo2) {
 	servo1.attach(5);
 	servo2.attach(6);
-	servo1.write(45);
-	servo2.write(135);
+	servo1.write(85);
+	servo2.write(95);
 }
 void skrecajWLewo(Servo servo1, Servo servo2) {
 	servo1.attach(5);
 	servo2.attach(6);
-	servo1.write(45);
-	servo2.write(45);
+	servo1.write(85);
+	servo2.write(85);
 }
 void skrecajWPrawo(Servo servo1, Servo servo2) {
 	servo1.attach(5);
 	servo2.attach(6);
-	servo1.write(135);
-	servo2.write(135);
+	servo1.write(95);
+	servo2.write(95);
 }
 void jedzDoTylu(Servo servo1, Servo servo2) {
 	servo1.attach(5);
 	servo2.attach(6);
-	servo1.write(135);
-	servo2.write(45);
+	servo1.write(95);
+	servo2.write(85);
 }
 void zatrzymajRuch(Servo servo1, Servo servo2) {
 	servo1.detach();
