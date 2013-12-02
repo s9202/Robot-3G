@@ -3,8 +3,64 @@ var http = require('http'),
     fs = require('fs'),
     path = require('path'),
     io = require('socket.io'),
-        serialport = require("serialport");
+    serialport = require("serialport");
+    dgram = require('dgram')
+    child = require('child_process');
 
+// -------------------------------------------------------server testowy - kamera
+var server2 = http.createServer(function (req, res) { 
+ date = new Date();
+ 
+  res.writeHead(200, {
+    'Date':date.toUTCString(),
+    'Connection':'close',
+    'Cache-Control':'private',
+    'Content-Type':'video/webm',
+    'Server':'CustomStreamer/0.0.1',
+    });
+ 
+  var udpServer = dgram.createSocket('udp6');
+    
+  udpServer.on('message', function(msg, info) {
+    res.write(msg);
+  });
+  
+  udpServer.on('close', function() {
+    res.end();
+  });
+ 
+  udpServer.on('error', function(error) {
+    res.end();
+  });
+  
+  udpServer.on('listening', function() {
+    var cmd = 'gst-launch-0.10';
+    var address = udpServer.address();
+    var args =  ['v4l2src', 'device=/dev/video0', 
+                 //'!', 'video/x-raw-rgb','width=320','height=240','framerate=5/1', - to dziala jak jest zainstalowany codec
+                '!' ,'ffmpegcolorspace',
+		        '!', 'vp8enc', 'speed=4',
+                '!', 'm.', 'webmmux', 'name=m', 'streamable=true',
+                 '!', 'udpsink', 'clients=localhost:'+address.port];
+    var options = null;
+
+    var gstCam = child.spawn(cmd, args, options);
+ 
+  
+ 
+res.connection.on('close', function() {
+      gstCam.kill();
+      udpServer.close();
+    });
+  });
+  
+  udpServer.bind(0, 'localhost');
+});
+server2.listen(3031);	
+	
+	
+	
+	
 //------------------------------------------------------- Tworzenie serwera
 var server = http.createServer(function (req, res) { 
         'use strict';
