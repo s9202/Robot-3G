@@ -4,6 +4,9 @@ var http = require('http'),
     path = require('path'),
     io = require('socket.io'),
     serialport = require("serialport");
+    
+    
+/*    
     dgram = require('dgram')
     child = require('child_process');
 
@@ -58,7 +61,7 @@ res.connection.on('close', function() {
 });
 server2.listen(3031);	
 	
-	
+*/	
 	
 	
 //------------------------------------------------------- Tworzenie serwera
