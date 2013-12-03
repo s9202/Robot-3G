@@ -43,8 +43,8 @@ body {
 
 #video{
         position:        absolute;
-	top:        200px;
-        left:        1010px;
+	top:        510px;
+        left:        15px;
 }
 
 #diody {
@@ -52,7 +52,7 @@ body {
         width:                30px;
         height:                100px;
         position:        absolute;
-        right:                15px;
+        left: 581px;
         top:                15px;
         
 }
@@ -69,10 +69,10 @@ body {
 
 #drive{
         position:                absolute;
-        top:                        80%;
+        top:                        350px;
         width:                        150px;
         height:                        100px;
-        left:                        50%;
+        left:                        413px;
         margin-left:        100px;
 }
 
@@ -82,8 +82,8 @@ body {
         top:                                15px;
         left:                                15px;
         border:                         2px solid black;
-        width:                                700px;
-        height:                                700px;
+        width:                                480px;
+        height:                                480px;
 
 }
 
@@ -92,7 +92,7 @@ body {
         background: black;
         color: grey;
         font-size:70%;
-        left: 740px;
+        left: 510px;
         top: 15px;
         border:                         2px solid black;
         width:                                90px;
