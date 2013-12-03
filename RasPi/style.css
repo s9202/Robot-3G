@@ -1,145 +1,150 @@
 body {
-  background-color:        #F0F1F3;
-  font-family:                "Consolas";
+	background-color: #F0F1F3;
+	font-family: "Consolas";
 }
 
 .button {
-        position:                        absolute;
-        background-color:        red;
-        border:                                2px solid black;
-        width:                                50px;
-        height:                                50px;
-        text-align:                        center;
-        font-weight:                600;
+	position: absolute;
+	background-color: red;
+	border: 2px solid black;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	font-weight: 600;
 }
 .button2 {
-        position:                        absolute;
-        background-color:        green;
-        border:                                2px solid black;
-        width:                                45px;
-        height:                                45px;
-        text-align:                        center;
-        font-weight:                600;
+	position: absolute;
+	background-color: green;
+	border: 2px solid black;
+	width: 45px;
+	height: 45px;
+	text-align: center;
+	font-weight: 600;
 }
 
 .button3 {
-        position:                        absolute;
-        background-color:        yellow;
-        border:                                2px solid black;
-        width:                                50px;
-        height:                                50px;
-        text-align:                        center;
-        font-weight:                600;
+	position: absolute;
+	background-color: yellow;
+	border: 2px solid black;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	font-weight: 600;
 }
 
 
 .dioda {
-        background-color:        white;
-        border:                                1px solid;
-        width:                                20px;
-        height:                                20px;
-        text-align:                        center;
+	background-color: white;
+	border: 1px solid;
+	width: 20px;
+	height: 20px;
+	text-align: center;
 }
 
-#video{
-        position:        absolute;
-	top:        510px;
-        left:        15px;
+#video {
+	position: absolute;
+	top: 510px;
+	left: 15px;
 }
 
 #diody {
-
-        width:                30px;
-        height:                100px;
-        position:        absolute;
-        left: 581px;
-        top:                15px;
-        
+	width: 30px;
+	height: 100px;
+	position: absolute;
+	left: 581px;
+	top: 15px;    
 }
 
 #tryby {
-        width:                70px;
-        height:                202px;
-        position:        absolute;
-        right:                150px;
-        top:                15px;
-        background: red;
+	width: 70px;
+	height: 202px;
+	position: absolute;
+	right: 150px;
+	top: 15px;
+	background: red;
 }
 
 
-#drive{
-        position:                absolute;
-        top:                        350px;
-        width:                        150px;
-        height:                        100px;
-        left:                        413px;
-        margin-left:        100px;
+#drive {
+	position: absolute;
+	top: 350px;
+	width: 150px;
+	height: 100px;
+	left: 413px;
+	margin-left: 100px;
 }
 
-#mapa{
-        background-color: #72b6c8;
-        position:                        absolute;
-        top:                                15px;
-        left:                                15px;
-        border:                         2px solid black;
-        width:                                480px;
-        height:                                480px;
-
+#mapa {
+	background-color: #72b6c8;
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	border: 2px solid black;
+	width: 480px;
+	height: 480px;
 }
 
-#dane{
-        position:                        absolute;
-        background: black;
-        color: grey;
-        font-size:70%;
-        left: 510px;
-        top: 15px;
-        border:                         2px solid black;
-        width:                                90px;
-        height:                                150px;
-
-
-}
-#a{
-        top:        50px;
-        left:        0px;
+#dane {
+	position: absolute;
+	background: black;
+	color: grey;
+	font-size: 70%;
+	left: 510px;
+	top: 15px;
+	border: 2px solid black;
+	width: 90px;
+	height: 150px;
 }
 
-#w{
-        top:        0px;
-        left:        50px;
+#a {
+	top: 50px;
+	left: 0px;
 }
 
-#s{
-        top:        50px;
-        left:        50px;
+#w {
+	top: 0px;
+	left: 50px;
 }
 
-#d{
-        top:        50px;
-        left:        100px;
-}
-#q{
-        top:        0px;
-        left:        0px;
-}
-#e{
-        top:        0px;
-        left:        105px;
+#s {
+	top: 50px;
+	left: 50px;
 }
 
-#tryb1{
-        top:        -100px;
-        left:        0px;
-        background-color: orange;
-}
-#tryb2{
-        top:        -100px;
-        left:        50px;
+#d {
+	top: 50px;
+	left: 100px;
 }
 
-#skan{
-        top:        -100px;
-        left:        110px;
-        background-color: teal;
+#q {
+	top: 0px;
+	left: 0px;
+}
+
+#e {
+	top: 0px;
+	left: 105px;
+}
+
+#tryb1 {
+	top: -100px;
+	left: 0px;
+	background-color: orange;
+}
+
+#tryb2 {
+	top: -100px;
+	left: 50px;
+}
+
+#skan {
+	top: -100px;
+	left: 110px;
+	background-color: teal;
+}
+
+#powrot {
+	top: -100px;
+	left: 160px;
+	background-color: teal;
 }

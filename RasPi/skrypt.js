@@ -279,81 +279,88 @@ function drawCircleB(nrX, nrY){
 		.on( "mouseup", function() {
 			$(this).css( { "background-color": "teal" } );
 		});
+		
+	$("#powrot")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "yellow" } );
+			socket.emit('jazda', '6');
+			console.log('Powrot do poczatku');
+		})
+		.on( "mouseup", function() {
+			$(this).css( { "background-color": "teal" } );
+		});
 //-------------------------------------------------------- Klawiatura
         
-   $(document).on( "keydown", function(event) {
-                switch(event.keyCode) {
-                case 87:
-                        $("#w").css( { "background-color": "blue" } );
-                        socket.emit('jazda', 'w');
-                        console.log('wcisniete klawisz W');
-                        break;
-                case 65:
-                        $("#a").css( { "background-color": "blue" } );
-                        socket.emit('jazda', 'a');
-                        console.log('wcisniete klawisz A');
-                        break;
-                case 83:
-                        $("#s").css( { "background-color": "blue" } );
-                        socket.emit('jazda', 's');
-                        console.log('wcisniete klawisz S');
-                        break;
-                case 68:
-                        $("#d").css( { "background-color": "blue" } );
-                        socket.emit('jazda', 'd');
-                        console.log('wcisniete klawisz D');
-                        break;
+	$(document).on( "keydown", function(event) {
+		switch(event.keyCode) {
+			case 87:
+				$("#w").css( { "background-color": "blue" } );
+				socket.emit('jazda', 'w');
+				console.log('wcisniete klawisz W');
+				break;
+			case 65:
+				$("#a").css( { "background-color": "blue" } );
+				socket.emit('jazda', 'a');
+				console.log('wcisniete klawisz A');
+				break;
+			case 83:
+				$("#s").css( { "background-color": "blue" } );
+				socket.emit('jazda', 's');
+				console.log('wcisniete klawisz S');
+				break;
+			case 68:
+				$("#d").css( { "background-color": "blue" } );
+				socket.emit('jazda', 'd');
+				console.log('wcisniete klawisz D');
+				break;
 
-                case 81:
-                        $("#q").css( { "background-color": "blue" } );
-                        socket.emit('jazda', 'q');
-                        robotHead.rotate(-5,robotHeadX+20,robotHeadY);
-                        console.log('wcisniete Q');
-                        break;
-                case 69:
-                        $("#e").css( { "background-color": "blue" } );
-                        socket.emit('jazda', 'e');
-                        robotHead.rotate(5,robotHeadX+20,robotHeadY);
-                        console.log('wcisniete E');
-                        break;
-                }
-                
-     })
-      .on( "keyup", function(event) {
-                switch(event.keyCode) {
-                case 87:
-                        $("#w").css( { "background-color": "red" } );
-                        socket.emit('jazda', '3');
-                        console.log('niewcisniete klawisz W');
-                        break;
-                case 65:
-                        $("#a").css( { "background-color": "red" } );
-                        socket.emit('jazda', '3');
-                        console.log('niewcisniete klawisz A');
-                        break;
-                case 83:
-                        $("#s").css( { "background-color": "red" } );
-                        socket.emit('jazda', '3');
-                        console.log('niewcisniete klawisz S');
-                        break;
-                case 68:
-                        $("#d").css( { "background-color": "red" } );
-                        socket.emit('jazda', '3');
-                        console.log('niewcisniete klawisz D');
-                        break;
-                case 81:
-                        $("#q").css( { "background-color": "green" } );
-                        socket.emit('jazda', '4');
-                        break;
-                
-                case 69:
-                        $("#e").css( { "background-color": "green" } );
-                        socket.emit('jazda', '4');
-                        break;
-
-                }
-
-        });
+			case 81:
+				$("#q").css( { "background-color": "blue" } );
+				socket.emit('jazda', 'q');
+				robotHead.rotate(-5,robotHeadX+20,robotHeadY);
+				console.log('wcisniete Q');
+				break;
+			case 69:
+				$("#e").css( { "background-color": "blue" } );
+				socket.emit('jazda', 'e');
+				robotHead.rotate(5,robotHeadX+20,robotHeadY);
+				console.log('wcisniete E');
+				break;
+		}
+	})
+	.on( "keyup", function(event) {
+		switch(event.keyCode) {
+			case 87:
+				$("#w").css( { "background-color": "red" } );
+				socket.emit('jazda', '3');
+				console.log('niewcisniete klawisz W');
+				break;
+			case 65:
+				$("#a").css( { "background-color": "red" } );
+				socket.emit('jazda', '3');
+				console.log('niewcisniete klawisz A');
+				break;
+			case 83:
+				$("#s").css( { "background-color": "red" } );
+				socket.emit('jazda', '3');
+				console.log('niewcisniete klawisz S');
+				break;
+			case 68:
+				$("#d").css( { "background-color": "red" } );
+				socket.emit('jazda', '3');
+				console.log('niewcisniete klawisz D');
+				break;
+			case 81:
+				$("#q").css( { "background-color": "green" } );
+				socket.emit('jazda', '4');
+				break;
+			
+			case 69:
+				$("#e").css( { "background-color": "green" } );
+				socket.emit('jazda', '4');
+				break;
+			}
+	});
         
 //---------------------------------------------------------------------funkcje pomocnicze
 function setCharAt(str, index, chr){// funkcja do zamiany znaku stringu
