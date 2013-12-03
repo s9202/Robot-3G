@@ -7,7 +7,7 @@ var socket = io.connect();
 var counter = 0;
 
 //--------------------------------------
-var rozmiar = 700;
+var rozmiar = 780;
 var paper = Raphael(mapa, rozmiar, rozmiar);
 var robot;
 var robotHIR, robotLIR, robotRIR; 
@@ -93,6 +93,15 @@ function moveRobot(){
 
 } 
 
+function drawCircleS(nrX, nrY){           	       	
+	var cS = paper.circle(nrX*40+20, nrY*40+20, 4);
+        cS.attr("fill", "red");             
+}
+
+function drawCircleB(nrX, nrY){           	       	
+	var cS = paper.circle(nrX*40+20, nrY*40+20, 10);
+        cS.attr("fill", "red");             
+}
 //--------------------------------------------------------------- obsluga odpowiedzi serwera
 	socket.on('testServer', function(dane){
 		console.log( dane );
@@ -130,20 +139,27 @@ function moveRobot(){
 				$("#dane").append(daneMapy.charAt(i));
 			}
 
-			//drawing
+//drawing
+			paper.clear();
 			drawLines();               
-			var drawX=0, drawY=-1;
+			var drawX=1, drawY=0;
 			for (var i=0; i<daneMapy.length; i++) {
 				if (i%10 === 0) {
-					drawX=0;
+					drawX=1;
 					drawY++;
 				} else {
 					drawX++;
 				}
-				if ((daneMapy.charAt(i) === "x" ) || (daneMapy.charAt(i)==="P") || (daneMapy.charAt(i) ===  "L")) {
+				if (daneMapy.charAt(i) === "x" ) {
 					drawBlock(drawX, drawY);
 				}
-				if ((daneMapy.charAt(i) === "8") || (daneMapy.charAt(i) === "4") || (daneMapy.charAt(i) === "2") || (daneMapy.charAt(i) === "6")) {
+				else if (daneMapy.charAt(i) === "." ) {
+					drawCircleS(drawX, drawY);
+				}
+				else if (daneMapy.charAt(i) === "C" ) {
+					drawCircleB(drawX, drawY);
+				}
+				else if ((daneMapy.charAt(i) === "8") || (daneMapy.charAt(i) === "4") || (daneMapy.charAt(i) === "2") || (daneMapy.charAt(i) === "6")) {
 					if (counter>0) {
 						removeRobot();
 					}
