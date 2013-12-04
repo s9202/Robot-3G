@@ -61,7 +61,16 @@ void beep(unsigned char delayms) {
 
 int wykonajJedenRuchPrzod(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2) {
 
-	//Tutaj kod serwomechanizmów	
+	//Najpierw obracamy robota lekko w przeciwna strone niz go sciaga
+	//Potem jadac stara funkcja prosto, tak na prawde jedziemy lukiem, ale w
+	//efekcie po 20cm robot jest tam gdzie powinine byc gdyby serwo nie sciagalo
+
+	//Koło które robi mniej obrotów na jednym odcinku (z tego co pamietam to prawe robi mniej obrotow)
+	servo1.attach(5);
+	servo1.write(85);
+	delay(100); //ta roznica ktora zauwazyles miedzy serwami na odcinku 20cm
+	
+	//Koła oba jadą dalej na wprost wg starej funkcji
 	jedzProsto(servo1, servo2);
 	delay(1860);
 	zatrzymajRuch(servo1, servo2);
