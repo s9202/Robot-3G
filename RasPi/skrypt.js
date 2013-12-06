@@ -121,7 +121,7 @@ function drawCircleB(nrX, nrY){
 		var daneZadania = daneArduinoSerwera.zadanie;
 
 		if (daneZadania == "1") {
-			//tu powinna byc funkcja obslugi kolejki zadan, a dokladnie usuniece najstarszego zadania z kolejki
+			//tu nic nie bedzie. Zadania zostaly porzucone
 		}
 		if (daneMapy != "") {
 			console.log('from skrypt'+ daneMapy );

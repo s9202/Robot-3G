@@ -68,98 +68,83 @@ void loop() {
 		switch (odebranyBajt) {
 			case (TRYB_MANUAL):
 				jestTrybAuto = false;
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_ZADANIE);
 				break;
 			case (TRYB_AUTO):
 				jestTrybAuto = true;
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 				break;
 			case (JAZDA_PRZOD):
 				if (!jestTrybAuto) {
 					miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
 					jedzProsto(servo1, servo2);
 				}
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_ZADANIE);
 				break;
 			case (JAZDA_LEWO):
 				if (!jestTrybAuto) {
 					miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
 					skrecajWLewo(servo1, servo2);
 				}
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_ZADANIE);
 				break;
 			case (JAZDA_PRAWO):
 				if (!jestTrybAuto) {
 					miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
 					skrecajWPrawo(servo1, servo2);
 				}
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_ZADANIE);
 				break;
 			case (JAZDA_TYL):
 				if (!jestTrybAuto) {
 					miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
 					jedzDoTylu(servo1, servo2);
 				}
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_ZADANIE);
 				break;
 			case (JAZDA_PRZOD_SKOK):
 				if (!jestTrybAuto) {
 					miejsceRobota = wykonajJedenRuchPrzod(mapa, miejsceRobota, pozycjaRobota, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, servo1, servo2);
 					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 				}
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (JAZDA_LEWO_SKOK):
 				if (!jestTrybAuto) {
 					pozycjaRobota = wykonajObrot90Lewo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
 					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 				}
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (JAZDA_PRAWO_SKOK):
 				if (!jestTrybAuto) {
 					pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
 					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 				}
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (JAZDA_TYL_SKOK):
 				if (!jestTrybAuto) {
 					miejsceRobota = wykonajJedenRuchTyl(mapa, miejsceRobota, pozycjaRobota, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, servo1, servo2);
 					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 				}
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (JAZDA_STOP):
 				if (!jestTrybAuto) {
 					zatrzymajRuch(servo1, servo2);
 				}
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (GLOWA_LEWO):
 				glowaLewo(servo3);
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (GLOWA_PRAWO):
 				glowaPrawo(servo3);
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (GLOWA_STOP):
 				zatrzymajGlowe(servo3);
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (SKAN_MAN):
 				if (!jestTrybAuto) {
 					skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
 					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 				}
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 			case (POWROT):
 				if (jestTrybAuto) {
 					cel = wrocNaPoczatek(mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, cel);
 				}
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA_ZADANIE);
 				break;
 		}
 	}

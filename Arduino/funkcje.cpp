@@ -66,9 +66,10 @@ int wykonajJedenRuchPrzod(Wezel tablica[], int miejsceRobota, char pozycjaRobota
 	//efekcie po 20cm robot jest tam gdzie powinine byc gdyby serwo nie sciagalo
 
 	//Koło które robi mniej obrotów na jednym odcinku (z tego co pamietam to prawe robi mniej obrotow)
-	servo1.attach(5);
-	servo1.write(85);
-	delay(100); //ta roznica ktora zauwazyles miedzy serwami na odcinku 20cm
+	//servo1.attach(5);
+	//servo1.write(85);
+	//delay(100); //ta roznica ktora zauwazyles miedzy serwami na odcinku 20cm
+	//servo1.detach();
 	
 	//Koła oba jadą dalej na wprost wg starej funkcji
 	jedzProsto(servo1, servo2);
