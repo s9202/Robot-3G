@@ -200,7 +200,7 @@ void loop() {
 				osiagnietoCel = true;
 				zbadanoMape = true;
 			}
-		}
+		} else
 		//Wyznaczenie trasy
 		if (!osiagnietoCel && !moznaWykonacRuch) {
 			skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
@@ -223,7 +223,7 @@ void loop() {
 				zbadanoMape = false;
 				mapa[cel].rodzajWezla = ZNAK_WOLNE;
 			}
-		}
+		} else
 		//Wykonanie jednego ruchu do celu
 		if (!osiagnietoCel && moznaWykonacRuch) {
 			bool wykrytoElement = false;
