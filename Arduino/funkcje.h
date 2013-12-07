@@ -21,6 +21,9 @@ const char JAZDA_STOP = '3';
 const char GLOWA_STOP = '4';
 const char SKAN_MAN = '5';
 const char POWROT = '6';
+const char AUTO_A = '7';
+const char AUTO_B = '8';
+const char AUTO_C = '9';
 
 //Okreslenie rozmiaru boku mapy i wyliczenia mapy
 const int ROZMIAR_BOKU_MAPY = 10;
@@ -132,13 +135,16 @@ void czyscDol(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmia
 void ustalSasiadow(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
 bool wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]);
 Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2);
-void wybierzCele(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku);
+void wybierzCeleA(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku);
+void wybierzCeleB(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku);
+void wybierzCeleC(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku);
 int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelowNowych[], int rozmiarTablicy);
-int wrocNaPoczatek(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku, int poprzedniCel);
+void wrocNaPoczatek(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
 
 //Funkcje pomocnicze
 bool wystapilWTablicy(int tablica[], int element, int rozmiarTablicy);
 bool czyWezelJestSciana(Wezel tablica[], int badanyWezel, int rozmiarTablicy, int rozmiarBoku);
+void czyscTablice(int tablica[], int rozmiarTablicy);
 
 //Pisanie na port szeregowy
 void wyslijStringJson(Wezel tablica[], int rozmiarTablicy, int zestawDanych);

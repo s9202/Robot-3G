@@ -595,8 +595,38 @@ Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, 
 	return robot;
 }
 
-//Wybranie zbioru celów do odkrycia
-void wybierzCele(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku) {
+//Wybranie zbioru A celów do odkrycia
+void wybierzCeleA(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku) {
+	tablicaCelowNowych[0] = rozmiarBoku + 1;
+	tablicaCelowNowych[1] = 2*(rozmiarBoku - 1);
+	tablicaCelowNowych[2] = rozmiarTablicy - 2*(rozmiarBoku) + 1;
+	tablicaCelowNowych[3] = rozmiarTablicy - rozmiarBoku - 2;
+	for (int i=4; i<rozmiarTablicy; i++) {
+		tablicaCelowNowych[i] = BRAK_WEZLA;
+	}
+}
+
+//Wybranie zbioru B celów do odkrycia
+void wybierzCeleB(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku) {
+	for (int i=0; i<2*(rozmiarBoku-2); i=i++) {
+		int index1 = 2*i;
+		int index2 = 2*i+1;
+		if (i%2 == 0) {
+			tablicaCelowNowych[index1] = (i+1)*rozmiarBoku + 1;
+			tablicaCelowNowych[index2] = (i+2)*rozmiarBoku - 2;
+		} else {
+			tablicaCelowNowych[index2] = (i+1)*rozmiarBoku + 1;
+			tablicaCelowNowych[index1] = (i+2)*rozmiarBoku - 2;
+		}
+	}
+
+	for (int i=2*(rozmiarBoku-2); i<rozmiarTablicy; i++) {
+		tablicaCelowNowych[i] = BRAK_WEZLA;
+	}
+}
+
+//Wybranie zbioru C celów do odkrycia
+void wybierzCeleC(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku) {
 	tablicaCelowNowych[0] = rozmiarBoku + 1;
 	tablicaCelowNowych[1] = 2*(rozmiarBoku - 1);
 	tablicaCelowNowych[2] = rozmiarTablicy - 2*(rozmiarBoku) + 1;
@@ -626,18 +656,13 @@ int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelowNowych[], int r
 	return cel;
 }
 
-//Wyznaczenie nowego celu w miejscu rozpoczęcia z usunieciem poprzedniego celu
-int wrocNaPoczatek(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku, int poprzedniCel) {
+//Tablica celów dostaje jeden cel jakim jest srodek mapy
+void wrocNaPoczatek(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku) {
 	int nowyCel = (rozmiarTablicy + rozmiarBoku)/2;
-	if (tablica[nowyCel].rodzajWezla == ZNAK_SCIANA) {
-		nowyCel = poprzedniCel;
-	} else {
-		if (poprzedniCel != BRAK_WEZLA) {
-			tablica[poprzedniCel].rodzajWezla = ZNAK_WOLNE;
-		}
-		tablica[nowyCel].rodzajWezla = ZNAK_CEL;
+	tablicaCelowNowych[0] = nowyCel;
+	for (int i=1; i<rozmiarTablicy; i++) {
+		tablicaCelowNowych[i] = BRAK_WEZLA;
 	}
-	return nowyCel;
 }
 
 //Sprawdzenie czy podany element wystpil w tablicy
@@ -658,6 +683,12 @@ bool czyWezelJestSciana(Wezel tablica[], int badanyWezel, int rozmiarTablicy, in
 		return true;
 	} else {
 		return false;
+	}
+}
+
+void czyscTablice(int tablica[], int rozmiarTablicy) {
+	for (int i=0; i<rozmiarTablicy; i++) {
+		tablica[i] = BRAK_WEZLA;
 	}
 }
 

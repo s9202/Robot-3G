@@ -33,11 +33,13 @@ char odebranyBajt;
 //Tryb pracy robota (automatyczny = true)
 bool jestTrybAuto = false;	
 
-//Warunki dla trybu automatycznego
+//Warunki dla trybu automatycznego (stan na starcie lub po osiągnięciu celu)
+//Oznaczenie czy wykonano wszystkie cele z aktualnej puli celow
+bool zbadanoMape = false;
+//Oznaczenie czy obecny cel zostal osiagniety lub gdy zostal porzucony
 bool osiagnietoCel = true;
 //Warunek wykonania ruchu (gdy jest droga i gdy nie wykryto elementu)
 bool moznaWykonacRuch = false;
-
 //Licznik określający liczbę nieudanych znalezien trasy do celu
 int licznik = 0;
 
@@ -53,7 +55,7 @@ void setup() {
 
 	//Tworzenie mapy początkowej
 	miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
-	wybierzCele(tablicaCelow, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+	wybierzCeleA(tablicaCelow, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
 	wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 }
 
@@ -143,7 +145,38 @@ void loop() {
 				break;
 			case (POWROT):
 				if (jestTrybAuto) {
-					cel = wrocNaPoczatek(mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, cel);
+					czyscTablice(tablicaCelow, ROZMIAR_MAPY);
+					mapa[cel].rodzajWezla = ZNAK_WOLNE;
+					wrocNaPoczatek(tablicaCelow, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+					zbadanoMape = false;
+					osiagnietoCel = true;
+				}
+				break;
+			case (AUTO_A):
+				if (jestTrybAuto) {
+					czyscTablice(tablicaCelow, ROZMIAR_MAPY);
+					mapa[cel].rodzajWezla = ZNAK_WOLNE;
+					wybierzCeleA(tablicaCelow, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+					zbadanoMape = false;
+					osiagnietoCel = true;
+				}
+				break;
+			case (AUTO_B):
+				if (jestTrybAuto) {
+					czyscTablice(tablicaCelow, ROZMIAR_MAPY);
+					mapa[cel].rodzajWezla = ZNAK_WOLNE;
+					wybierzCeleB(tablicaCelow, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+					zbadanoMape = false;
+					osiagnietoCel = true;
+				}
+				break;
+			case (AUTO_C):
+				if (jestTrybAuto) {
+					czyscTablice(tablicaCelow, ROZMIAR_MAPY);
+					mapa[cel].rodzajWezla = ZNAK_WOLNE;
+					wybierzCeleC(tablicaCelow, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+					zbadanoMape = false;
+					osiagnietoCel = true;
 				}
 				break;
 		}
@@ -151,21 +184,22 @@ void loop() {
 	//Dla trybu auto rozpoczęcie samodzielnego badania terenu
 	if (jestTrybAuto) {
 		//Ustawienie celu. Przed ustawieniem celu skanowanie otoczenia
-		if (osiagnietoCel) {
+		if (osiagnietoCel && !zbadanoMape) {
 			cel = wyznaczCel(mapa, ROZMIAR_BOKU_MAPY, tablicaCelow, ROZMIAR_MAPY);
 			if (cel != BRAK_WEZLA) {
+				
 				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
-			
+		
 				osiagnietoCel = false;
 				moznaWykonacRuch = false;
 				licznik = 0;
+				
 			} else {
+				//zwrócono jako cel brak wezla wiec tablica celow nie zawiera nic
+				//nalezy wyjsc z tego ifa i czekać na info o zaladowaniu nowych celow do tablicy
 				osiagnietoCel = true;
+				zbadanoMape = true;
 			}
-		}
-		//Po ilu ruchach bez przemieszczenia porzuca cel
-		if (licznik == LICZBA_REZYGNACJI_CELU) {
-			osiagnietoCel = true;
 		}
 		//Wyznaczenie trasy
 		if (!osiagnietoCel && !moznaWykonacRuch) {
@@ -175,19 +209,20 @@ void loop() {
 			pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
 			skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
 			wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
-			
+		
 			ustalSasiadow(mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
 			bool wyznaczonoTrase = wyznaczTrase(miejsceRobota, cel, mapa);
 			if (wyznaczonoTrase) {
-					mapa[cel].rodzajWezla = ZNAK_CEL;
-					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
+				mapa[cel].rodzajWezla = ZNAK_CEL; //bo gdy wykryjemy na  celu sciane a potem ona zniknie to chcemy nadal widziec cel
+				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 
-					moznaWykonacRuch = true;
-				} else {
-					moznaWykonacRuch = false;
-					osiagnietoCel = true;
-					mapa[cel].rodzajWezla = ZNAK_WOLNE;
-				}
+				moznaWykonacRuch = true;
+			} else {
+				moznaWykonacRuch = false;
+				osiagnietoCel = true;
+				zbadanoMape = false;
+				mapa[cel].rodzajWezla = ZNAK_WOLNE;
+			}
 		}
 		//Wykonanie jednego ruchu do celu
 		if (!osiagnietoCel && moznaWykonacRuch) {
@@ -196,22 +231,23 @@ void loop() {
 			wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 			if (!wykrytoElement) {
 				Robot robot = wykonajRuchDoCelu(mapa, miejsceRobota, pozycjaRobota, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, servo1, servo2);
-				
+			
 				//robot stanął w miejscu celu
 				if (robot.miejsceRobota == cel) {
 					osiagnietoCel = true;
+					zbadanoMape = false;
 					licznik = 0;
-					
+				
 				//robot pozostał na swoim miejscu
 				} else if (miejsceRobota == robot.miejsceRobota) {
 					moznaWykonacRuch = false;
-				
+			
 					pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
 					skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
 					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 
 					licznik++;
-					
+				
 				//robot zmienił miejsce czyli ruch wykonany
 				} else {
 					licznik = 0;
@@ -223,6 +259,11 @@ void loop() {
 			//gdy przed wykonaniem ruchu wykryto nowy element
 			} else {
 				moznaWykonacRuch = false;
+			}
+			//Po ilu ruchach bez przemieszczenia porzuca cel
+			if (licznik == LICZBA_REZYGNACJI_CELU) {
+				osiagnietoCel = true;
+				zbadanoMape = false;
 			}
 		}
 	}
