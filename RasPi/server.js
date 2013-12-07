@@ -110,7 +110,7 @@ var server = http.createServer(function (req, res) {
 var SerialPort = serialport.SerialPort;
 var arduinoSerialPort = '/dev/ttyACM0';
 var serialPort = new SerialPort(arduinoSerialPort, {
-parser: serialport.parsers.readline("\n")
+	parser: serialport.parsers.readline("\n")
 });
 
 var socket = io.listen(server);

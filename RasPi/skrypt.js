@@ -289,6 +289,36 @@ function drawCircleB(nrX, nrY){
 		.on( "mouseup", function() {
 			$(this).css( { "background-color": "teal" } );
 		});
+		
+	$("#autoA")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "yellow" } );
+			socket.emit('jazda', '7');
+			console.log('AutoA - sposob przeszukiwania');
+		})
+		.on( "mouseup", function() {
+			$(this).css( { "background-color": "teal" } );
+		});
+		
+	$("#autoB")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "yellow" } );
+			socket.emit('jazda', '8');
+			console.log('AutoB - sposob przeszukiwania');
+		})
+		.on( "mouseup", function() {
+			$(this).css( { "background-color": "teal" } );
+		});
+		
+	$("#autoC")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "yellow" } );
+			socket.emit('jazda', '9');
+			console.log('AutoC - sposob przeszukiwania');
+		})
+		.on( "mouseup", function() {
+			$(this).css( { "background-color": "teal" } );
+		});
 //-------------------------------------------------------- Klawiatura
         
 	$(document).on( "keydown", function(event) {
