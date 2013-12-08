@@ -243,16 +243,16 @@ bool skanujZaznaczMape(int miejsceRobota, char pozycjaCzujnikaPrzod, Wezel tabli
 	char znakBadanyPrzod = tablica[wskazGdzieZaznaczycPrzod].rodzajWezla;
 	char znakBadanyLewo = tablica[wskazGdzieZaznaczycLewo].rodzajWezla;
 	char znakBadanyPrawo = tablica[wskazGdzieZaznaczycPrawo].rodzajWezla;
-	if (wskazGdzieZaznaczycPrzod != miejsceRobota && znakBadanyPrzod != ZNAK_SCIANA && znakBadanyPrzod != ZNAK_MUR && wskazGdzieZaznaczycPrzod >= 0 && wskazGdzieZaznaczycPrzod < rozmiarTablicy) {
-		znakBadanyPrzod = ZNAK_SCIANA;
+	if (znakBadanyPrzod == ZNAK_WOLNE && wskazGdzieZaznaczycPrzod >= 0 && wskazGdzieZaznaczycPrzod < rozmiarTablicy) {
+		tablica[wskazGdzieZaznaczycPrzod].rodzajWezla = ZNAK_SCIANA;
 		wykrytoElement = true;
 	}
-	if (wskazGdzieZaznaczycLewo != miejsceRobota && znakBadanyLewo != ZNAK_SCIANA && znakBadanyLewo != ZNAK_MUR && wskazGdzieZaznaczycLewo >= 0 && wskazGdzieZaznaczycLewo < rozmiarTablicy) {
-		znakBadanyLewo = ZNAK_SCIANA;
+	if (znakBadanyLewo == ZNAK_WOLNE && wskazGdzieZaznaczycLewo >= 0 && wskazGdzieZaznaczycLewo < rozmiarTablicy) {
+		tablica[wskazGdzieZaznaczycLewo].rodzajWezla = ZNAK_SCIANA;
 		wykrytoElement = true;
 	}
-	if (wskazGdzieZaznaczycPrawo != miejsceRobota && znakBadanyPrawo != ZNAK_SCIANA && znakBadanyPrawo != ZNAK_MUR && wskazGdzieZaznaczycPrawo >= 0 && wskazGdzieZaznaczycPrawo < rozmiarTablicy) {
-		znakBadanyPrawo = ZNAK_SCIANA;
+	if (znakBadanyPrawo == ZNAK_WOLNE && wskazGdzieZaznaczycPrawo >= 0 && wskazGdzieZaznaczycPrawo < rozmiarTablicy) {
+		tablica[wskazGdzieZaznaczycPrawo].rodzajWezla = ZNAK_SCIANA;
 		wykrytoElement = true;
 	}
 	return wykrytoElement;
