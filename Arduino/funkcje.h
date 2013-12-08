@@ -24,6 +24,8 @@ const char POWROT = '6';
 const char AUTO_A = '7';
 const char AUTO_B = '8';
 const char AUTO_C = '9';
+const char WSP_ROBOT = '-';
+const char WSP_MUR = '=';
 
 //Okreslenie rozmiaru boku mapy i wyliczenia mapy
 const int ROZMIAR_BOKU_MAPY = 10;
@@ -40,6 +42,7 @@ const char PRZODEM_DOL = '2';
 
 //Znaki wykorzystywane do wyswietlania mapy
 const char ZNAK_SCIANA = 'x';
+const char ZNAK_MUR = 'X';
 const char ZNAK_WOLNE = '0';
 const char ZNAK_TRASA = '.';
 const char ZNAK_CEL = 'C';
@@ -138,13 +141,16 @@ Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, 
 void wybierzCeleA(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku);
 void wybierzCeleB(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku);
 void wybierzCeleC(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku);
-int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelowNowych[], int rozmiarTablicy);
+int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelowNowych[], int rozmiarTablicy, char pozycjaRobota);
 void wrocNaPoczatek(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
 
 //Funkcje pomocnicze
 bool wystapilWTablicy(int tablica[], int element, int rozmiarTablicy);
 bool czyWezelJestSciana(Wezel tablica[], int badanyWezel, int rozmiarTablicy, int rozmiarBoku);
 void czyscTablice(int tablica[], int rozmiarTablicy);
+int wyznaczWspolrzedna(char znakWsp);
+int obliczWspolrzedne(int wspolrzednaX, int wspolrzednaY, int rozmiarBoku);
+bool sparwdzDostepnoscMiejsca(Wezel tablica[], int miejsceObiektu, char pozycjaRobota);
 
 //Pisanie na port szeregowy
 void wyslijStringJson(Wezel tablica[], int rozmiarTablicy, int zestawDanych);

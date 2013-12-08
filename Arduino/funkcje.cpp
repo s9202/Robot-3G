@@ -85,13 +85,14 @@ int wykonajJedenRuchPrzod(Wezel tablica[], int miejsceRobota, char pozycjaRobota
 		case (PRZODEM_DOL): wskazGdzieZaznaczyc = wskazGdzieZaznaczyc + rozmiarBoku; break;
 	}
 	char znakBadany = tablica[wskazGdzieZaznaczyc].rodzajWezla;
-	if (wskazGdzieZaznaczyc != miejsceRobota && znakBadany != ZNAK_SCIANA && wskazGdzieZaznaczyc >= 0 && wskazGdzieZaznaczyc < rozmiarTablicy) {
+	if (wskazGdzieZaznaczyc != miejsceRobota && znakBadany != ZNAK_SCIANA && znakBadany != ZNAK_MUR && wskazGdzieZaznaczyc >= 0 && wskazGdzieZaznaczyc < rozmiarTablicy) {
 		tablica[miejsceRobota].rodzajWezla = ZNAK_WOLNE;
 		miejsceRobota = wskazGdzieZaznaczyc;
 		tablica[miejsceRobota].rodzajWezla = pozycjaRobota;
 	}
 	return miejsceRobota;
 }
+
 int wykonajJedenRuchTyl(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2) {
 
 	jedzDoTylu(servo1, servo2);
@@ -107,7 +108,7 @@ int wykonajJedenRuchTyl(Wezel tablica[], int miejsceRobota, char pozycjaRobota, 
 		case (PRZODEM_DOL): wskazGdzieZaznaczyc = wskazGdzieZaznaczyc - rozmiarBoku; break;
 	}
 	char znakBadany = tablica[wskazGdzieZaznaczyc].rodzajWezla;
-	if (wskazGdzieZaznaczyc != miejsceRobota && znakBadany != ZNAK_SCIANA && wskazGdzieZaznaczyc >= 0 && wskazGdzieZaznaczyc < rozmiarTablicy) {
+	if (wskazGdzieZaznaczyc != miejsceRobota && znakBadany != ZNAK_SCIANA && znakBadany != ZNAK_MUR && wskazGdzieZaznaczyc >= 0 && wskazGdzieZaznaczyc < rozmiarTablicy) {
 		tablica[miejsceRobota].rodzajWezla = ZNAK_WOLNE;
 		miejsceRobota = wskazGdzieZaznaczyc;
 		tablica[miejsceRobota].rodzajWezla = pozycjaRobota;
@@ -239,17 +240,19 @@ bool skanujZaznaczMape(int miejsceRobota, char pozycjaCzujnikaPrzod, Wezel tabli
 	int wskazGdzieZaznaczycLewo = sprawdzOdlegloscIZaznacz(s2, miejsceRobota, pozycjaCzujnikaLewy, tablica, rozmiarTablicy, rozmiarBoku);
 	int wskazGdzieZaznaczycPrawo = sprawdzOdlegloscIZaznacz(s3, miejsceRobota, pozycjaCzujnikaPrawy, tablica, rozmiarTablicy, rozmiarBoku);
 
-	char znakBadany = tablica[wskazGdzieZaznaczycPrzod].rodzajWezla;
-	if (wskazGdzieZaznaczycPrzod != miejsceRobota && tablica[wskazGdzieZaznaczycPrzod].rodzajWezla != ZNAK_SCIANA && wskazGdzieZaznaczycPrzod >= 0 && wskazGdzieZaznaczycPrzod < rozmiarTablicy) {
-		tablica[wskazGdzieZaznaczycPrzod].rodzajWezla = ZNAK_SCIANA;
+	char znakBadanyPrzod = tablica[wskazGdzieZaznaczycPrzod].rodzajWezla;
+	char znakBadanyLewo = tablica[wskazGdzieZaznaczycLewo].rodzajWezla;
+	char znakBadanyPrawo = tablica[wskazGdzieZaznaczycPrawo].rodzajWezla;
+	if (wskazGdzieZaznaczycPrzod != miejsceRobota && znakBadanyPrzod != ZNAK_SCIANA && znakBadanyPrzod != ZNAK_MUR && wskazGdzieZaznaczycPrzod >= 0 && wskazGdzieZaznaczycPrzod < rozmiarTablicy) {
+		znakBadanyPrzod = ZNAK_SCIANA;
 		wykrytoElement = true;
 	}
-	if (wskazGdzieZaznaczycLewo != miejsceRobota && tablica[wskazGdzieZaznaczycLewo].rodzajWezla != ZNAK_SCIANA && wskazGdzieZaznaczycLewo >= 0 && wskazGdzieZaznaczycLewo < rozmiarTablicy) {
-		tablica[wskazGdzieZaznaczycLewo].rodzajWezla = ZNAK_SCIANA;
+	if (wskazGdzieZaznaczycLewo != miejsceRobota && znakBadanyLewo != ZNAK_SCIANA && znakBadanyLewo != ZNAK_MUR && wskazGdzieZaznaczycLewo >= 0 && wskazGdzieZaznaczycLewo < rozmiarTablicy) {
+		znakBadanyLewo = ZNAK_SCIANA;
 		wykrytoElement = true;
 	}
-	if (wskazGdzieZaznaczycPrawo != miejsceRobota && tablica[wskazGdzieZaznaczycPrawo].rodzajWezla != ZNAK_SCIANA && wskazGdzieZaznaczycPrawo >= 0 && wskazGdzieZaznaczycPrawo < rozmiarTablicy) {
-		tablica[wskazGdzieZaznaczycPrawo].rodzajWezla = ZNAK_SCIANA;
+	if (wskazGdzieZaznaczycPrawo != miejsceRobota && znakBadanyPrawo != ZNAK_SCIANA && znakBadanyPrawo != ZNAK_MUR && wskazGdzieZaznaczycPrawo >= 0 && wskazGdzieZaznaczycPrawo < rozmiarTablicy) {
+		znakBadanyPrawo = ZNAK_SCIANA;
 		wykrytoElement = true;
 	}
 	return wykrytoElement;
@@ -362,69 +365,69 @@ void ustalSasiadow(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku) {
 	//ustalenie sasiadow dla wszystkich wezlow na podstawie rozmieszczenia wezlow typu SCIANA
 	for (int i=0; i<rozmiarTablicy; i++) { 
 		if (i == 0) {//wariant 1: punkt (0,0)
-			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA && tablica[i + 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZPrawej = i + 1;
-			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i + rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZDolu = i + rozmiarBoku;
 		}
-		else if (i == PG_ROG) {//wariant 2: prawy gorny rog
-			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA)
+		else if (i == PG_ROG) {//wariant 2: prawy gy rg
+			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA && tablica[i - 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZLewej = i - 1;
-			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i + rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZDolu = i + rozmiarBoku;
 		}
-		else if (i == LD_ROG) {//wariant 3: lewy dolny rog
-			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA)
+		else if (i == LD_ROG) {//wariant 3: lewy dolny rg
+			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA && tablica[i + 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZPrawej = i + 1;
-			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i - rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZGory = i - rozmiarBoku;
 		}
 		else if (i == PD_ROG) {//wariant 4: prawy dolny rog
-			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA && tablica[i - 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZLewej = i - 1;
-			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i - rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZGory = i - rozmiarBoku;
 		}
 		else if (i > 0 && i < PG_ROG) {//wariant 5: gorny bok
-			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA && tablica[i - 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZLewej = i - 1;
-			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA && tablica[i + 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZPrawej = i + 1;
-			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i + rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZDolu = i + rozmiarBoku;
 		}
 		else if (i > LD_ROG && i < PD_ROG) {//wariant: dolny bok
-			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA && tablica[i - 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZLewej = i - 1;
-			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA && tablica[i + 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZPrawej = i + 1;
-			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA )
+			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i - rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZGory = i - rozmiarBoku;
 		}
 		else if (i % rozmiarBoku == 0) {// wariant 7: lewy bok
-			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA && tablica[i + 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZPrawej = i + 1;
-			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i + rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZDolu = i + rozmiarBoku;
-			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i - rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZGory = i - rozmiarBoku;
 		}
 		else if (i % rozmiarBoku == rozmiarBoku - 1) {//wariant 8: prawy bok
-			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA && tablica[i - 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZLewej = i - 1;
-			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i + rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZGory = i + rozmiarBoku;
-			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i - rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZDolu = i - rozmiarBoku;
 		}
-		else { //wariant 9: rodek
-			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA)
+		else { //wariant 9: srodek
+			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA && tablica[i - 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZLewej = i - 1;
-			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA && tablica[i + 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZPrawej = i + 1;
-			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i + rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZDolu = i + rozmiarBoku;
-			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA)
+			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i - rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZGory = i - rozmiarBoku;
 		}
 	}
@@ -637,13 +640,14 @@ void wybierzCeleC(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku)
 }
 
 //Wyznaczenie nowego celu na mapie dla robota
-int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelowNowych[], int rozmiarTablicy) {
+int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelowNowych[], int rozmiarTablicy, char pozycjaRobota) {
 	int cel = BRAK_WEZLA;
 	int i = 0;
 	bool znalezionoCel = false;
 	do {
 		if (tablicaCelowNowych[i] != 0) {
-			if (tablica[tablicaCelowNowych[i]].rodzajWezla != ZNAK_SCIANA) {
+			char znakBadany = tablica[tablicaCelowNowych[i]].rodzajWezla;
+			if (znakBadany != ZNAK_SCIANA && znakBadany != ZNAK_MUR && znakBadany != pozycjaRobota) {
 				cel = tablicaCelowNowych[i];
 				tablica[cel].rodzajWezla = ZNAK_CEL;
 				znalezionoCel = true;
@@ -690,6 +694,72 @@ void czyscTablice(int tablica[], int rozmiarTablicy) {
 	for (int i=0; i<rozmiarTablicy; i++) {
 		tablica[i] = BRAK_WEZLA;
 	}
+}
+
+int wyznaczWspolrzedna(char znakWsp) {
+	int wspolrzedna;
+	switch (znakWsp) {
+		case '0':
+			wspolrzedna = 0;
+			break;
+		case '1':
+			wspolrzedna = 1;
+			break;
+		case '2':
+			wspolrzedna = 2;
+			break;
+		case '3':
+			wspolrzedna = 3;
+			break;
+		case '4':
+			wspolrzedna = 4;
+			break;
+		case '5':
+			wspolrzedna = 5;
+			break;
+		case '6':
+			wspolrzedna = 6;
+			break;
+		case '7':
+			wspolrzedna = 7;
+			break;
+		case '8':
+			wspolrzedna = 8;
+			break;
+		case '9':
+			wspolrzedna = 9;
+			break;
+		case 'a':
+			wspolrzedna = 10;
+			break;
+		case 'b':
+			wspolrzedna = 11;
+			break;
+		case 'c':
+			wspolrzedna = 12;
+			break;
+		case 'd':
+			wspolrzedna = 13;
+			break;
+		case 'e':
+			wspolrzedna = 14;
+			break;
+	}
+	return wspolrzedna;
+}
+
+int obliczWspolrzedne(int wspolrzednaX, int wspolrzednaY, int rozmiarBoku) {
+	int miejsceTablicy = (rozmiarBoku*wspolrzednaY)+wspolrzednaX;
+	return miejsceTablicy;
+}
+
+bool sparwdzDostepnoscMiejsca(Wezel tablica[], int miejsceObiektu, char pozycjaRobota) {
+	bool miejsceDostepne = false;
+	char znakWMiejscuObiektu = tablica[miejsceObiektu].rodzajWezla;
+	if (znakWMiejscuObiektu != ZNAK_MUR && znakWMiejscuObiektu != ZNAK_SCIANA && znakWMiejscuObiektu != pozycjaRobota) {
+		miejsceDostepne = true;
+	}
+	return miejsceDostepne;
 }
 
 
