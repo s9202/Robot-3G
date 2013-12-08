@@ -26,6 +26,7 @@ const char AUTO_B = '8';
 const char AUTO_C = '9';
 const char WSP_ROBOT = '-';
 const char WSP_MUR = '=';
+const char WSP_WOLNE = '_';
 
 //Okreslenie rozmiaru boku mapy i wyliczenia mapy
 const int ROZMIAR_BOKU_MAPY = 10;

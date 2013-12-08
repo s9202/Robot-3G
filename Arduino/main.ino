@@ -198,10 +198,16 @@ void loop() {
 						trybPortu = WSP_MUR;
 					}
 					break;
+				case (WSP_WOLNE):
+					if (!jestTrybAuto) {
+						trybPortu = WSP_WOLNE;
+					}
+					break;
 			}
 		} else if (trybPortu == WSP_ROBOT) {
 			if (!jestWspX) {
 				wspolrzednaX = wyznaczWspolrzedna(odebranyBajt);
+				jestWspX = true;
 			} else {
 				wspolrzednaY = wyznaczWspolrzedna(odebranyBajt);
 				int miejsceObiektu = obliczWspolrzedne(wspolrzednaX, wspolrzednaY, ROZMIAR_BOKU_MAPY);
@@ -209,18 +215,33 @@ void loop() {
 					miejsceRobota = miejsceObiektu;
 					mapa[miejsceObiektu].rodzajWezla = PRZODEM_GORA;
 				}
+				jestWspX = false;
 				trybPortu = PORT_WOLNY;
 			}
 		} else if (trybPortu == WSP_MUR) {
 			if (!jestWspX) {
 				wspolrzednaX = wyznaczWspolrzedna(odebranyBajt);
+				jestWspX = true;
 			} else {
 				wspolrzednaY = wyznaczWspolrzedna(odebranyBajt);
 				int miejsceObiektu = obliczWspolrzedne(wspolrzednaX, wspolrzednaY, ROZMIAR_BOKU_MAPY);
 				if (sparwdzDostepnoscMiejsca(mapa, miejsceObiektu, pozycjaRobota)) {
-					miejsceRobota = miejsceObiektu;
 					mapa[miejsceObiektu].rodzajWezla = ZNAK_MUR;
 				}
+				jestWspX = false;
+				trybPortu = PORT_WOLNY;
+			}
+		} else if (trybPortu == WSP_WOLNE) {
+			if (!jestWspX) {
+				wspolrzednaX = wyznaczWspolrzedna(odebranyBajt);
+				jestWspX = true;
+			} else {
+				wspolrzednaY = wyznaczWspolrzedna(odebranyBajt);
+				int miejsceObiektu = obliczWspolrzedne(wspolrzednaX, wspolrzednaY, ROZMIAR_BOKU_MAPY);
+				if (mapa[miejsceObiektu].rodzajWezla == ZNAK_MUR) {
+					mapa[miejsceObiektu].rodzajWezla = ZNAK_WOLNE;
+				}
+				jestWspX = false;
 				trybPortu = PORT_WOLNY;
 			}
 		}
