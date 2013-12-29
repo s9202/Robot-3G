@@ -243,15 +243,15 @@ bool skanujZaznaczMape(int miejsceRobota, char pozycjaCzujnikaPrzod, Wezel tabli
 	char znakBadanyPrzod = tablica[wskazGdzieZaznaczycPrzod].rodzajWezla;
 	char znakBadanyLewo = tablica[wskazGdzieZaznaczycLewo].rodzajWezla;
 	char znakBadanyPrawo = tablica[wskazGdzieZaznaczycPrawo].rodzajWezla;
-	if (znakBadanyPrzod == ZNAK_WOLNE && wskazGdzieZaznaczycPrzod >= 0 && wskazGdzieZaznaczycPrzod < rozmiarTablicy) {
+	if ((znakBadanyPrzod == ZNAK_WOLNE || znakBadanyPrzod == ZNAK_TRASA) && wskazGdzieZaznaczycPrzod >= 0 && wskazGdzieZaznaczycPrzod < rozmiarTablicy) {
 		tablica[wskazGdzieZaznaczycPrzod].rodzajWezla = ZNAK_SCIANA;
 		wykrytoElement = true;
 	}
-	if (znakBadanyLewo == ZNAK_WOLNE && wskazGdzieZaznaczycLewo >= 0 && wskazGdzieZaznaczycLewo < rozmiarTablicy) {
+	if ((znakBadanyLewo == ZNAK_WOLNE || znakBadanyLewo == ZNAK_TRASA) && wskazGdzieZaznaczycLewo >= 0 && wskazGdzieZaznaczycLewo < rozmiarTablicy) {
 		tablica[wskazGdzieZaznaczycLewo].rodzajWezla = ZNAK_SCIANA;
 		wykrytoElement = true;
 	}
-	if (znakBadanyPrawo == ZNAK_WOLNE && wskazGdzieZaznaczycPrawo >= 0 && wskazGdzieZaznaczycPrawo < rozmiarTablicy) {
+	if ((znakBadanyPrawo == ZNAK_WOLNE || znakBadanyPrawo == ZNAK_TRASA) && wskazGdzieZaznaczycPrawo >= 0 && wskazGdzieZaznaczycPrawo < rozmiarTablicy) {
 		tablica[wskazGdzieZaznaczycPrawo].rodzajWezla = ZNAK_SCIANA;
 		wykrytoElement = true;
 	}
