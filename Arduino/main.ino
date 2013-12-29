@@ -79,6 +79,8 @@ void loop() {
 			switch (odebranyBajt) {
 				case (TRYB_MANUAL):
 					jestTrybAuto = false;
+					czyscTrase(mapa, ROZMIAR_MAPY);
+					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 					break;
 				case (TRYB_AUTO):
 					jestTrybAuto = true;

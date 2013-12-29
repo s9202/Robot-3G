@@ -762,6 +762,14 @@ bool sparwdzDostepnoscMiejsca(Wezel tablica[], int miejsceObiektu, char pozycjaR
 	return miejsceDostepne;
 }
 
+void czyscTrase(Wezel tablica[], int rozmiarTablicy) {
+	for (int i=0; i<rozmiarTablicy; i++) {
+		if (tablica[i].rodzajWezla == ZNAK_TRASA) {
+			tablica[i].rodzajWezla = ZNAK_WOLNE;
+		}
+	}
+}
+
 
 void wyslijStringJson(Wezel tablica[], int rozmiarTablicy, int zestawDanych) {
 

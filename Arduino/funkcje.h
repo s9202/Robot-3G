@@ -152,6 +152,7 @@ void czyscTablice(int tablica[], int rozmiarTablicy);
 int wyznaczWspolrzedna(char znakWsp);
 int obliczWspolrzedne(int wspolrzednaX, int wspolrzednaY, int rozmiarBoku);
 bool sparwdzDostepnoscMiejsca(Wezel tablica[], int miejsceObiektu, char pozycjaRobota);
+void czyscTrase(Wezel tablica[], int rozmiarTablicy);
 
 //Pisanie na port szeregowy
 void wyslijStringJson(Wezel tablica[], int rozmiarTablicy, int zestawDanych);
