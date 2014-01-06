@@ -185,16 +185,7 @@ int sprawdzOdlegloscIZaznacz(double odleglosc, int miejsceRobota, char pozycjaCz
 			case (PRZODEM_PRAWO): return zaznacz2Prawo(miejsceRobota, rozmiarBoku);
 			case (PRZODEM_LEWO): return zaznacz2Lewo(miejsceRobota, rozmiarBoku);
 			case (PRZODEM_DOL): return zaznacz2Dol(miejsceRobota, rozmiarBoku);
-		}
-/*		
-	} else if (odleglosc > 20.0 && odleglosc <= 30.0) {
-		switch (pozycjaCzujnika) {
-			case (PRZODEM_GORA): return zaznacz3Gora(miejsceRobota, rozmiarBoku);
-			case (PRZODEM_PRAWO): return zaznacz3Prawo(miejsceRobota, rozmiarBoku);
-			case (PRZODEM_LEWO): return zaznacz3Lewo(miejsceRobota, rozmiarBoku);
-			case (PRZODEM_DOL): return zaznacz3Dol(miejsceRobota, rozmiarBoku);
-		}
-*/		
+		}		
 	} else {
 		switch (pozycjaCzujnika) {
 			case (PRZODEM_GORA): czyscGora(tablica, miejsceRobota, rozmiarTablicy, rozmiarBoku); break;
@@ -599,73 +590,87 @@ Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, 
 }
 
 //Wybranie zbioru A celów do odkrycia
-void wybierzCeleA(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku) {
-	tablicaCelowNowych[0] = rozmiarBoku + 1;
-	tablicaCelowNowych[1] = 2*(rozmiarBoku - 1);
-	tablicaCelowNowych[2] = rozmiarTablicy - 2*(rozmiarBoku) + 1;
-	tablicaCelowNowych[3] = rozmiarTablicy - rozmiarBoku - 2;
+void wybierzCeleA(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
+	tablicaCelow[0] = rozmiarBoku + 1;
+	tablicaCelow[1] = 2*(rozmiarBoku - 1);
+	tablicaCelow[2] = rozmiarTablicy - 2*(rozmiarBoku) + 1;
+	tablicaCelow[3] = rozmiarTablicy - rozmiarBoku - 2;
 	for (int i=4; i<rozmiarTablicy; i++) {
-		tablicaCelowNowych[i] = BRAK_WEZLA;
+		tablicaCelow[i] = BRAK_WEZLA;
 	}
 }
 
 //Wybranie zbioru B celów do odkrycia
-void wybierzCeleB(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku) {
+void wybierzCeleB(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
 	for (int i=0; i<2*(rozmiarBoku-2); i=i++) {
 		int index1 = 2*i;
 		int index2 = 2*i+1;
 		if (i%2 == 0) {
-			tablicaCelowNowych[index1] = (i+1)*rozmiarBoku + 1;
-			tablicaCelowNowych[index2] = (i+2)*rozmiarBoku - 2;
+			tablicaCelow[index1] = (i+1)*rozmiarBoku + 1;
+			tablicaCelow[index2] = (i+2)*rozmiarBoku - 2;
 		} else {
-			tablicaCelowNowych[index2] = (i+1)*rozmiarBoku + 1;
-			tablicaCelowNowych[index1] = (i+2)*rozmiarBoku - 2;
+			tablicaCelow[index2] = (i+1)*rozmiarBoku + 1;
+			tablicaCelow[index1] = (i+2)*rozmiarBoku - 2;
 		}
 	}
 
 	for (int i=2*(rozmiarBoku-2); i<rozmiarTablicy; i++) {
-		tablicaCelowNowych[i] = BRAK_WEZLA;
+		tablicaCelow[i] = BRAK_WEZLA;
 	}
 }
 
 //Wybranie zbioru C celów do odkrycia
-void wybierzCeleC(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku) {
-	tablicaCelowNowych[0] = rozmiarBoku + 1;
-	tablicaCelowNowych[1] = 2*(rozmiarBoku - 1);
-	tablicaCelowNowych[2] = rozmiarTablicy - 2*(rozmiarBoku) + 1;
-	tablicaCelowNowych[3] = rozmiarTablicy - rozmiarBoku - 2;
+void wybierzCeleC(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
+	tablicaCelow[0] = rozmiarBoku + 1;
+	tablicaCelow[1] = 2*(rozmiarBoku - 1);
+	tablicaCelow[2] = rozmiarTablicy - 2*(rozmiarBoku) + 1;
+	tablicaCelow[3] = rozmiarTablicy - rozmiarBoku - 2;
 	for (int i=4; i<rozmiarTablicy; i++) {
-		tablicaCelowNowych[i] = BRAK_WEZLA;
+		tablicaCelow[i] = BRAK_WEZLA;
 	}
 }
 
-//Wyznaczenie nowego celu na mapie dla robota
-int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelowNowych[], int rozmiarTablicy, char pozycjaRobota) {
+//Wyznaczenie nowego celu na mapie dla robota. Po wybraniu celu z początku, usunięcie go i przerzucenie pozostalych o 1 do pocczatku
+int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelow[], int rozmiarTablicy, char pozycjaRobota) {
 	int cel = BRAK_WEZLA;
 	int i = 0;
-	bool znalezionoCel = false;
+	bool przeniesionoCele = false;
 	do {
-		if (tablicaCelowNowych[i] != 0) {
-			char znakBadany = tablica[tablicaCelowNowych[i]].rodzajWezla;
-			if (znakBadany != ZNAK_SCIANA && znakBadany != ZNAK_MUR && znakBadany != pozycjaRobota) {
-				cel = tablicaCelowNowych[i];
-				tablica[cel].rodzajWezla = ZNAK_CEL;
-				znalezionoCel = true;
-			}
-			tablicaCelowNowych[i] = 0;
+		if (cel == BRAK_WEZLA && tablica[tablicaCelow[i]].rodzajWezla != ZNAK_SCIANA && tablica[tablicaCelow[i]].rodzajWezla != ZNAK_MUR && tablica[tablicaCelow[i]].rodzajWezla != pozycjaRobota) {
+			cel = tablicaCelow[i];
+			tablica[cel].rodzajWezla = ZNAK_CEL;
+		}
+		if (tablicaCelow[i+1] != BRAK_WEZLA) {
+			tablicaCelow[i] = tablicaCelow[i+1];
+		} else {
+			tablicaCelow[i] = BRAK_WEZLA;
+			przeniesionoCele = true;
 		}
 		i++;
-	} while (!znalezionoCel || i>rozmiarTablicy);
+	} while (!przeniesionoCele && i<rozmiarTablicy);
 
 	return cel;
 }
 
+//Przesuniecie wybranego celu na ostanie miejsce tablicy celow, czy za ostatnim celem
+void przesunCelNaKoniec(int cel, int tablicaCelow[], int rozmiarTablicy) {
+	bool znalezionoMiejsce = false;
+	int i = 0;
+	do {
+		if (tablicaCelow[i] == BRAK_WEZLA) {
+			tablicaCelow[i] = cel;
+			znalezionoMiejsce = true;
+		}
+		i++;
+	} while (!znalezionoMiejsce && i<rozmiarTablicy);
+}
+
 //Tablica celów dostaje jeden cel jakim jest srodek mapy
-void wrocNaPoczatek(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku) {
+void wrocNaPoczatek(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
 	int nowyCel = (rozmiarTablicy + rozmiarBoku)/2;
-	tablicaCelowNowych[0] = nowyCel;
+	tablicaCelow[0] = nowyCel;
 	for (int i=1; i<rozmiarTablicy; i++) {
-		tablicaCelowNowych[i] = BRAK_WEZLA;
+		tablicaCelow[i] = BRAK_WEZLA;
 	}
 }
 

@@ -60,9 +60,6 @@ const int IRLeft = 0;
 const int IRRight = 1;
 const int IRFront = 2;
 
-//Licznik okreslajacy dopuszczalna liczbe nieudanego znalezienia drogi do celu
-const int LICZBA_REZYGNACJI_CELU = 4;
-
 /* Rodzaje wysylanego JSONA
  *
  * JSON_MAPA zostaje wyslana tylko mapa
@@ -139,10 +136,11 @@ void czyscDol(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmia
 void ustalSasiadow(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
 bool wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]);
 Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2);
-void wybierzCeleA(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku);
-void wybierzCeleB(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku);
-void wybierzCeleC(int tablicaCelowNowych[], int rozmiarTablicy, int rozmiarBoku);
-int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelowNowych[], int rozmiarTablicy, char pozycjaRobota);
+void wybierzCeleA(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
+void wybierzCeleB(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
+void wybierzCeleC(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
+int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelow[], int rozmiarTablicy, char pozycjaRobota);
+void przesunCelNaKoniec(int cel, int tablicaCelow[], int rozmiarTablicy);
 void wrocNaPoczatek(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
 
 //Funkcje pomocnicze

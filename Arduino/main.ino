@@ -40,8 +40,7 @@ bool zbadanoMape = false;
 bool osiagnietoCel = true;
 //Warunek wykonania ruchu (gdy jest droga i gdy nie wykryto elementu)
 bool moznaWykonacRuch = false;
-//Licznik określający liczbę nieudanych znalezien trasy do celu
-int licznik = 0;
+
 
 //Oznaczenie jaki tryb portu szeregowego jest aktywny
 const char PORT_WOLNY = '+';
@@ -247,92 +246,6 @@ void loop() {
 				trybPortu = PORT_WOLNY;
 			}
 		}
-		//Dla trybu auto rozpoczęcie samodzielnego badania terenu
-		if (jestTrybAuto) {
-			//Ustawienie celu. Przed ustawieniem celu skanowanie otoczenia
-			if (osiagnietoCel && !zbadanoMape) {
-				cel = wyznaczCel(mapa, ROZMIAR_BOKU_MAPY, tablicaCelow, ROZMIAR_MAPY, pozycjaRobota);
-				if (cel != BRAK_WEZLA) {
-					
-					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
-			
-					osiagnietoCel = false;
-					moznaWykonacRuch = false;
-					licznik = 0;
-					
-				} else {
-					//zwrócono jako cel brak wezla wiec tablica celow nie zawiera nic
-					//nalezy wyjsc z tego ifa i czekać na info o zaladowaniu nowych celow do tablicy
-					osiagnietoCel = true;
-					zbadanoMape = true;
-				}
-			} else
-			//Wyznaczenie trasy
-			if (!osiagnietoCel && !moznaWykonacRuch) {
-				skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
-
-				pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
-				skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
-			
-				ustalSasiadow(mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-				bool wyznaczonoTrase = wyznaczTrase(miejsceRobota, cel, mapa);
-				if (wyznaczonoTrase) {
-					mapa[cel].rodzajWezla = ZNAK_CEL; //bo gdy wykryjemy na  celu sciane a potem ona zniknie to chcemy nadal widziec cel
-					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
-
-					moznaWykonacRuch = true;
-				} else {
-					moznaWykonacRuch = false;
-					osiagnietoCel = true;
-					zbadanoMape = false;
-					mapa[cel].rodzajWezla = ZNAK_WOLNE;
-				}
-			} else
-			//Wykonanie jednego ruchu do celu
-			if (!osiagnietoCel && moznaWykonacRuch) {
-				bool wykrytoElement = false;
-				wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
-				if (!wykrytoElement) {
-					Robot robot = wykonajRuchDoCelu(mapa, miejsceRobota, pozycjaRobota, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, servo1, servo2);
-				
-					//robot stanął w miejscu celu
-					if (robot.miejsceRobota == cel) {
-						osiagnietoCel = true;
-						zbadanoMape = false;
-						licznik = 0;
-					
-					//robot pozostał na swoim miejscu
-					} else if (miejsceRobota == robot.miejsceRobota) {
-						moznaWykonacRuch = false;
-				
-						pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
-						skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-						wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
-
-						licznik++;
-					
-					//robot zmienił miejsce czyli ruch wykonany
-					} else {
-						licznik = 0;
-					}
-					miejsceRobota = robot.miejsceRobota;
-					pozycjaRobota = robot.pozycjaRobota;
-					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
-
-				//gdy przed wykonaniem ruchu wykryto nowy element
-				} else {
-					moznaWykonacRuch = false;
-				}
-				//Po ilu ruchach bez przemieszczenia porzuca cel
-				if (licznik == LICZBA_REZYGNACJI_CELU) {
-					osiagnietoCel = true;
-					zbadanoMape = false;
-				}
-			}
-		}
 	}
 	//Dla trybu auto rozpoczęcie samodzielnego badania terenu
 	if (jestTrybAuto) {
@@ -340,13 +253,10 @@ void loop() {
 		if (osiagnietoCel && !zbadanoMape) {
 			cel = wyznaczCel(mapa, ROZMIAR_BOKU_MAPY, tablicaCelow, ROZMIAR_MAPY, pozycjaRobota);
 			if (cel != BRAK_WEZLA) {
-				
 				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 		
 				osiagnietoCel = false;
 				moznaWykonacRuch = false;
-				licznik = 0;
-				
 			} else {
 				//zwrócono jako cel brak wezla wiec tablica celow nie zawiera nic
 				//nalezy wyjsc z tego ifa i czekać na info o zaladowaniu nowych celow do tablicy
@@ -371,6 +281,7 @@ void loop() {
 
 				moznaWykonacRuch = true;
 			} else {
+				przesunCelNaKoniec(cel, tablicaCelow, ROZMIAR_MAPY);
 				moznaWykonacRuch = false;
 				osiagnietoCel = true;
 				zbadanoMape = false;
@@ -379,44 +290,22 @@ void loop() {
 		} else
 		//Wykonanie jednego ruchu do celu
 		if (!osiagnietoCel && moznaWykonacRuch) {
+			Robot robot = wykonajRuchDoCelu(mapa, miejsceRobota, pozycjaRobota, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, servo1, servo2);
+			//robot stanął w miejscu celu
+			if (robot.miejsceRobota == cel) {
+				osiagnietoCel = true;
+				zbadanoMape = false;
+			}
+			miejsceRobota = robot.miejsceRobota;
+			pozycjaRobota = robot.pozycjaRobota;
+			wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
+
 			bool wykrytoElement = false;
 			wykrytoElement = skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
 			wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
-			if (!wykrytoElement) {
-				Robot robot = wykonajRuchDoCelu(mapa, miejsceRobota, pozycjaRobota, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, servo1, servo2);
-			
-				//robot stanął w miejscu celu
-				if (robot.miejsceRobota == cel) {
-					osiagnietoCel = true;
-					zbadanoMape = false;
-					licznik = 0;
-				
-				//robot pozostał na swoim miejscu
-				} else if (miejsceRobota == robot.miejsceRobota) {
-					moznaWykonacRuch = false;
-			
-					pozycjaRobota = wykonajObrot90Prawo(mapa, miejsceRobota, pozycjaRobota, servo1, servo2);
-					skanujZaznaczMape(miejsceRobota, pozycjaRobota, mapa, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
-					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
-
-					licznik++;
-				
-				//robot zmienił miejsce czyli ruch wykonany
-				} else {
-					licznik = 0;
-				}
-				miejsceRobota = robot.miejsceRobota;
-				pozycjaRobota = robot.pozycjaRobota;
-				wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
-
-			//gdy przed wykonaniem ruchu wykryto nowy element
-			} else {
+			//gdy po wykonaniu ruchu wykryto nowy element
+			if (wykrytoElement) {
 				moznaWykonacRuch = false;
-			}
-			//Po ilu ruchach bez przemieszczenia porzuca cel
-			if (licznik == LICZBA_REZYGNACJI_CELU) {
-				osiagnietoCel = true;
-				zbadanoMape = false;
 			}
 		}
 	}
