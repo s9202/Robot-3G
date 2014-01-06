@@ -1,0 +1,82 @@
+﻿Opis działania diód kontrolnych
+
+Dioda 1: 	zielona po otrzymaniu odpowiedzi z serwera biała gdy nie otrzyma odpowiedzi 			serwera			
+Dioda 2:	zielona gdy otrzyma JSON z serwera (mało istotne)
+Dioda 3:	czerwona gdy robot zgasł zielona gdy robot świeci
+
+Komunikacja przez port szeregowy między Arduino a Raspberry Pi
+Arduino otrzymuje komunikaty w postaci znaków typu char informujące co ma zrobić:
+
+TRYB_MANUAL = '0';		– uruchomienie trybu manualnego sterowania robotem
+TRYB_AUTO = '1';		– uruchomienie trybu automatycznego działania robota
+JAZDA_PRZOD = 'w';		– rozpoczęcie ciągłej jazdy do przodu
+JAZDA_LEWO = 'a';		– rozpoczęcie ciągłego obracania w lewo
+JAZDA_PRAWO = 'd';		– rozpoczęcie ciągłego obracania w prawo
+JAZDA_TYL = 's';		– rozpoczęcie ciągłej jazdy do tyłu
+JAZDA_PRZOD_SKOK = 'W';	– wykonanie jednego ruchu do przodu według siatki mapy
+JAZDA_LEWO_SKOK = 'A';	– wykonanie obrotu 90 stopni w lewo według siatki mapy
+JAZDA_PRAWO_SKOK = 'D';	– wykonanie obrotu 90 stopni w prawo według siatki mapy
+JAZDA_TYL_SKOK = 'S';	– wykonanie jednego ruchu do tyłu według siatki mapy
+GLOWA_LEWO = 'q';		– rozpoczęcie ciągłego obracania głową w lewo
+GLOWA_PRAWO = 'e';		– rozpoczęcie ciągłego obracania głową w prawo
+JAZDA_STOP = '3';		– zatrzymanie obu ruchu obydwu kół
+GLOWA_STOP = '4';		– zatrzymanie obrotu głowy
+SKAN_MAN = '5';		– wykonanie skanowania otoczenia czujnikami w trybie manualnym
+POWROT = '6';			– żądanie powrotu robota do miejsca początkowego
+AUTO_A = '7';			– uruchomienie algorytmu A samodzielnego działania robota
+AUTO_B = '8';			– uruchomienie algorytmu B samodzielnego działania robota
+AUTO_C = '9';			– uruchomienie algorytmu C samodzielnego działania robota
+WSP_ROBOT = '-';		– przejście do trybu odczytywania współrzędnych pozycji robota
+WSP_MUR = '=';		– przejście do trybu odczytywania współrzędnych wstawiania muru
+WSP_WOLNE = '_';		– przejście do trybu odczytywania współrzędnych usuwania muru
+
+Raspberry Pi otrzymuje JSON zawierający obiekt „mapa” będący tablicą znaków typu char:
+
+'o'	 – wolne pole
+'x'	 – zajęte pole (przeszkoda wykryta przez czujniki)
+'X'	 – zajęte pole (mur wstawiony przez operatora)
+'.'	 –  ślad wyznaczonej trasy do celu
+'C'	 – miejsce wskazane jako cel dla robota
+'8'	 – miejsce robota (pozycja przodem do góry)
+'6'	 – miejsce robota (pozycja przodem w prawo)
+'4'	 – miejsce robota (pozycja przodem w dół)
+'2'	 – miejsce robota (pozycja przodem w lewo)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Linki
+
+aJSON boblioteka dla Arduino: (raczej zbędne)
+projekt termometru
+Biblioteka portu USB RaspPi  - https://github.com/voodootikigod/node-serialport
+
+GITHUB repozytoria:
+
+github.com/s9202/Robot-Wifi/
+github.com/s8145/Robot-3G/
+
+
+
+
+ZASADY PISANIA KODU:
+trzymamy się zasad niezależnie od środowiska w którym piszemy
+kodujemy UTF-8
+wcięcia robimy tabulacjami, a nie spacjami
+każda funkcja, klasa, struktura, stała musi posiadać powyżej komentarz opisujący działanie, parametry i zwracaną wartość
+każde wyrażenie obejmujemy klamrami { }, nawet if który ma jedną instrukcję if(){}
+nazwy klas, struktur rozpoczynamy wielką literą
+nazwy stałych piszemy WIELKIMI_LITERAMI
+nazwy zmiennych i funkcji piszemy wStyluCamelCase, pamiętając że rozpoczyna się małą literą
+wszystkie nazwy piszemy w języku polskim, nie używamy języka angielskiego
+unikamy zmiennych globalnych
+każdą zmienną przekazujemy do funkcji w parametrze
