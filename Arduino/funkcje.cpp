@@ -602,7 +602,7 @@ void wybierzCeleA(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
 
 //Wybranie zbioru B celów do odkrycia
 void wybierzCeleB(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
-	for (int i=0; i<2*(rozmiarBoku-2); i=i++) {
+	for (int i=0; i<2*(rozmiarBoku-2); i++) {
 		int index1 = 2*i;
 		int index2 = 2*i+1;
 		if (i%2 == 0) {
@@ -621,11 +621,21 @@ void wybierzCeleB(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
 
 //Wybranie zbioru C celów do odkrycia
 void wybierzCeleC(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
-	tablicaCelow[0] = rozmiarBoku + 1;
-	tablicaCelow[1] = 2*(rozmiarBoku - 1);
-	tablicaCelow[2] = rozmiarTablicy - 2*(rozmiarBoku) + 1;
-	tablicaCelow[3] = rozmiarTablicy - rozmiarBoku - 2;
-	for (int i=4; i<rozmiarTablicy; i++) {
+	for (int i=0; i<rozmiarBoku-2; i++) {
+		//int index1 = 2*i;
+		//int index2 = 2*i+1;
+		if (i%2 == 0) {
+			for (int j=1; j<rozmiarBoku-1; j++) {
+				tablicaCelow[i*(rozmiarBoku-2)+j-1] = (i+1)*rozmiarBoku + j;
+			}
+		} else {
+			for (int j=1; j<rozmiarBoku-1; j++) {
+				tablicaCelow[i*(rozmiarBoku-2)+j-1] = (i+1)*rozmiarBoku + (rozmiarBoku - 1 - j);
+			}
+		}
+	}
+
+	for (int i=4*(rozmiarTablicy-1)-1; i<rozmiarTablicy; i++) {
 		tablicaCelow[i] = BRAK_WEZLA;
 	}
 }
@@ -666,9 +676,8 @@ void przesunCelNaKoniec(int cel, int tablicaCelow[], int rozmiarTablicy) {
 }
 
 //Tablica celów dostaje jeden cel jakim jest srodek mapy
-void wrocNaPoczatek(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
-	int nowyCel = (rozmiarTablicy + rozmiarBoku)/2;
-	tablicaCelow[0] = nowyCel;
+void wrocNaPoczatek(int miejsceStartRobota, int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
+	tablicaCelow[0] = miejsceStartRobota;
 	for (int i=1; i<rozmiarTablicy; i++) {
 		tablicaCelow[i] = BRAK_WEZLA;
 	}

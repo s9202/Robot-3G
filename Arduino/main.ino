@@ -12,6 +12,9 @@ char pozycjaRobota = PRZODEM_GORA;
 //Zmienna zawierajaca aktualne miejsce robota na mapie
 int miejsceRobota = 0;
 
+//Zmienna okreslajaca miejsce startowe robota
+int miejsceStartRobota = 0;
+
 //Zmienna zawierajaca aktualne miejsce celu na mapie
 int cel;
 
@@ -62,6 +65,7 @@ void setup() {
 
 	//Tworzenie mapy początkowej
 	miejsceRobota = inicjujMape(ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY, miejsceRobota, pozycjaRobota, mapa);
+	miejsceStartRobota = miejsceRobota;
 	wybierzCeleA(tablicaCelow, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
 	wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 }
@@ -157,7 +161,7 @@ void loop() {
 					if (jestTrybAuto) {
 						czyscTablice(tablicaCelow, ROZMIAR_MAPY);
 						mapa[cel].rodzajWezla = ZNAK_WOLNE;
-						wrocNaPoczatek(tablicaCelow, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
+						wrocNaPoczatek(miejsceStartRobota, tablicaCelow, ROZMIAR_MAPY, ROZMIAR_BOKU_MAPY);
 						zbadanoMape = false;
 						osiagnietoCel = true;
 					}
@@ -213,8 +217,11 @@ void loop() {
 				wspolrzednaY = wyznaczWspolrzedna(odebranyBajt);
 				int miejsceObiektu = obliczWspolrzedne(wspolrzednaX, wspolrzednaY, ROZMIAR_BOKU_MAPY);
 				if (sparwdzDostepnoscMiejsca(mapa, miejsceObiektu, pozycjaRobota)) {
+					mapa[miejsceRobota].rodzajWezla = ZNAK_WOLNE;
 					miejsceRobota = miejsceObiektu;
+					miejsceStartRobota = miejsceObiektu;
 					mapa[miejsceObiektu].rodzajWezla = PRZODEM_GORA;
+					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 				}
 				jestWspX = false;
 				trybPortu = PORT_WOLNY;
@@ -228,6 +235,7 @@ void loop() {
 				int miejsceObiektu = obliczWspolrzedne(wspolrzednaX, wspolrzednaY, ROZMIAR_BOKU_MAPY);
 				if (sparwdzDostepnoscMiejsca(mapa, miejsceObiektu, pozycjaRobota)) {
 					mapa[miejsceObiektu].rodzajWezla = ZNAK_MUR;
+					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 				}
 				jestWspX = false;
 				trybPortu = PORT_WOLNY;
@@ -241,6 +249,7 @@ void loop() {
 				int miejsceObiektu = obliczWspolrzedne(wspolrzednaX, wspolrzednaY, ROZMIAR_BOKU_MAPY);
 				if (mapa[miejsceObiektu].rodzajWezla == ZNAK_MUR) {
 					mapa[miejsceObiektu].rodzajWezla = ZNAK_WOLNE;
+					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 				}
 				jestWspX = false;
 				trybPortu = PORT_WOLNY;

@@ -141,7 +141,7 @@ void wybierzCeleB(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
 void wybierzCeleC(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
 int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelow[], int rozmiarTablicy, char pozycjaRobota);
 void przesunCelNaKoniec(int cel, int tablicaCelow[], int rozmiarTablicy);
-void wrocNaPoczatek(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
+void wrocNaPoczatek(int miejsceStartRobota, int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
 
 //Funkcje pomocnicze
 bool wystapilWTablicy(int tablica[], int element, int rozmiarTablicy);
