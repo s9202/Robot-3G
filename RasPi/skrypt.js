@@ -7,12 +7,20 @@ var socket = io.connect();
 var counter = 0;
 
 //--------------------------------------
-var rozmiar = 780;
+var rozmiar = 480;
 var paper = Raphael(mapa, rozmiar, rozmiar);
 var robot;
 var robotHIR, robotLIR, robotRIR; 
 var timeForward = 1170;
 var timeRotate = 500;
+
+//var cXG, cYG; // kord Global - cel
+//var sXG, cYG; // droga
+var rXG, rYG; //robot
+
+var setBlock = false;
+var delBlock = false;
+var setRobot = false;
 
 
 function drawLines(){        
@@ -26,11 +34,29 @@ function drawLines(){
         }      
 }
 
-function drawBlock(nrX, nrY){           	       	
+function drawBlock(nrX, nrY, type){           	       	
 	var block = paper.rect(nrX*40, nrY*40, 40, 40, 4);
-        block.attr("fill", "blue");
-        block.attr("stroke", "#fff");
         
+        block.attr("stroke", "#fff");
+	if(type==true) block.attr("fill", "blue");
+       	else block.attr("fill", "#9D09D9");
+}
+
+var block2 = paper.rect(0, 0, 0, 0, 0);
+
+function drawBlock2(X, Y){           	       	
+		block2.remove();	
+		X = parseInt((X-16)/40);
+		Y = parseInt((Y-16)/40);
+		console.log(X +", " +Y);
+		
+		if( (X>1) && (Y>1) && (X<10) && (Y<10) ) {
+			if((X != rXG) || (Y != rYG)){
+				block2 = paper.rect(X*40, Y*40, 40, 40, 4);
+        			block2.attr("fill", "#9D09D9");
+        			block2.attr("stroke", "#fff");  
+	     		}
+		}
 }
 
 function drawRobot(nrX, nrY, obrot){  
@@ -75,6 +101,44 @@ function drawRobot(nrX, nrY, obrot){
 		robotRIR.transform("t-25,12r90");
 	}
 }
+
+
+var robot2 = paper.rect(0, 0, 0, 0, 0);  
+var robotHIR2 = paper.path("0");  
+var robotLIR2 = paper.path("0");
+var robotRIR2 = paper.path("0");
+  
+function drawRobot2(nrX, nrY){  
+	robot2.remove();
+	robotHIR2.remove();
+	robotLIR2.remove();
+	robotRIR2.remove();
+	var robotX = parseInt((nrX-16)/40);
+	var robotY = parseInt((nrY-16)/40);
+		
+	if( (robotX>1) && (robotY>1) && (robotX<10) && (robotY<10) ) {
+		if((robotX != rXG) || (robotY != rYG)){
+			robotX *= 40;
+			robotY *= 40;
+        		var robotLIRX = robotX-3+5, robotLIRY = robotY+33;
+       			var robotRIRX = robotX+41-5, robotRIRY = robotY+19;
+        		var robotHIRX = robotX+12, robotHIRY = robotY-3+5;
+			
+			robot2 = paper.rect(robotX+4, robotY+4, 30, 34, 5);       
+			robot2.attr({fill: '#B30000', stroke: 'green', 'stroke-width': 2}); 
+        
+        		robotHIR2 = paper.path("M "+ robotHIRX+" "+ robotHIRY +   "  l 4 0 l 0 -3.5 l 0 3.5 l 6 0 l 0 -3.5 l 0 3.5 l 4 0");
+        		robotHIR2.attr({stroke: 'green', 'stroke-width': 3});
+
+        		robotLIR2 = paper.path("M "+ robotLIRX+" "+ robotLIRY+"l 0 -4 l -3.5 0 l  3.5 0 l 0 -6 l -3.5 0 l 3.5 0 l 0 -4");
+        		robotLIR2.attr({stroke: 'green', 'stroke-width': 3});
+        
+        		robotRIR2 = paper.path("M "+ robotRIRX+" "+ robotRIRY+"l 0 4 l 3.5 0 l  -3.5 0 l 0 6 l 3.5 0 l -3.5 0 l 0 4");
+        		robotRIR2.attr({stroke: 'green', 'stroke-width': 3}); 
+		}
+	} 
+}
+
 function removeRobot(){  
 	robot.remove();
 	robotHIR.remove();
@@ -101,6 +165,21 @@ function drawCircleS(nrX, nrY){
 function drawCircleB(nrX, nrY){           	       	
 	var cS = paper.circle(nrX*40+20, nrY*40+20, 10);
         cS.attr("fill", "red");             
+}
+
+var cross = paper.path(0);
+function drawCross(X, Y){
+	cross.remove();
+	X = parseInt((X-16)/40);
+	Y = parseInt((Y-16)/40);
+	if( (X>1) && (Y>1) && (X<10) && (Y<10) ) {
+		if((X != rXG) || (Y != rYG)){
+			X = X*40+10;
+			Y = Y*40+10;
+			cross = paper.path("M "+ X+" "+ Y+" l 20 20 l -10 -10 l 10 -10 l -20 20");
+       			cross.attr("stroke-width", "3");
+		}
+	}             
 }
 //--------------------------------------------------------------- obsluga odpowiedzi serwera
 	socket.on('testServer', function(dane){
@@ -151,7 +230,10 @@ function drawCircleB(nrX, nrY){
 					drawX++;
 				}
 				if (daneMapy.charAt(i) === "x" ) {
-					drawBlock(drawX, drawY);
+					drawBlock(drawX, drawY, true);
+				}
+				else if (daneMapy.charAt(i) === "X" ) {
+					drawBlock(drawX, drawY, false);
 				}
 				else if (daneMapy.charAt(i) === "." ) {
 					drawCircleS(drawX, drawY);
@@ -164,6 +246,8 @@ function drawCircleB(nrX, nrY){
 						removeRobot();
 					}
 					drawRobot(drawX, drawY, daneMapy.charAt(i));
+					rXG = drawX;
+					rYG = drawY;
 					//moveRobot();
 				}
 			}
@@ -260,7 +344,7 @@ function drawCircleB(nrX, nrY){
 			$("#tryb2").css( { "background-color": "yellow" } );
 			socket.emit('jazda', '0');
 			console.log('tryb manual');
-		})
+		});
 	
 	$("#tryb2")
 		.on( "mousedown", function() {
@@ -268,7 +352,7 @@ function drawCircleB(nrX, nrY){
 			$("#tryb1").css( { "background-color": "yellow" } );
 			socket.emit('jazda', '1');
 			console.log('tryb auto');
-		})
+		});
 	
 	$("#skan")
 		.on( "mousedown", function() {
@@ -318,6 +402,41 @@ function drawCircleB(nrX, nrY){
 		})
 		.on( "mouseup", function() {
 			$(this).css( { "background-color": "teal" } );
+		});
+
+
+	$("#setBlock")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "orange" } );
+			$("#setRobot").css( { "background-color": "yellow" } );
+			$("#delBlock").css( { "background-color": "yellow" } );
+			console.log('set block');
+			setBlock = true;
+			setRobot = false;
+			delBlock = false;
+			
+		});
+	$("#delBlock")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "orange" } );
+			$("#setBlock").css( { "background-color": "yellow" } );
+			$("#setRobot").css( { "background-color": "yellow" } );
+			console.log('del block');
+			setBlock = false;
+			setRobot = false;
+			delBlock = true;
+			
+		});
+	$("#setRobot")
+		.on( "mousedown", function() {
+			$(this).css( { "background-color": "orange" } );
+			$("#setBlock").css( { "background-color": "yellow" } );
+			$("#delBlock").css( { "background-color": "yellow" } );
+			console.log('set robot');
+			setBlock = false;
+			setRobot = true;
+			delBlock = false;
+			
 		});
 //-------------------------------------------------------- Klawiatura
         
@@ -391,7 +510,37 @@ function drawCircleB(nrX, nrY){
 				break;
 			}
 	});
-        
+
+$("#mapa").mousemove(function(event){
+	var msg = event.pageX + ", " + event.pageY;     
+	console.log(msg);
+	if(setBlock==true) drawBlock2(event.pageX, event.pageY);
+	if(delBlock==true) drawCross(event.pageX, event.pageY);
+	if(setRobot==true) drawRobot2(event.pageX, event.pageY);
+	
+});
+
+$("#mapa").on("mouseup", function(event){
+	
+	var X = parseInt((event.pageX-16)/40)-1;
+	var Y = parseInt((event.pageY-16)/40)-1;
+	if(setBlock==true){
+		socket.emit('jazda',"="+ X +""+ Y);
+		console.log("setBlock: " + X +", " +Y);
+		socket.emit('jazda', '5');
+	}
+	else if(delBlock==true){
+		socket.emit('jazda',"_"+ X +""+ Y);
+		console.log("delBlock: " + X +", " +Y);
+		socket.emit('jazda', '5');
+	}
+	else if(setRobot==true){
+		socket.emit('jazda',"-"+ X +""+ Y);
+		console.log("setRobot: " + X +", " +Y);
+		socket.emit('jazda', '5');
+
+	}
+}); 
 //---------------------------------------------------------------------funkcje pomocnicze
 function setCharAt(str, index, chr){// funkcja do zamiany znaku stringu
 	if(index > str.length-1) return str;
