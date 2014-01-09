@@ -182,7 +182,12 @@ function drawCross(X, Y){
 	}             
 }
 //--------------------------------------------------------------- obsluga odpowiedzi serwera
-	socket.on('testServer', function(dane){
+	
+var raz = true;
+if (raz == true) socket.emit('jazda', '5');
+raz = false;
+
+socket.on('testServer', function(dane){
 		console.log( dane );
 		$("#d1").css( { "background-color": "green" } );
 	});

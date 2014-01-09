@@ -61,8 +61,8 @@ body {
         width:                30px;
         height:                100px;
         position:        absolute;
-        left: 781px;
-        top:                15px;
+        left: 5px;
+        top:                35px;
         
 }
 
@@ -87,7 +87,39 @@ body {
 	border:                         2px solid black;
 }
 
+#mapEditor{
+        position:                absolute;
+        top:                        15px;
+        width:                        170px;
+        height:                        210px;
+        left:                        600px;
+        margin-left:        100px;
+	//background: red;
+	border:                         2px solid black;
+}
+#testFields{
+        color: white;
+	position:                absolute;
+        top:                        244px;
+        width:                        170px;
+        height:                        251px;
+        left:                        600px;
+        margin-left:        100px;
+	background: black;
+	border:                         2px solid black;
+}
+
+
 #modes{
+        position:                absolute;
+        top:                        45px;
+        width:                        150px;
+        height:                        100px;
+        left:                        10px;
+	//background: green;
+}
+
+#control{
         position:                absolute;
         top:                        45px;
         width:                        150px;
@@ -130,7 +162,7 @@ body {
         background: black;
         color: grey;
         font-size:70%;
-        left: 910px;
+        left: 30px;
         top: 15px;
         border:                         2px solid black;
         width:                                90px;
@@ -174,6 +206,17 @@ body {
         top:        65px;
 }
 
+#setBlock{
+        top:        30px;
+}
+
+#delBlock{
+        top:        65px;
+}
+
+#setRobot{
+        top:        100px;
+}
 #skan{
         top:        30px;
         background-color: teal;
