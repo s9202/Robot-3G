@@ -87,6 +87,8 @@ void loop() {
 					break;
 				case (TRYB_AUTO):
 					jestTrybAuto = true;
+					osiagnietoCel = false;
+					moznaWykonacRuch = false;
 					wyslijStringJson(mapa, ROZMIAR_MAPY, JSON_MAPA);
 					break;
 				case (JAZDA_PRZOD):
@@ -290,11 +292,13 @@ void loop() {
 
 				moznaWykonacRuch = true;
 			} else {
-				przesunCelNaKoniec(cel, tablicaCelow, ROZMIAR_MAPY);
 				moznaWykonacRuch = false;
 				osiagnietoCel = true;
 				zbadanoMape = false;
-				mapa[cel].rodzajWezla = ZNAK_WOLNE;
+				if (cel != 0) {
+					przesunCelNaKoniec(cel, tablicaCelow, ROZMIAR_MAPY);
+					mapa[cel].rodzajWezla = ZNAK_WOLNE;
+				}
 			}
 		} else
 		//Wykonanie jednego ruchu do celu

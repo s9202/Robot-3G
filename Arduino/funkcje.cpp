@@ -770,7 +770,7 @@ int obliczWspolrzedne(int wspolrzednaX, int wspolrzednaY, int rozmiarBoku) {
 bool sparwdzDostepnoscMiejsca(Wezel tablica[], int miejsceObiektu, char pozycjaRobota) {
 	bool miejsceDostepne = false;
 	char znakWMiejscuObiektu = tablica[miejsceObiektu].rodzajWezla;
-	if (znakWMiejscuObiektu != ZNAK_MUR && znakWMiejscuObiektu != ZNAK_SCIANA && znakWMiejscuObiektu != pozycjaRobota) {
+	if (znakWMiejscuObiektu != ZNAK_MUR && znakWMiejscuObiektu != ZNAK_SCIANA && znakWMiejscuObiektu != ZNAK_CEL && znakWMiejscuObiektu != pozycjaRobota) {
 		miejsceDostepne = true;
 	}
 	return miejsceDostepne;
