@@ -136,8 +136,8 @@ socket.on('connection', function( client ) {
 
                         console.log( dane );
                         //console.log( stanRobota );
-                        client.emit( 'testServer', "Test serwer odpowiada");
-                        client.emit( 'testJSON', JSON.stringify( daneMapy.test ) );
+                        io.sockets.emit( 'testServer', "Test serwer odpowiada");
+                        io.sockets.emit( 'testJSON', JSON.stringify( daneMapy.test ) );
                         serialPort.write( dane  );                         
 
                 });
@@ -148,7 +148,7 @@ socket.on('connection', function( client ) {
                         var daneArduino = JSON.parse( dane );
 			
 //                        console.log('Mapa odebrana od arduino: ' + daneArduino.mapa);
-                        client.emit( 'testRobot', daneArduino);
+                        io.sockets.emit( 'testRobot', daneArduino);
                         var linia = '';
                         for (var i=0; i<daneArduino.mapa.length; i++) {
                         
