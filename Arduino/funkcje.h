@@ -105,13 +105,17 @@ double skanujSensor(int iR);
 //Funkcja emitowania sygnalu dzwiekowego
 void beep(unsigned char delayms);
 
-//Funkcje ruchu skokowego przydatne dla kontroli automatycznej
+//Funkcje ruchu skokowego przydatne dla kontroli automatycznej--------------------------------------------------
+
+
 int wykonajJedenRuchPrzod(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2);
 int wykonajJedenRuchTyl(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2);
 char wykonajObrot90Lewo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, Servo servo1, Servo servo2);
 char wykonajObrot90Prawo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, Servo servo1, Servo servo2);
 
-//Funkcje tworzace mape
+//Funkcje tworzace mape-----------------------------------------------------------------------------------
+
+
 int inicjujMape(int rozmiarTablicy, int rozmiarBoku, int miejsceRobota, char pozycjaRobota, Wezel mapa[]);
 int sprawdzOdlegloscIZaznacz(double odleglosc, int miejsceRobota, char pozycjaCzujnika, Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
 bool skanujZaznaczMape(int miejsceRobota, char pozycjaCzujnikaPrzod, Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
@@ -127,30 +131,50 @@ int zaznacz3Lewo(int miejsceRobota, int rozmiarBoku);
 int zaznacz1Dol(int miejsceRobota, int rozmiarBoku);
 int zaznacz2Dol(int miejsceRobota, int rozmiarBoku);
 int zaznacz3Dol(int miejsceRobota, int rozmiarBoku);
+//Czysci dwa pola w lini prostej od robota (jesli czujnik obejmie wicej niz 2 kratki trzeba duzych zmian)
 void czyscGora(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku);
 void czyscPrawo(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku);
 void czyscLewo(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku);
 void czyscDol(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku);
 
-//Funkcje samodzielnej jazdy robota
+//Funkcje samodzielnej jazdy robota----------------------------------------------------------------------------
+
+//Ustalanie sasiadow, czyli opisanie kazdego wezla jego otoczeniem na podstawie danej mapy
 void ustalSasiadow(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
+//Wyznaczanie trasy
 bool wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]);
+//Wykonanie jednego ruchu do celu zgodnie z wyznaczona trasa
 Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2);
+//Wybranie zbioru A celów do odkrycia. Są to 4 cele rozmieszczone po jednym na każdy róg mapy
 void wybierzCeleA(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
+//Wybranie zbioru B celów do odkrycia. Są to cele rozmieszczone na pionowych krawędziach mapy od góry w kolejności spiralnej
 void wybierzCeleB(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
+//Wybranie zbioru C celów do odkrycia. Są to cele rozmieszczone na każdym wolnym polu mapy od góry w kolejności spiralnej
 void wybierzCeleC(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
+//Wyznaczenie nowego celu na mapie dla robota. Po wybraniu celu z początku, usunięcie go i przerzucenie pozostalych o 1 do pocczatku
 int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelow[], int rozmiarTablicy, char pozycjaRobota);
+//Przesuniecie wybranego celu na ostanie miejsce tablicy celow, czy za ostatnim celem
 void przesunCelNaKoniec(int cel, int tablicaCelow[], int rozmiarTablicy);
+//Tablica celów dostaje jeden cel jakim jest srodek mapy
 void wrocNaPoczatek(int miejsceStartRobota, int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
 
-//Funkcje pomocnicze
+//Funkcje pomocnicze-------------------------------------------------------------------------------
+
+//Sprawdzenie czy podany element wystpil w tablicy
 bool wystapilWTablicy(int tablica[], int element, int rozmiarTablicy);
+//Sprawdzenie czy podany węzeł jest ścianą
 bool czyWezelJestSciana(Wezel tablica[], int badanyWezel, int rozmiarTablicy, int rozmiarBoku);
+//Przywraca wszystkie węzły do wartości inicjalnej
 void czyscTablice(int tablica[], int rozmiarTablicy);
+//Dekoduje podany znak na współrzędną numeryczną według ustalonego schematu
 int wyznaczWspolrzedna(char znakWsp);
+//Oblicza indeks pola na podstawie danej współrzędnej X, Y.
 int obliczWspolrzedne(int wspolrzednaX, int wspolrzednaY, int rozmiarBoku);
+//Sprawdza czy dane pole jest wolne
 bool sparwdzDostepnoscMiejsca(Wezel tablica[], int miejsceObiektu, char pozycjaRobota);
+//Usuwa z mapy wszystkie znaki oznaczające trasę
 void czyscTrase(Wezel tablica[], int rozmiarTablicy);
+
 
 //Pisanie na port szeregowy
 void wyslijStringJson(Wezel tablica[], int rozmiarTablicy, int zestawDanych);
