@@ -6,41 +6,49 @@
 
 //---------------------------------------------------------------------------------------
 //Implementacja
+
 void jedzProsto(Servo servo1, Servo servo2) {
 	servo1.attach(5);
 	servo2.attach(6);
 	servo1.write(85);
 	servo2.write(95);
 }
+
 void skrecajWLewo(Servo servo1, Servo servo2) {
 	servo1.attach(5);
 	servo2.attach(6);
 	servo1.write(85);
 	servo2.write(85);
 }
+
 void skrecajWPrawo(Servo servo1, Servo servo2) {
 	servo1.attach(5);
 	servo2.attach(6);
 	servo1.write(95);
 	servo2.write(95);
 }
+
 void jedzDoTylu(Servo servo1, Servo servo2) {
 	servo1.attach(5);
 	servo2.attach(6);
 	servo1.write(95);
 	servo2.write(85);
 }
+
 void zatrzymajRuch(Servo servo1, Servo servo2) {
 	servo1.detach();
 	servo2.detach();
 }
+
 void zatrzymajGlowe(Servo servo3) {
 	servo3.detach();
 }
+
 void glowaLewo(Servo servo3) {
 	servo3.attach(3);
 	servo3.write(45);
 }
+
 void glowaPrawo(Servo servo3) {
 	servo3.attach(3);
 	servo3.write(135);
@@ -115,6 +123,7 @@ int wykonajJedenRuchTyl(Wezel tablica[], int miejsceRobota, char pozycjaRobota, 
 	}
 	return miejsceRobota;
 }
+
 char wykonajObrot90Lewo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, Servo servo1, Servo servo2) {
 
 
@@ -132,6 +141,7 @@ char wykonajObrot90Lewo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, 
 	tablica[miejsceRobota].rodzajWezla = pozycjaRobota;
 	return pozycjaRobota;
 }
+
 char wykonajObrot90Prawo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, Servo servo1, Servo servo2) {
 
 
@@ -168,7 +178,6 @@ int inicjujMape(int rozmiarTablicy, int rozmiarBoku, int miejsceRobota, char poz
 	tablica[miejsceRobota].rodzajWezla = pozycjaRobota;
 	return miejsceRobota;
 }
-
 
 int sprawdzOdlegloscIZaznacz(double odleglosc, int miejsceRobota, char pozycjaCzujnika, Wezel tablica[], int rozmiarTablicy, int rozmiarBoku) {
 
@@ -253,51 +262,62 @@ int zaznacz1Gora(int miejsceRobota, int rozmiarBoku) {
 	int miejsceZaznaczenia = miejsceRobota - rozmiarBoku;
 	return miejsceZaznaczenia;
 }
+
 int zaznacz2Gora(int miejsceRobota, int rozmiarBoku) {
 	int miejsceZaznaczenia = miejsceRobota - (2 * rozmiarBoku);
 	return miejsceZaznaczenia;
 }
+
 int zaznacz3Gora(int miejsceRobota, int rozmiarBoku) {
 	int miejsceZaznaczenia = miejsceRobota - (3 * rozmiarBoku);
 	return miejsceZaznaczenia;
 }
+
 int zaznacz1Lewo(int miejsceRobota, int rozmiarBoku) {
 	int miejsceZaznaczenia = miejsceRobota - 1;
 	return miejsceZaznaczenia;
 }
+
 int zaznacz2Lewo(int miejsceRobota, int rozmiarBoku) {
 	int miejsceZaznaczenia = miejsceRobota - 2;
 	return miejsceZaznaczenia;
 }
+
 int zaznacz3Lewo(int miejsceRobota, int rozmiarBoku) {
 	int miejsceZaznaczenia = miejsceRobota - 3;
 	return miejsceZaznaczenia;
 }
+
 int zaznacz1Prawo(int miejsceRobota, int rozmiarBoku) {
 	int miejsceZaznaczenia = miejsceRobota + 1;
 	return miejsceZaznaczenia;
 }
+
 int zaznacz2Prawo(int miejsceRobota, int rozmiarBoku) {
 	int miejsceZaznaczenia = miejsceRobota + 2;
 	return miejsceZaznaczenia;
 }
+
 int zaznacz3Prawo(int miejsceRobota, int rozmiarBoku) {
 	int miejsceZaznaczenia = miejsceRobota + 3;
 	return miejsceZaznaczenia;
 }
+
 int zaznacz1Dol(int miejsceRobota, int rozmiarBoku) {
 	int miejsceZaznaczenia = miejsceRobota + rozmiarBoku;
 	return miejsceZaznaczenia;
 }
+
 int zaznacz2Dol(int miejsceRobota, int rozmiarBoku) {
 	int miejsceZaznaczenia = miejsceRobota + (2 * rozmiarBoku);
 	return miejsceZaznaczenia;
 }
+
 int zaznacz3Dol(int miejsceRobota, int rozmiarBoku) {
 	int miejsceZaznaczenia = miejsceRobota + (3 * rozmiarBoku);
 	return miejsceZaznaczenia;
 }
-//Czysci dwa pola w lini prostej od robota (jesli czujnik obejmie wicej niz 2 kratki trzeba duzych zmian)
+
 void czyscGora(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku) {
 	int badanyWezel = miejsceRobota - rozmiarBoku;
 	if (czyWezelJestSciana(tablica, badanyWezel, rozmiarTablicy, rozmiarBoku)) {
@@ -308,6 +328,7 @@ void czyscGora(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmi
 		tablica[badanyWezel].rodzajWezla = ZNAK_WOLNE;
 	}
 }
+
 void czyscPrawo(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku) {
 	int badanyWezel = miejsceRobota + 1;
 	if (czyWezelJestSciana(tablica, badanyWezel, rozmiarTablicy, rozmiarBoku)) {
@@ -318,6 +339,7 @@ void czyscPrawo(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozm
 		tablica[badanyWezel].rodzajWezla = ZNAK_WOLNE;
 	}
 }
+
 void czyscLewo(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku) {
 	int badanyWezel = miejsceRobota - 1;
 	if (czyWezelJestSciana(tablica, badanyWezel, rozmiarTablicy, rozmiarBoku)) {
@@ -328,6 +350,7 @@ void czyscLewo(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmi
 		tablica[badanyWezel].rodzajWezla = ZNAK_WOLNE;
 	}
 }
+
 void czyscDol(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku) {
 	int badanyWezel = miejsceRobota + rozmiarBoku;
 	if (czyWezelJestSciana(tablica, badanyWezel, rozmiarTablicy, rozmiarBoku)) {
@@ -339,7 +362,6 @@ void czyscDol(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmia
 	}
 }
 
-//Ustalanie sasiadow, czyli opisanie kazdego wezla jego otoczeniem, po wygenerowaniu labiryntu
 void ustalSasiadow(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku) {
 	//inicjalne ustawienie braku sasiadow i poprzednika dla wszystkich wezlow
 	for (int i=0; i<rozmiarTablicy; i++) {
@@ -424,7 +446,6 @@ void ustalSasiadow(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku) {
 	}
 }
 
-//wyznaczanie trasy
 bool wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]) {
 	bool trasaWyznaczona = false;
 	int tablDoSprawdzenia[ROZMIAR_MAPY];
@@ -470,7 +491,6 @@ bool wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]) {
 	return trasaWyznaczona;
 }
 
-//Wykonanie jednego ruchu do celu zgodnie z wyznaczona trasa
 Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2) {
 	Robot robot;
 	if (tablica[tablica[miejsceRobota].sasiadZDolu].rodzajWezla == ZNAK_TRASA || tablica[tablica[miejsceRobota].sasiadZDolu].rodzajWezla == ZNAK_CEL) {
@@ -589,7 +609,6 @@ Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, 
 	return robot;
 }
 
-//Wybranie zbioru A celów do odkrycia
 void wybierzCeleA(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
 	tablicaCelow[0] = rozmiarBoku + 1;
 	tablicaCelow[1] = 2*(rozmiarBoku - 1);
@@ -600,7 +619,6 @@ void wybierzCeleA(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
 	}
 }
 
-//Wybranie zbioru B celów do odkrycia
 void wybierzCeleB(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
 	for (int i=0; i<2*(rozmiarBoku-2); i++) {
 		int index1 = 2*i;
@@ -619,7 +637,6 @@ void wybierzCeleB(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
 	}
 }
 
-//Wybranie zbioru C celów do odkrycia
 void wybierzCeleC(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
 	for (int i=0; i<rozmiarBoku-2; i++) {
 		//int index1 = 2*i;
@@ -640,7 +657,6 @@ void wybierzCeleC(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
 	}
 }
 
-//Wyznaczenie nowego celu na mapie dla robota. Po wybraniu celu z początku, usunięcie go i przerzucenie pozostalych o 1 do pocczatku
 int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelow[], int rozmiarTablicy, char pozycjaRobota) {
 	int cel = BRAK_WEZLA;
 	int i = 0;
@@ -662,7 +678,6 @@ int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelow[], int rozmiar
 	return cel;
 }
 
-//Przesuniecie wybranego celu na ostanie miejsce tablicy celow, czy za ostatnim celem
 void przesunCelNaKoniec(int cel, int tablicaCelow[], int rozmiarTablicy) {
 	bool znalezionoMiejsce = false;
 	int i = 0;
@@ -675,7 +690,6 @@ void przesunCelNaKoniec(int cel, int tablicaCelow[], int rozmiarTablicy) {
 	} while (!znalezionoMiejsce && i<rozmiarTablicy);
 }
 
-//Tablica celów dostaje jeden cel jakim jest srodek mapy
 void wrocNaPoczatek(int miejsceStartRobota, int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku) {
 	tablicaCelow[0] = miejsceStartRobota;
 	for (int i=1; i<rozmiarTablicy; i++) {
@@ -683,7 +697,6 @@ void wrocNaPoczatek(int miejsceStartRobota, int tablicaCelow[], int rozmiarTabli
 	}
 }
 
-//Sprawdzenie czy podany element wystpil w tablicy
 bool wystapilWTablicy(int tablica[], int element, int rozmiarTablicy) {
 	bool jestWTablicy = false;
 	int i = 0;
@@ -783,7 +796,6 @@ void czyscTrase(Wezel tablica[], int rozmiarTablicy) {
 		}
 	}
 }
-
 
 void wyslijStringJson(Wezel tablica[], int rozmiarTablicy, int zestawDanych) {
 
