@@ -87,55 +87,176 @@ typedef struct Robot {
 	char pozycjaRobota;
 } Robot;
 
-//Funkcje ruchu ciglego przydatne dla kontroli zdalnej
+
+/*
+ *Uruchomienie obu serwomechanizmów do jazdy w kierunku do przodu
+ *@param servo1 serwomechanizm pierwszego koła
+ *@param servo2 serwomechanizm drugiego koła
+ *
+*/
 void jedzProsto(Servo servo1, Servo servo2);
+
+/*
+ *Uruchomienie obu serwomechanizmów do obrotu w lewo
+ *@param servo1 serwomechanizm pierwszego koła
+ *@param servo2 serwomechanizm drugiego koła
+ *
+*/
 void skrecajWLewo(Servo servo1, Servo servo2);
+
+/*
+ *Uruchomienie obu serwomechanizmów do obrotu w prawo
+ *@param servo1 serwomechanizm pierwszego koła
+ *@param servo2 serwomechanizm drugiego koła
+ *
+*/
 void skrecajWPrawo(Servo servo1, Servo servo2);
+
+/*
+ *Uruchomienie obu serwomechanizmów do jazdy w kierunku do tyłu
+ *@param servo1 serwomechanizm pierwszego koła
+ *@param servo2 serwomechanizm drugiego koła
+ *
+*/
 void jedzDoTylu(Servo servo1, Servo servo2);
+
+/*
+ *Zatrzymanie ruchu serwomechanizmów kół
+ *@param servo1 serwomechanizm pierwszego koła
+ *@param servo2 serwomechanizm drugiego koła
+ *
+*/
 void zatrzymajRuch(Servo servo1, Servo servo2);
 
-//Funkcje ruchu glowy
+/*
+ *Zatrzymanie ruchu serwomechanizmu głowy robota
+ *@param servo3 serwomechanizm statywu głowy
+ *
+*/
 void zatrzymajGlowe(Servo servo3);
+
+/*
+ *Uruchomienie serwomechanizmu do obrotu głowy w lewo
+ *@param servo3 serwomechanizm statywu głowy
+ *
+*/
 void glowaLewo(Servo servo3);
+
+/*
+ *Uruchomienie serwomechanizmu do obrotu głowy w prawo
+ *@param servo3 serwomechanizm statywu głowy
+ *
+*/
 void glowaPrawo(Servo servo3);
 
-//Funkcja odczytu danych z czujnikow otoczenia
+/*
+ *Odczytuje dane z pinu związanego z czujnikiem odległości
+ *@param iR pin wybrany do odczytu danych
+ *@return obliczona wartość z czujnika wyrażona w centymetrach
+ *
+*/
 double skanujSensor(int iR);
 
-//Funkcja emitowania sygnalu dzwiekowego
+/*
+ *Włączenie sygnału dźwiękowego na odpowiednio długi czas
+ *@param delayms czas wyrażony w milisekundach przez jaki słyszalny jest dźwięk
+*/
 void beep(unsigned char delayms);
 
 //Funkcje ruchu skokowego przydatne dla kontroli automatycznej--------------------------------------------------
 
-
+/*
+ *Przemieszczenie robota o jedno pole w kierunku do przodu, zgodnym z jego obecnym kierunkiem
+ *@param tablica[] aktualna mapa otoczenia
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param pozycjaRobota kierunek, w którym ustawiony jest robot względem krawędzi tablicy mapy
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@param servo1 serwomechanizm pierwszego koła
+ *@param servo2 serwomechanizm drugiego koła
+ *@return miejsce robota na mapie po wykonaniu funkcji
+ *
+*/
 int wykonajJedenRuchPrzod(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2);
+
+/*
+ *Przemieszczenie robota o jedno pole w kierunku do tyłu, zgodnym z jego obecnym kierunkiem
+ *@param tablica[] aktualna mapa otoczenia
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param pozycjaRobota kierunek, w którym ustawiony jest robot względem krawędzi tablicy mapy
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@param servo1 serwomechanizm pierwszego koła
+ *@param servo2 serwomechanizm drugiego koła
+ *@return miejsce robota na mapie po wykonaniu funkcji
+ *
+*/
 int wykonajJedenRuchTyl(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2);
+/*
+ *Obrócenie robota o 90 stopni w prawo w odniesieniu do jego obecnej pozycji
+ *@param tablica[] aktualna mapa otoczenia
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param pozycjaRobota kierunek, w którym ustawiony jest robot względem krawędzi tablicy mapy
+ *@param servo1 serwomechanizm pierwszego koła
+ *@param servo2 serwomechanizm drugiego koła
+ *@return miejsce robota na mapie po wykonaniu funkcji
+ *
+*/
 char wykonajObrot90Lewo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, Servo servo1, Servo servo2);
+
+/*
+ *Obrócenie robota o 90 stopni w prawo w odniesieniu do jego obecnej pozycji
+ *@param tablica[] aktualna mapa otoczenia
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param pozycjaRobota kierunek, w którym ustawiony jest robot względem krawędzi tablicy mapy
+ *@param servo1 serwomechanizm pierwszego koła
+ *@param servo2 serwomechanizm drugiego koła
+ *@return pozycja robota na mapie po wykonaniu funkcji
+ *
+*/
 char wykonajObrot90Prawo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, Servo servo1, Servo servo2);
 
 //Funkcje tworzace mape-----------------------------------------------------------------------------------
 
 
 int inicjujMape(int rozmiarTablicy, int rozmiarBoku, int miejsceRobota, char pozycjaRobota, Wezel mapa[]);
+
 int sprawdzOdlegloscIZaznacz(double odleglosc, int miejsceRobota, char pozycjaCzujnika, Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
+
 bool skanujZaznaczMape(int miejsceRobota, char pozycjaCzujnikaPrzod, Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
+
 int zaznacz1Gora(int miejsceRobota, int rozmiarBoku);
+
 int zaznacz2Gora(int miejsceRobota, int rozmiarBoku);
+
 int zaznacz3Gora(int miejsceRobota, int rozmiarBoku);
+
 int zaznacz1Prawo(int miejsceRobota, int rozmiarBoku);
+
 int zaznacz2Prawo(int miejsceRobota, int rozmiarBoku);
+
 int zaznacz3Prawo(int miejsceRobota, int rozmiarBoku);
+
 int zaznacz1Lewo(int miejsceRobota, int rozmiarBoku);
+
 int zaznacz2Lewo(int miejsceRobota, int rozmiarBoku);
+
 int zaznacz3Lewo(int miejsceRobota, int rozmiarBoku);
+
 int zaznacz1Dol(int miejsceRobota, int rozmiarBoku);
+
 int zaznacz2Dol(int miejsceRobota, int rozmiarBoku);
+
 int zaznacz3Dol(int miejsceRobota, int rozmiarBoku);
 //Czysci dwa pola w lini prostej od robota (jesli czujnik obejmie wicej niz 2 kratki trzeba duzych zmian)
 void czyscGora(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku);
+
 void czyscPrawo(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku);
+
 void czyscLewo(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku);
+
 void czyscDol(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku);
+
 
 //Funkcje samodzielnej jazdy robota----------------------------------------------------------------------------
 
