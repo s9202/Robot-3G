@@ -60,11 +60,11 @@ double skanujSensor(int iR) {
 	return odlegloscZmierzona;
 }
 
-void beep(unsigned char delayms) {
+void wlaczSygnalDzwiekowy(unsigned char dlugoscMs) {
 	analogWrite(11, 20);     
-	delay(delayms);         
+	delay(dlugoscMs);         
 	analogWrite(11, 0);   
-	delay(delayms);         
+	delay(dlugoscMs);         
 } 
 
 int wykonajJedenRuchPrzod(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2) {
