@@ -494,23 +494,70 @@ void wrocNaPoczatek(int miejsceStartRobota, int tablicaCelow[], int rozmiarTabli
 
 //Funkcje pomocnicze-------------------------------------------------------------------------------
 
-//Sprawdzenie czy podany element wystpil w tablicy
+/*
+ *Sprawdzenie czy podany element wystpil w tablicy
+ *@param tablica[] aktualna mapa otoczenia
+ *@param element podlegający sprawdzeniu
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@return informacja o wystąpieniu
+*/
 bool wystapilWTablicy(int tablica[], int element, int rozmiarTablicy);
-//Sprawdzenie czy podany węzeł jest ścianą
+
+/*
+ *Sprawdzenie czy podany węzeł jest ścianą
+ *@param tablica[] aktualna mapa otoczenia
+ *@param badanyWezel wezel podlegający sprawdzeniu
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return informacja czy węzeł jest ścianą
+*/
 bool czyWezelJestSciana(Wezel tablica[], int badanyWezel, int rozmiarTablicy, int rozmiarBoku);
-//Przywraca wszystkie węzły do wartości inicjalnej
+
+/*
+ *Przywraca wszystkie węzły do wartości inicjalnej
+ *@param tablica[] aktualna mapa otoczenia
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+*/
 void czyscTablice(int tablica[], int rozmiarTablicy);
-//Dekoduje podany znak na współrzędną numeryczną według ustalonego schematu
+
+/*
+ *Dekoduje podany znak na współrzędną numeryczną według ustalonego schematu
+ *@param znakWsp znak do zamiany na liczbę
+ *@return współrzędna wyrażona numerycznie
+*/
 int wyznaczWspolrzedna(char znakWsp);
-//Oblicza indeks pola na podstawie danej współrzędnej X, Y.
+
+/*
+ *Oblicza indeks pola na podstawie danej współrzędnej X, Y
+ *@param wspolrzednaX wartość współrzędnej X
+ *@param wspolrzednaX wartość współrzędnej Y
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return indeks w tablicy mapy
+*/
 int obliczWspolrzedne(int wspolrzednaX, int wspolrzednaY, int rozmiarBoku);
-//Sprawdza czy dane pole jest wolne
+
+/*
+ *Sprawdza czy dane pole jest wolne
+ *@param tablica[] aktualna mapa otoczenia
+ *@param miejsceObiektu badane miejsce
+ *@param pozycjaRobota kierunek, w którym ustawiony jest robot względem krawędzi tablicy mapy
+ *@return informacja o dostępności miejsca
+*/
 bool sparwdzDostepnoscMiejsca(Wezel tablica[], int miejsceObiektu, char pozycjaRobota);
-//Usuwa z mapy wszystkie znaki oznaczające trasę
+
+/*
+ *Usuwa z mapy wszystkie znaki oznaczające trasę
+ *@param tablica[] aktualna mapa otoczenia
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+*/
 void czyscTrase(Wezel tablica[], int rozmiarTablicy);
 
-
-//Pisanie na port szeregowy
+/*
+ *Pisanie na port szeregowy
+ *@param tablica[] aktualna mapa otoczenia
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param określony zestaw danych podlegający wysłaniu
+*/
 void wyslijStringJson(Wezel tablica[], int rozmiarTablicy, int zestawDanych);
 
 #endif
