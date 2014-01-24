@@ -407,23 +407,89 @@ void czyscDol(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmia
 
 //Funkcje samodzielnej jazdy robota----------------------------------------------------------------------------
 
-//Ustalanie sasiadow, czyli opisanie kazdego wezla jego otoczeniem na podstawie danej mapy
+/*
+ *Ustalanie sasiadow, czyli opisanie kazdego wezla jego otoczeniem na podstawie danej mapy
+ *@param tablica[] aktualna mapa otoczenia
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *
+*/
 void ustalSasiadow(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
-//Wyznaczanie trasy
+
+/*
+ *Wyznaczanie trasy
+ *@param pPunktWejscia punkt z którego następuje próba wyznaczenia trasy
+ *@param pPunktWyjscia punkt docelowy wyznaczania trasy
+ *@param tablica[] aktualna mapa otoczenia
+ *@return informacja o powodzeniu wyznaczania trasy
+ *
+*/
 bool wyznaczTrase(int pPunktWejscia, int pPunktWyjscia, Wezel tablica[]);
-//Wykonanie jednego ruchu do celu zgodnie z wyznaczona trasa
+
+/*
+ *Wykonanie jednego ruchu do celu zgodnie z wyznaczona trasa. Ruch o jedno pole w pewnym kierunku.
+ *@param tablica[] aktualna mapa otoczenia
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param pozycjaRobota kierunek, w którym ustawiony jest robot względem krawędzi tablicy mapy
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@param servo1 serwomechanizm pierwszego koła
+ *@param servo2 serwomechanizm drugiego koła
+ *@return obiekt określający aktualne miejsce i pozycję robota
+*/
 Robot wykonajRuchDoCelu(Wezel tablica[], int miejsceRobota, char pozycjaRobota, int rozmiarTablicy, int rozmiarBoku, Servo servo1, Servo servo2);
-//Wybranie zbioru A celów do odkrycia. Są to 4 cele rozmieszczone po jednym na każdy róg mapy
+
+/*
+ *Wybranie zbioru A celów do odkrycia. Są to 4 cele rozmieszczone po jednym na każdy róg mapy
+ *@param tablicaCelow[] tablica zawierająca aktualne cele do zdobycia przez robota
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+*/
 void wybierzCeleA(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
-//Wybranie zbioru B celów do odkrycia. Są to cele rozmieszczone na pionowych krawędziach mapy od góry w kolejności spiralnej
+
+
+/*
+ *Wybranie zbioru B celów do odkrycia. Są to cele rozmieszczone na pionowych krawędziach mapy od góry w kolejności spiralnej
+ *@param tablicaCelow[] tablica zawierająca aktualne cele do zdobycia przez robota
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+*/
 void wybierzCeleB(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
-//Wybranie zbioru C celów do odkrycia. Są to cele rozmieszczone na każdym wolnym polu mapy od góry w kolejności spiralnej
+
+/*
+ *Wybranie zbioru C celów do odkrycia. Są to cele rozmieszczone na każdym wolnym polu mapy od góry w kolejności spiralnej
+ *@param tablicaCelow[] tablica zawierająca aktualne cele do zdobycia przez robota
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+*/
 void wybierzCeleC(int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
-//Wyznaczenie nowego celu na mapie dla robota. Po wybraniu celu z początku, usunięcie go i przerzucenie pozostalych o 1 do pocczatku
+
+/*
+ *Wyznaczenie nowego celu na mapie dla robota. Po wybraniu celu z początku, usunięcie go i przerzucenie pozostalych o 1 do pocczatku
+ *@param tablica[] aktualna mapa otoczenia
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@param tablicaCelow[] tablica zawierająca aktualne cele do zdobycia przez robota
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param pozycjaRobota kierunek, w którym ustawiony jest robot względem krawędzi tablicy mapy
+ *@return miejsce wyznaczenia celu
+*/
 int wyznaczCel(Wezel tablica[], int rozmiarBoku, int tablicaCelow[], int rozmiarTablicy, char pozycjaRobota);
-//Przesuniecie wybranego celu na ostanie miejsce tablicy celow, czy za ostatnim celem
+
+/*
+ *Przesuniecie wybranego celu na ostanie miejsce tablicy celow, czy za ostatnim celem
+ *@param cel miejsce określone jako cel
+ *@param tablicaCelow[] tablica zawierająca aktualne cele do zdobycia przez robota
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+*/
 void przesunCelNaKoniec(int cel, int tablicaCelow[], int rozmiarTablicy);
-//Tablica celów dostaje jeden cel jakim jest srodek mapy
+
+/*
+ *Tablica celów dostaje jeden cel jakim jest srodek mapy
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param tablicaCelow[] tablica zawierająca aktualne cele do zdobycia przez robota
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+*/
 void wrocNaPoczatek(int miejsceStartRobota, int tablicaCelow[], int rozmiarTablicy, int rozmiarBoku);
 
 //Funkcje pomocnicze-------------------------------------------------------------------------------
