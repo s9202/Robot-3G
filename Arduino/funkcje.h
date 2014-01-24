@@ -161,7 +161,7 @@ double skanujSensor(int iR);
  *Włączenie sygnału dźwiękowego na odpowiednio długi czas
  *@param delayms czas wyrażony w milisekundach przez jaki słyszalny jest dźwięk
 */
-void beep(unsigned char delayms);
+void wlaczSygnalDzwiekowy(unsigned char dlugoscMs);
 
 //Funkcje ruchu skokowego przydatne dla kontroli automatycznej--------------------------------------------------
 
