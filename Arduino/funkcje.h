@@ -211,50 +211,197 @@ char wykonajObrot90Lewo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, 
  *@param pozycjaRobota kierunek, w którym ustawiony jest robot względem krawędzi tablicy mapy
  *@param servo1 serwomechanizm pierwszego koła
  *@param servo2 serwomechanizm drugiego koła
- *@return pozycja robota na mapie po wykonaniu funkcji
+ *@return aktualna pozycja robota
  *
 */
 char wykonajObrot90Prawo(Wezel tablica[], int miejsceRobota, char pozycjaRobota, Servo servo1, Servo servo2);
 
 //Funkcje tworzace mape-----------------------------------------------------------------------------------
 
+/*
+ *Inicjacja podanej mapy pustymi wartościami
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param pozycjaRobota kierunek, w którym ustawiony jest robot względem krawędzi tablicy mapy
+ *@param tablica[] aktualna mapa otoczenia
+ *@return aktualna pozycja robota
+ *
+*/
+int inicjujMape(int rozmiarTablicy, int rozmiarBoku, int miejsceRobota, char pozycjaRobota, Wezel tablica[]);
 
-int inicjujMape(int rozmiarTablicy, int rozmiarBoku, int miejsceRobota, char pozycjaRobota, Wezel mapa[]);
-
+/*
+ *Bada pole na mapie na które wskazuje wartość z czujnika odległości w odniesieniu do pozycji robota.
+ *W zależności od efektu wskazuje miejsce do wstawienia obiektu lub usuwa obiekt z tablicy mapy
+ *@param odleglosc wartość odczytana z czujnika odległości
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param pozycjaCzujnika kierunek, w którym ustawiony jest czujnik względem krawędzi tablicy mapy
+ *@param tablica[] aktualna mapa otoczenia
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return indeks pola mapy do zmiany
+ *
+*/
 int sprawdzOdlegloscIZaznacz(double odleglosc, int miejsceRobota, char pozycjaCzujnika, Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
 
+/*
+ *Wykonuje odczyt wszystkimi czujnikami odległości i odpowiednio edytuje pola mapy w zasięgu czujników
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param pozycjaCzujnikaPrzod kierunek, w którym ustawiony jest czujnik przedni względem krawędzi tablicy mapy
+ *@param tablica[] aktualna mapa otoczenia
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return informacja czy w wyniku działania funkcji pojawił się nowy obiekt na mapie
+ *
+*/
 bool skanujZaznaczMape(int miejsceRobota, char pozycjaCzujnikaPrzod, Wezel tablica[], int rozmiarTablicy, int rozmiarBoku);
 
+/*
+ *Wskazuje miejsce na mapie o jedno pole nad robotem
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return indeks wskazanego pola
+ *
+*/
 int zaznacz1Gora(int miejsceRobota, int rozmiarBoku);
 
+/*
+ *Wskazuje miejsce na mapie o dwa pola nad robotem
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return indeks wskazanego pola
+ *
+*/
 int zaznacz2Gora(int miejsceRobota, int rozmiarBoku);
 
+/*
+ *Wskazuje miejsce na mapie o trzy pola nad robotem
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return indeks wskazanego pola
+ *
+*/
 int zaznacz3Gora(int miejsceRobota, int rozmiarBoku);
 
+/*
+ *Wskazuje miejsce na mapie o jedno pole w prawo od robota
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return indeks wskazanego pola
+ *
+*/
 int zaznacz1Prawo(int miejsceRobota, int rozmiarBoku);
 
+/*
+ *Wskazuje miejsce na mapie o dwa pola w prawo od robota
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return indeks wskazanego pola
+ *
+*/
 int zaznacz2Prawo(int miejsceRobota, int rozmiarBoku);
 
+/*
+ *Wskazuje miejsce na mapie o trzy pola w prawo od robota
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return indeks wskazanego pola
+ *
+*/
 int zaznacz3Prawo(int miejsceRobota, int rozmiarBoku);
 
+/*
+ *Wskazuje miejsce na mapie o jedno pole w lewo od robota
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return indeks wskazanego pola
+ *
+*/
 int zaznacz1Lewo(int miejsceRobota, int rozmiarBoku);
 
+/*
+ *Wskazuje miejsce na mapie o dwa pola w lewo od robota
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return indeks wskazanego pola
+ *
+*/
 int zaznacz2Lewo(int miejsceRobota, int rozmiarBoku);
 
+/*
+ *Wskazuje miejsce na mapie o trzy pola w lewo od robota
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return indeks wskazanego pola
+ *
+*/
 int zaznacz3Lewo(int miejsceRobota, int rozmiarBoku);
 
+/*
+ *Wskazuje miejsce na mapie o jedno pole pod robotem
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return indeks wskazanego pola
+ *
+*/
 int zaznacz1Dol(int miejsceRobota, int rozmiarBoku);
 
+/*
+ *Wskazuje miejsce na mapie o dwa pole pod robotem
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return indeks wskazanego pola
+ *
+*/
 int zaznacz2Dol(int miejsceRobota, int rozmiarBoku);
 
+/*
+ *Wskazuje miejsce na mapie o trzy pole pod robotem
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *@return indeks wskazanego pola
+ *
+*/
 int zaznacz3Dol(int miejsceRobota, int rozmiarBoku);
-//Czysci dwa pola w lini prostej od robota (jesli czujnik obejmie wicej niz 2 kratki trzeba duzych zmian)
+
+/*
+ *Czysci dwa pola powyżej w lini prostej od robota jeśli na którymś nie odczytano obiektu
+ *@param tablica[] aktualna mapa otoczenia
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *
+*/
 void czyscGora(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku);
 
+/*
+ *Czysci dwa pola po prawej w lini prostej od robota jeśli na którymś nie odczytano obiektu
+ *@param tablica[] aktualna mapa otoczenia
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *
+*/
 void czyscPrawo(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku);
 
+/*
+ *Czysci dwa pola po lewej w lini prostej od robota jeśli na którymś nie odczytano obiektu
+ *@param tablica[] aktualna mapa otoczenia
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *
+*/
 void czyscLewo(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku);
 
+/*
+ *Czysci dwa pola poniżej w lini prostej od robota jeśli na którymś nie odczytano obiektu
+ *@param tablica[] aktualna mapa otoczenia
+ *@param miejsceRobota indeks pola na którym znajduje się robot
+ *@param rozmiarTablicy całkowita liczba pól tablicy
+ *@param rozmiarBoku liczba pól skądających się na jedną krawędź
+ *
+*/
 void czyscDol(Wezel tablica[], int miejsceRobota, int rozmiarTablicy, int rozmiarBoku);
 
 
