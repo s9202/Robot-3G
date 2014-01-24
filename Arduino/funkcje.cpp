@@ -383,25 +383,25 @@ void ustalSasiadow(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku) {
 			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i + rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZDolu = i + rozmiarBoku;
 		}
-		else if (i == PG_ROG) {//wariant 2: prawy gy rg
+		else if (i == rozmiarBoku-1) {//wariant 2: prawy gy rg
 			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA && tablica[i - 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZLewej = i - 1;
 			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i + rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZDolu = i + rozmiarBoku;
 		}
-		else if (i == LD_ROG) {//wariant 3: lewy dolny rg
+		else if (i == rozmiarTablicy-rozmiarBoku) {//wariant 3: lewy dolny rg
 			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA && tablica[i + 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZPrawej = i + 1;
 			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i - rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZGory = i - rozmiarBoku;
 		}
-		else if (i == PD_ROG) {//wariant 4: prawy dolny rog
+		else if (i == rozmiarTablicy-1) {//wariant 4: prawy dolny rog
 			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA && tablica[i - 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZLewej = i - 1;
 			if (tablica[i - rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i - rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZGory = i - rozmiarBoku;
 		}
-		else if (i > 0 && i < PG_ROG) {//wariant 5: gorny bok
+		else if (i > 0 && i < rozmiarBoku-1) {//wariant 5: gorny bok
 			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA && tablica[i - 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZLewej = i - 1;
 			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA && tablica[i + 1].rodzajWezla != ZNAK_MUR)
@@ -409,7 +409,7 @@ void ustalSasiadow(Wezel tablica[], int rozmiarTablicy, int rozmiarBoku) {
 			if (tablica[i + rozmiarBoku].rodzajWezla != ZNAK_SCIANA && tablica[i + rozmiarBoku].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZDolu = i + rozmiarBoku;
 		}
-		else if (i > LD_ROG && i < PD_ROG) {//wariant: dolny bok
+		else if (i > rozmiarTablicy-rozmiarBoku && i < rozmiarTablicy-1) {//wariant: dolny bok
 			if (tablica[i - 1].rodzajWezla != ZNAK_SCIANA && tablica[i - 1].rodzajWezla != ZNAK_MUR)
 				tablica[i].sasiadZLewej = i - 1;
 			if (tablica[i + 1].rodzajWezla != ZNAK_SCIANA && tablica[i + 1].rodzajWezla != ZNAK_MUR)

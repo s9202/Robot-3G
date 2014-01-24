@@ -31,9 +31,6 @@ const char WSP_WOLNE = '_';
 //Okreslenie rozmiaru boku mapy i wyliczenia mapy
 const int ROZMIAR_BOKU_MAPY = 10;
 const int ROZMIAR_MAPY = ROZMIAR_BOKU_MAPY * ROZMIAR_BOKU_MAPY;
-const int PG_ROG = ROZMIAR_BOKU_MAPY - 1;
-const int LD_ROG = ROZMIAR_MAPY - ROZMIAR_BOKU_MAPY;
-const int PD_ROG = ROZMIAR_MAPY - 1;
 
 //Biegunowa pozycja robota widoczna na mapie
 const char PRZODEM_GORA = '8';
