@@ -55,14 +55,14 @@ var serialPort = new SerialPort(arduinoSerialPort, {
 	parser: serialport.parsers.readline("\n")
 });
 
-var socket = io.listen(server);
+var ioSocket = io.listen(server);
 serialPort.on('open', function() {                
-	socket.on('connection', function( client ) {
+	ioSocket.on('connection', function( client ) {
 
-    	console.log('open - port USB otwarty');
+		console.log('open - port USB otwarty');
 
 //------------------------------------------------------- Sokety
-    	'use strict';
+		'use strict';
 		
 		client.on('message', function( message ) {                                        
 			console.log( message );
@@ -71,8 +71,8 @@ serialPort.on('open', function() {
 		client.on('jazda', function( dane ) {
 			console.log( dane );
 			//console.log( stanRobota );
-			io.sockets.emit( 'testServer', "Test serwer odpowiada");
-			io.sockets.emit( 'testJSON', JSON.stringify( daneMapy.test ) );
+			ioSocket.sockets.emit( 'testServer', "Test serwer odpowiada");
+			ioSocket.sockets.emit( 'testJSON', JSON.stringify( daneMapy.test ) );
 			serialPort.write( dane );
 		});
         
@@ -82,7 +82,7 @@ serialPort.on('open', function() {
 			var daneArduino = JSON.parse( dane );
 			
 			//console.log('Mapa odebrana od arduino: ' + daneArduino.mapa);
-			io.sockets.emit( 'testRobot', daneArduino);
+			ioSocket.sockets.emit( 'testRobot', daneArduino);
 			var linia = '';
 			for (var i=0; i<daneArduino.mapa.length; i++) {
 				if (i%rozmiarBokuMapy === 0) {
@@ -97,7 +97,7 @@ serialPort.on('open', function() {
 		serialPort.on('error', function (msg) {
 			console.log('Blad przy odbiorze danych z USB Arduino');
 		});
-    });
+	});
 });
 
 //------------------------------------------------------- Zmienne
